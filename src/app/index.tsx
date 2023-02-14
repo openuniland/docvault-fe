@@ -3,6 +3,8 @@ import RootLayout from 'app/layouts/rootLayout';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { BrowserRouter } from 'react-router-dom';
+import { StyledEngineProvider } from '@mui/material/styles';
+
 import GolobalStyles from 'styles/GlobalStyles';
 
 const queryClient = new QueryClient();
@@ -18,9 +20,11 @@ export function App() {
         >
           <meta name="description" content="Template App" />
         </Helmet>
-        <GolobalStyles>
-          <RootLayout />
-        </GolobalStyles>
+        <StyledEngineProvider injectFirst>
+          <GolobalStyles>
+            <RootLayout />
+          </GolobalStyles>
+        </StyledEngineProvider>
       </BrowserRouter>
     </QueryClientProvider>
   );

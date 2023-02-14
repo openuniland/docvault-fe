@@ -1,10 +1,10 @@
 import { HomePage } from 'app/pages/HomePage';
 import { LoginPage } from 'app/pages/LoginPage';
 import { Route, Routes } from 'react-router-dom';
-import { withAppHeader } from '../hocs';
+import { withAppHeader, withSidebar } from 'app/layouts/hocs';
 
 const Pages = {
-  Home: withAppHeader(HomePage),
+  Home: withAppHeader(withSidebar(HomePage)),
   Login: LoginPage,
 };
 
