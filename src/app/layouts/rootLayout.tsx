@@ -1,4 +1,4 @@
-import { DefaultLayout } from './versions';
+import { DefaultLayout } from "./versions";
 
 const RootLayout = () => {
   return <DefaultLayout />;

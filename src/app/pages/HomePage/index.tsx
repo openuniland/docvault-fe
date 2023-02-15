@@ -1,14 +1,17 @@
-import { GoogleLoginBtn } from 'app/containers/GoogleLoginBtn';
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
+
+import { Banner } from "app/components/Banner";
+import { Recommended } from "app/components/Recommended";
 
 export const HomePage = () => {
   return (
     <>
       <Helmet>
-        <title>Revise</title>
+        <title>Revise | Home</title>
       </Helmet>
       <div>
-        <GoogleLoginBtn />
+        <Banner />
+        <Recommended />
       </div>
     </>
   );
