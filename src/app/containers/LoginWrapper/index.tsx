@@ -1,18 +1,16 @@
-import classNames from 'classnames/bind';
+import classNames from "classnames/bind";
 
-import { LoginFrame } from 'app/components/LoginFrame';
-import { ButtonCustomization } from 'app/components/Button';
-
-import styles from './LoginWrapper.module.scss';
+import { LoginFrame } from "app/components/LoginFrame";
+import styles from "./LoginWrapper.module.scss";
+import { LoginDecor } from "app/components/LoginDecor";
 
 const cx = classNames.bind(styles);
 
 export const LoginWrapper = () => {
   return (
-    <div className={cx('container')}>
-      container
+    <div className={cx("container")}>
+      <LoginDecor />
       <LoginFrame />
-      <ButtonCustomization>Login with gg</ButtonCustomization>
     </div>
   );
 };

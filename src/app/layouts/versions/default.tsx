@@ -1,7 +1,7 @@
-import { HomePage } from 'app/pages/HomePage';
-import { LoginPage } from 'app/pages/LoginPage';
-import { Route, Routes } from 'react-router-dom';
-import { withAppHeader, withSidebar } from 'app/layouts/hocs';
+import { HomePage } from "app/pages/HomePage";
+import { LoginPage } from "app/pages/LoginPage";
+import { Route, Routes } from "react-router-dom";
+import { withAppHeader, withSidebar } from "app/layouts/hocs";
 
 const Pages = {
   Home: withAppHeader(withSidebar(HomePage)),

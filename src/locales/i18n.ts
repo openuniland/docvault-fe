@@ -1,9 +1,9 @@
-import i18next from 'i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
-import { initReactI18next } from 'react-i18next';
+import i18next from "i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
+import { initReactI18next } from "react-i18next";
 
-import en from './en/translation.json';
-import vi from './vi/translation.json';
+import en from "./en/translation.json";
+import vi from "./vi/translation.json";
 
 export const translationsJson = {
   vi: {
@@ -14,7 +14,7 @@ export const translationsJson = {
   },
 };
 
-const lngDefault: string = localStorage.getItem('i18nextLng') || 'en';
+const lngDefault: string = localStorage.getItem("i18nextLng") || "vi";
 
 export const i18n = i18next
   // pass the i18n instance to react-i18next.
@@ -28,7 +28,7 @@ export const i18n = i18next
     resources: translationsJson,
     lng: lngDefault,
     debug:
-      process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test',
+      process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "test",
 
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default

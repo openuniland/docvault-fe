@@ -1,20 +1,20 @@
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
+import "react-app-polyfill/ie11";
+import "react-app-polyfill/stable";
 // Use consistent styling
-import 'sanitize.css/sanitize.css';
+import "sanitize.css/sanitize.css";
 // Initialize languages
-import './locales/i18n';
+import "./locales/i18n";
 
-import { App } from 'app';
-import ReactDOM from 'react-dom/client';
-import { HelmetProvider } from 'react-helmet-async';
-import { Provider, ReactReduxContext } from 'react-redux';
-import { store } from 'store';
+import { App } from "app";
+import ReactDOM from "react-dom/client";
+import { HelmetProvider } from "react-helmet-async";
+import { Provider, ReactReduxContext } from "react-redux";
+import { store } from "store";
 
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement,
+  document.getElementById("root") as HTMLElement,
 );
 root.render(
   <Provider store={store} context={ReactReduxContext}>

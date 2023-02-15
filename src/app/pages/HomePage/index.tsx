@@ -1,7 +1,7 @@
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 
-import { Banner } from 'app/components/Banner';
-import { Recommended } from 'app/components/Recommended';
+import { Banner } from "app/components/Banner";
+import { Recommended } from "app/components/Recommended";
 
 export const HomePage = () => {
   return (

@@ -1,13 +1,14 @@
-@import 'normalize.css';
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@200;300;400;500;600;700&display=swap');
+@import "normalize.css";
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@200;300;400;500;600;700&display=swap");
 
 :root {
   --primary: #fe2c55;
   --black: #000;
   --white: #fff;
-  --text-color: #161823;
+  --dark-text: #161823;
+  --link-blue-text: #2a5dc4;
 
-  --font-family: 'roboto', 'IBM Plex Sans', sans-serif;
+  --font-family: "roboto", "IBM Plex Sans", sans-serif;
 
   //DefaultLayout
   --default-layout-header-height: 60px;

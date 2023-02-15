@@ -1,6 +1,6 @@
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 
-import { LoginWrapper } from 'app/containers/LoginWrapper';
+import { LoginWrapper } from "app/containers/LoginWrapper";
 
 export const LoginPage = () => {
   return (
