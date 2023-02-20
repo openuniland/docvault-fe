@@ -2,29 +2,53 @@ import { useGoogleLogin } from "@react-oauth/google";
 import classNames from "classnames/bind";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { useLogin } from "mutations/auth";
 import { ButtonCustomization } from "../ButtonCustomization";
 import styles from "./LoginFrame.module.scss";
 import { ReactComponent as GoogleIcon } from "assets/images/googleIcon.svg";
 import { Logo } from "../Logo";
+import { ModalCustomization } from "../ModalCustomization";
+import { setTokens } from "utils/storage";
 
 const cx = classNames.bind(styles);
 
 export const LoginFrame = () => {
   const { mutateAsync } = useLogin();
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const [openPropup, setOpenPropup] = useState(false);
+
+  const handleOpenPropup = useCallback(() => {
+    setOpenPropup(true);
+  }, [setOpenPropup]);
+
+  const handleClosePropup = useCallback(() => {
+    setOpenPropup(false);
+  }, [setOpenPropup]);
 
   const handleCallGoogleApi = useGoogleLogin({
     onSuccess: tokenResponse => {
       (async () => {
-        const data = await mutateAsync({
-          googleToken: tokenResponse.access_token,
-        });
-        console.log(data);
+        try {
+          const data = await mutateAsync({
+            googleToken: tokenResponse.access_token,
+          });
+          setTokens(data);
+          navigate("/");
+        } catch (error: any) {
+          if (error?.errors?.errorCode === "NOT_BELONG_TO_ORGANIZATION") {
+            handleOpenPropup();
+          }
+        }
       })();
     },
-    onError: error => console.log(error),
+    onError: (error: any) => {
+      console.log("error", error);
+    },
   });
 
   console.log("reload");
@@ -44,6 +68,15 @@ export const LoginFrame = () => {
           <Link to={"/"}>{t("login.termsAndCondition.link")}</Link>
         </div>
       </div>
+
+      <ModalCustomization
+        open={openPropup}
+        handleClose={handleClosePropup}
+        actionDefault
+        title="Notification"
+      >
+        Does not belong to our organization
+      </ModalCustomization>
     </div>
   );
 };
