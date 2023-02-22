@@ -1,6 +1,8 @@
 import { Grid } from "@mui/material";
 import classNames from "classnames/bind";
 import { Logo } from "../Logo";
+import { SearchInput } from "../SearchInput";
+import { Action } from "../ActionHeader/Action";
 
 import styles from "./AppHeader.module.scss";
 
@@ -15,10 +17,14 @@ export const AppHeader = () => {
         </div>
       </Grid>
       <Grid className={cx("grid-item")} item xs={6}>
-        <div className={cx("searchWrapper")}></div>
+        <div className={cx("searchWrapper")}>
+          <SearchInput className={cx("search")} />
+        </div>
       </Grid>
       <Grid className={cx("grid-item")} item xs>
-        <div className={cx("actionWrapper")}></div>
+        <div className={cx("actionWrapper")}>
+          <Action className={cx("action")} />
+        </div>
       </Grid>
     </Grid>
   );
