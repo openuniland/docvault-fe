@@ -1,6 +1,6 @@
 .container {
   height: 100%;
-  background-color: #000000;
+  background-color: var(--black);
 }
 .listDoing {
   color: #fff;
@@ -43,7 +43,7 @@
 }
 
 .proposeDocument {
-  color: #fff;
+  color: var(--white);
   margin-left: 12px;
   margin-top: 38px;
 }
