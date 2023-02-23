@@ -11,14 +11,14 @@ import styles from "./Sidebar.module.scss";
 
 const cx = classNames.bind(styles);
 
-const menuItem = [
+const menuList = [
   {
-    path: "",
+    path: "/",
     name: "Trang chủ",
     icon: <HomeIcon />,
   },
   {
-    path: "",
+    path: "/test",
     name: "Kiểm tra",
     icon: <TimerIcon />,
   },
@@ -33,6 +33,7 @@ const menuItem = [
     icon: <FavoriteIcon />,
   },
 ];
+
 export const Sidebar = () => {
   // const menuShow = (menuItems: any) => {
   //   return menuItems.map((item: any, index: any) => {
@@ -47,9 +48,9 @@ export const Sidebar = () => {
 
   return (
     <div className={cx("container")}>
-      <div>
-        <button className="close_sidebar"></button>
-        <>
+      {/* <div> */}
+      {/* <button className="close_sidebar"></button> */}
+      {/* <>
           {menuItem.map((item, index) => {
             <Link to={item.path} key={index} className={cx("button")}>
               <div className={cx("icon")}>{item.icon}</div>
@@ -57,8 +58,8 @@ export const Sidebar = () => {
             </Link>;
             console.log(item.name);
           })}
-        </>
-      </div>
+        </> */}
+      {/* </div> */}
 
       {/* <Link to="" className={cx("button")}>
         <HomeIcon />
@@ -76,6 +77,15 @@ export const Sidebar = () => {
         <FavoriteIcon />
         <span>Yêu thích</span>
       </Link> */}
+
+      <div>
+        {menuList.map(menuItem => (
+          <Link to={menuItem.path}>
+            <h6>123{menuItem.name}</h6>
+            <div>{menuItem.icon}</div>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 };
