@@ -4,6 +4,7 @@ import { MailOutline, Notifications } from "@mui/icons-material";
 import { Avatar } from "@mui/material";
 import { Settings, Explore, Info, Logout } from "@mui/icons-material";
 import Tippy from "@tippyjs/react/headless";
+import { useEffect } from "react";
 
 import styles from "./Action.module.scss";
 
@@ -15,6 +16,14 @@ interface Props {
 
 export const Action = (props: Props) => {
   const { className } = props;
+
+  useEffect(() => {
+    fetch("http://localhost:8080/revise/v1/exams/")
+      .then(res => res.json())
+      .then(res => {
+        console.log(res);
+      });
+  }, []);
   return (
     <div className={cx("container", className)}>
       <div className={cx("actionIcon")}>

@@ -6,6 +6,7 @@
   justify-content: center;
   align-items: center;
 }
+
 .content {
   width: 1055px;
   height: 200px;
@@ -13,20 +14,24 @@
 
   position: relative;
 }
-.banerImg {
+
+.bannerImg {
   position: absolute;
   top: 20px;
   left: 174px;
 }
+
 .bannerText {
   position: absolute;
   left: 444px;
   top: 64px;
 }
+
 .text {
   font-size: 64px;
   color: #ff0000;
 }
+
 .img {
   width: 192px;
   height: 161px;

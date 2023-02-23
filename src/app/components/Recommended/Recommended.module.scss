@@ -2,23 +2,29 @@
   height: 100%;
   background-color: var(--black);
 }
+
 .listDoing {
   color: #fff;
   margin-left: 12px;
 }
+
 .text {
   font-size: 20px;
   margin-bottom: 15px;
 }
+
 .title {
   font-size: 14px;
 }
+
 .name {
   font-size: 18px;
 }
+
 .exams {
   display: flex;
 }
+
 .exam {
   width: 297px;
   height: 185px;
@@ -31,6 +37,7 @@
     cursor: pointer;
   }
 }
+
 .description {
   font-size: 12px;
 }
@@ -47,13 +54,16 @@
   margin-left: 12px;
   margin-top: 38px;
 }
+
 .documents {
   display: flex;
   margin-top: 15px;
 }
+
 .documentTitle {
   font-size: 20px;
 }
+
 .document {
   background-color: #242529;
   width: 200px;
@@ -64,6 +74,7 @@
   justify-content: center;
   position: relative;
 }
+
 .star {
   width: 21px;
   height: 20px;
@@ -71,11 +82,13 @@
   top: 5px;
   left: 5px;
 }
+
 .documentName {
   font-size: 16px;
   position: absolute;
   top: 79px;
 }
+
 .dateTime {
   font-size: 12px;
   color: #c0c0c0;

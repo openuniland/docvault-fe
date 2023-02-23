@@ -9,7 +9,7 @@ export const Banner = () => {
   return (
     <div className={cx("container")}>
       <div className={cx("content")}>
-        <div className={cx("banerImg")}>
+        <div className={cx("bannerImg")}>
           <img src={bannerImg} alt="banner" className={cx("img")} />
         </div>
         <div className={cx("bannerText")}>
