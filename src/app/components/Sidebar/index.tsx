@@ -5,8 +5,12 @@ import HomeIcon from "@mui/icons-material/Home";
 import TimerIcon from "@mui/icons-material/Timer";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
+import ArrowCircleRightOutlinedIcon from "@mui/icons-material/ArrowCircleRightOutlined";
 
 import styles from "./Sidebar.module.scss";
+import { useState } from "react";
+
 // import { MenuItem } from "@mui/material";
 
 const cx = classNames.bind(styles);
@@ -16,76 +20,72 @@ const menuList = [
     path: "/",
     name: "Trang chủ",
     icon: <HomeIcon />,
+    isActive: "active",
   },
   {
-    path: "/test",
+    path: "",
     name: "Kiểm tra",
     icon: <TimerIcon />,
+    isActive: "",
   },
   {
     path: "",
     name: "Tài liệu",
     icon: <AssignmentIcon />,
+    isActive: "",
   },
   {
     path: "",
     name: "Yêu thích",
     icon: <FavoriteIcon />,
+    isActive: "",
   },
 ];
 
 export const Sidebar = () => {
-  // const menuShow = (menuItems: any) => {
-  //   return menuItems.map((item: any, index: any) => {
-  //     // <a href={item.path} key={index} className={cx("button")}>
-  //     //   <div className={cx("icon")}>{item.icon}</div>
-  //     //   <div className={cx("name-element")}>{item.name}</div>
-  //     // </a>;
-  //     <div key={index}>{item.name}</div>;
-  //     console.log(item.name);
-  //   });
-  // };
+  const storageIsOpenState = Boolean(localStorage.getItem("isOpen"));
+
+  const [isOpen, setIsOpen] = useState(storageIsOpenState);
+  const toggleCloseSidebar = () => {
+    setIsOpen(() => {
+      const newState = !isOpen;
+      if (!isOpen) {
+        localStorage.setItem("isOpen", "1");
+      } else {
+        localStorage.setItem("isOpen", "");
+      }
+      return newState;
+    });
+  };
 
   return (
-    <div className={cx("container")}>
-      {/* <div> */}
-      {/* <button className="close_sidebar"></button> */}
-      {/* <>
-          {menuItem.map((item, index) => {
-            <Link to={item.path} key={index} className={cx("button")}>
-              <div className={cx("icon")}>{item.icon}</div>
-              <div className={cx("name-element")}>{item.name}</div>
-            </Link>;
-            console.log(item.name);
-          })}
-        </> */}
-      {/* </div> */}
-
-      {/* <Link to="" className={cx("button")}>
-        <HomeIcon />
-        <span>Trang chủ</span>
-      </Link>
-      <Link to="" className={cx("button")}>
-        <TimerIcon />
-        <span>Kiểm tra</span>
-      </Link>
-      <Link to="" className={cx("button")}>
-        <AssignmentIcon />
-        <span>Tài liệu</span>
-      </Link>
-      <Link to="" className={cx("button")}>
-        <FavoriteIcon />
-        <span>Yêu thích</span>
-      </Link> */}
-
-      <div>
-        {menuList.map(menuItem => (
-          <Link to={menuItem.path}>
-            <h6>123{menuItem.name}</h6>
-            <div>{menuItem.icon}</div>
-          </Link>
-        ))}
+    <div
+      style={{
+        width: isOpen ? "300px" : "60px",
+        padding: isOpen ? "48px 24px" : "48px 4px",
+      }}
+      className={cx("container")}
+    >
+      <div className={cx("close-sidebar__icon")} onClick={toggleCloseSidebar}>
+        <ArrowCircleLeftOutlinedIcon
+          style={{ display: isOpen ? "block" : "none" }}
+        />
+        <ArrowCircleRightOutlinedIcon
+          style={{ display: isOpen ? "none" : "block" }}
+        />
       </div>
+      {menuList.map((menuItem, index) => (
+        <Link
+          to={menuItem.path}
+          key={index}
+          className={cx("button", menuItem.isActive)}
+        >
+          <div>{menuItem.icon}</div>
+          <span style={{ display: isOpen ? "block" : "none" }}>
+            {menuItem.name}
+          </span>
+        </Link>
+      ))}
     </div>
   );
 };
