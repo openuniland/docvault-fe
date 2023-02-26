@@ -2,7 +2,7 @@ import { Grid } from "@mui/material";
 import classNames from "classnames/bind";
 import { Logo } from "../Logo";
 import { SearchInput } from "../SearchInput";
-import { Action } from "../ActionHeader/Action";
+import { ActionHeader } from "app/components/ActionHeader";
 
 import styles from "./AppHeader.module.scss";
 
@@ -23,7 +23,7 @@ export const AppHeader = () => {
       </Grid>
       <Grid className={cx("grid-item")} item xs>
         <div className={cx("actionWrapper")}>
-          <Action className={cx("action")} />
+          <ActionHeader className={cx("action")} />
         </div>
       </Grid>
     </Grid>

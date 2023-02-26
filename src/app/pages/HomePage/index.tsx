@@ -1,7 +1,6 @@
 import { Helmet } from "react-helmet-async";
 
-import { Banner } from "app/components/Banner";
-import { Recommended } from "app/components/Recommended";
+import { HomeContent } from "app/containers/HomeContent";
 
 export const HomePage = () => {
   return (
@@ -9,10 +8,7 @@ export const HomePage = () => {
       <Helmet>
         <title>Revise | Home</title>
       </Helmet>
-      <div>
-        <Banner />
-        <Recommended />
-      </div>
+      <HomeContent />
     </>
   );
 };

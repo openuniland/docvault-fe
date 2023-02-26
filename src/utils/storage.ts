@@ -12,7 +12,7 @@ const getLanguage = () =>
   JSON.parse(localStorage.getItem("language") || '{"":""}');
 
 const getTokens = () =>
-  JSON.parse(localStorage.getItem("language") || '{"":""}');
+  JSON.parse(localStorage.getItem("tokens") || '{"error": "null"}');
 
 // Remove items from storage
 export const removeItemFromStorage = (key: any) => localStorage.removeItem(key);

@@ -1,12 +1,18 @@
 import classNames from "classnames/bind";
 import { ButtonCustomization } from "../ButtonCustomization";
-import { MailOutline, Notifications } from "@mui/icons-material";
 import { Avatar } from "@mui/material";
-import { Settings, Explore, Info, Logout } from "@mui/icons-material";
+import {
+  Settings,
+  Explore,
+  Info,
+  Logout,
+  MailOutline,
+  Notifications,
+} from "@mui/icons-material";
 import Tippy from "@tippyjs/react/headless";
-import { useEffect } from "react";
 
-import styles from "./Action.module.scss";
+import styles from "./ActionHeader.module.scss";
+import { getTokens } from "utils/storage";
 
 const cx = classNames.bind(styles);
 
@@ -14,16 +20,10 @@ interface Props {
   className?: string;
 }
 
-export const Action = (props: Props) => {
+export const ActionHeader = (props: Props) => {
   const { className } = props;
+  const { userInfo } = getTokens();
 
-  useEffect(() => {
-    fetch("http://localhost:8080/revise/v1/exams/")
-      .then(res => res.json())
-      .then(res => {
-        console.log(res);
-      });
-  }, []);
   return (
     <div className={cx("container", className)}>
       <div className={cx("actionIcon")}>
@@ -44,8 +44,8 @@ export const Action = (props: Props) => {
             <div className={cx("poper")}>
               <div className={cx("profile")}>
                 <Avatar />
-                <div className={cx("name")}>Nguyen Cong Minh</div>
-                <div className={cx("email")}>email@gmail.com</div>
+                <div className={cx("name")}>{userInfo?.name}</div>
+                <div className={cx("email")}>{userInfo?.email}</div>
               </div>
               <div className={cx("setting")}>
                 <div className={cx("frame")}>
@@ -73,7 +73,7 @@ export const Action = (props: Props) => {
         )}
       >
         <div className={cx("avatar")}>
-          <Avatar className={cx("avatarIcon")} />
+          <Avatar src={userInfo?.avatar} className={cx("avatarIcon")} />
         </div>
       </Tippy>
     </div>
