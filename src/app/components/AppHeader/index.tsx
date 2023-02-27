@@ -8,7 +8,7 @@ const cx = classNames.bind(styles);
 
 export const AppHeader = () => {
   return (
-    <Grid className={cx("container")} container spacing={{ xs: 2, md: 3 }}>
+    <Grid className={cx("container")} container>
       <Grid className={cx("grid-item")} item xs>
         <div className={cx("logoWrapper")}>
           <Logo className={cx("logo")} />
