@@ -1,8 +1,8 @@
 import classNames from "classnames/bind";
-import Slider from "@mui/material/Slider";
+import { useGetUserExams } from "queries/userExam";
 import { useTranslation } from "react-i18next";
 
-import { ButtonCustomization } from "../ButtonCustomization";
+import { InProgressItem } from "app/components/InProgressItem";
 import styles from "./InProgress.module.scss";
 
 const cx = classNames.bind(styles);
@@ -10,48 +10,25 @@ const cx = classNames.bind(styles);
 export const InProgress = () => {
   const { t } = useTranslation();
 
+  const { data: userExams } = useGetUserExams();
+
+  if (userExams && userExams?.length <= 0) {
+    return <></>;
+  }
+
   return (
     <div className={cx("container")}>
-      <div className={cx("listDoing")}>
-        <div className={cx("text")}>{t("home.inProgress.title")}</div>
-        <div className={cx("exams")}>
-          <div className={cx("exam")}>
-            <div className={cx("title")}>Giải tích 1</div>
-            <div className={cx("name")}>Đề giải tích năm học 2023 kì 2</div>
-            <div className={cx("slider")}>
-              <Slider
-                disabled
-                defaultValue={50}
-                aria-label="Disabled slider"
-                valueLabelDisplay="auto"
-              />
-            </div>
-            <div className={cx("description")}>
-              50%(12/24 câu đã hoàn thành)
-            </div>
-            <ButtonCustomization className={cx("examBtn")}>
-              Tiếp tục
-            </ButtonCustomization>
-          </div>
-          <div className={cx("exam")}>
-            <div className={cx("title")}>Giải tích 1</div>
-            <div className={cx("name")}>Đề giải tích năm học 2023 kì 2</div>
-            <div className={cx("slider")}>
-              <Slider
-                disabled
-                defaultValue={50}
-                aria-label="Disabled slider"
-                valueLabelDisplay="auto"
-              />
-            </div>
-            <div className={cx("description")}>
-              50%(12/24 câu đã hoàn thành)
-            </div>
-            <ButtonCustomization className={cx("examBtn")}>
-              Tiếp tục
-            </ButtonCustomization>
-          </div>
-        </div>
+      <div className={cx("title")}>{t("home.inProgress.title")}</div>
+      <div className={cx("examList")}>
+        {userExams?.map(userExam => (
+          <InProgressItem
+            key={userExam._id}
+            subjectName={userExam?.subject?.subject_name}
+            title={userExam.title}
+            userAnswer={userExam.user_answer_id}
+            totalQuestion={userExam.questions.length}
+          />
+        ))}
       </div>
     </div>
   );
