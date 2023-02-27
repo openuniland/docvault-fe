@@ -2,6 +2,7 @@ import classNames from "classnames/bind";
 
 import styles from "./TestPageContent.module.scss";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
@@ -9,6 +10,7 @@ import SummarizeIcon from "@mui/icons-material/Summarize";
 const cx = classNames.bind(styles);
 
 export const TestPageContent = () => {
+  const { t } = useTranslation();
   const Subjects = [
     { name: "An ninh mạng", totalExam: 10, path: "" },
     { name: "Toán rời rạc", totalExam: 12, path: "" },
@@ -22,11 +24,11 @@ export const TestPageContent = () => {
     <div className={cx("container")}>
       <div className={cx("content__top")}>
         <div>
-          <MenuBookIcon /> Các môn học (kiểm tra)
+          <MenuBookIcon /> {t("exam.subjects.title")}
         </div>
         <button>
           <AddCircleIcon />
-          Thêm mới
+          {t("exam.subjects.add")}
         </button>
       </div>
       <div className={cx("content__body")}>

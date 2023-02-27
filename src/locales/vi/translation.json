@@ -2,5 +2,7 @@
   "hello": "Hello everyone",
   "home": "Trang chủ",
   "login.termsAndCondition.text": "Đăng nhập đồng nghĩa đồng ý với ",
-  "login.termsAndCondition.link": "các điều khoản và điều kiện."
+  "login.termsAndCondition.link": "các điều khoản và điều kiện.",
+  "exam.subjects.title": "Các môn học (kiểm tra)",
+  "exam.subjects.add": "Thêm mới"
 }
