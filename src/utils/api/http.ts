@@ -2,12 +2,14 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
 import configs from "configs";
 import { getTokens, removeItemFromStorage } from "utils/storage";
+import handleRefreshToken from "./refreshToken";
 
 const { accessToken } = getTokens();
 
 const http = axios.create({
   baseURL: configs.apiEndpoint,
 });
+console.log("accessToken", accessToken);
 
 http.defaults.headers.common.authorization = `Bearer ${accessToken}`;
 
@@ -25,11 +27,17 @@ http.interceptors.response.use(
     return response;
   },
   async function (error: any) {
-    const { response } = error;
+    const { config, response } = error;
     const errorMessage = response?.data?.message;
 
     if (errorMessage === "jwt expired") {
-      //
+      const apiResponseData = await handleRefreshToken({
+        baseURL: config.baseURL,
+        url: config.url,
+        method: config.method,
+        data: config.data,
+      });
+      return apiResponseData;
     }
 
     if (

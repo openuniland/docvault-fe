@@ -46,7 +46,7 @@ export const DocumentControl = () => {
 
       {documentsBySubject?.length === 0 && (
         <Typography className={cx("subjectName")} color="text.primary">
-          Tài liệu của môn học này không có (hoặc có những chưa được admin phê
+          Tài liệu của môn học này không có (hoặc có nhưng chưa được admin phê
           duyệt).
         </Typography>
       )}
