@@ -7,7 +7,10 @@ export const DocumentPage = () => {
       <Helmet>
         <title>Revise | Documents</title>
       </Helmet>
-      <SubjectWrapper prefix="documents" title="Các môn học(tài liệu)" />
+      <SubjectWrapper
+        prefix="documents/subject"
+        title="Các môn học(tài liệu)"
+      />
     </>
   );
 };

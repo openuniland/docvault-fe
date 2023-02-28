@@ -16,16 +16,11 @@ import { getTokens } from "utils/storage";
 
 const cx = classNames.bind(styles);
 
-interface Props {
-  className?: string;
-}
-
-export const ActionHeader = (props: Props) => {
-  const { className } = props;
+export const ActionHeader = () => {
   const { userInfo } = getTokens();
 
   return (
-    <div className={cx("container", className)}>
+    <div className={cx("container")}>
       <div className={cx("actionIcon")}>
         <ButtonCustomization className={cx("messengerIcon")}>
           <MailOutline />
@@ -43,7 +38,7 @@ export const ActionHeader = (props: Props) => {
           <div className={cx("poperAvatar")} tabIndex={-1} {...attrs}>
             <div className={cx("poper")}>
               <div className={cx("profile")}>
-                <Avatar />
+                <Avatar src={userInfo?.avatar} className={cx("avatarIcon")} />
                 <div className={cx("name")}>{userInfo?.name}</div>
                 <div className={cx("email")}>{userInfo?.email}</div>
               </div>

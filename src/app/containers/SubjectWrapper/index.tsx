@@ -19,15 +19,15 @@ export const SubjectWrapper = (props: Props) => {
 
   return (
     <div className={cx("container")}>
-      <div>
-        <Typography variant="h4" component="h4">
+      <div className={cx("header")}>
+        <Typography className={cx("title")} variant="h4" component="h4">
           {title}
         </Typography>
 
-        <AddCircleIcon />
+        <AddCircleIcon className={cx("icon")} />
       </div>
 
-      <div>
+      <div className={cx("subjectsList")}>
         {subjects?.map(subject => (
           <SubjectItem
             prefix={prefix}

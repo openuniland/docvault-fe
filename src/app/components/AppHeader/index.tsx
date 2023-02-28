@@ -11,20 +11,14 @@ const cx = classNames.bind(styles);
 export const AppHeader = () => {
   return (
     <Grid className={cx("container")} container>
-      <Grid className={cx("grid-item")} item xs>
-        <div className={cx("logoWrapper")}>
-          <Logo className={cx("logo")} />
-        </div>
+      <Grid className={cx("grid-item", "logoWrapper")} item xs>
+        <Logo className={cx("logo")} />
       </Grid>
-      <Grid className={cx("grid-item")} item xs={6}>
-        <div className={cx("searchWrapper")}>
-          <SearchInput className={cx("search")} />
-        </div>
+      <Grid className={cx("grid-item", "searchWrapper")} item>
+        <SearchInput className={cx("search")} />
       </Grid>
-      <Grid className={cx("grid-item")} item xs>
-        <div className={cx("actionWrapper")}>
-          <ActionHeader className={cx("action")} />
-        </div>
+      <Grid className={cx("grid-item", "actionWrapper")} item xs>
+        <ActionHeader />
       </Grid>
     </Grid>
   );

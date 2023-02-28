@@ -6,7 +6,9 @@ const withSidebar = (WrappedComponent: React.ComponentType) => {
     return (
       <div style={{ display: "flex" }}>
         <Sidebar />
-        <WrappedComponent {...props} />
+        <div style={{ flex: 1 }}>
+          <WrappedComponent {...props} />
+        </div>
       </div>
     );
   };

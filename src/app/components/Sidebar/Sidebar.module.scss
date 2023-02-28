@@ -1,6 +1,7 @@
 .container {
   width: 345px;
-  height: calc(100vh - 110px);
+  height: auto;
+  min-height: calc(100vh - 110px);
   background-color: var(--brown-bg);
   display: flex;
 }
@@ -103,9 +104,4 @@
     color: var(--black);
     font-size: 16px;
   }
-}
-.container {
-  width: 360px;
-  height: 100%;
-  background-color: #000;
 }
