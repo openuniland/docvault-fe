@@ -1,3 +1,4 @@
+import { SubjectWrapper } from "app/containers/SubjectWrapper";
 import { Helmet } from "react-helmet-async";
 
 export const DocumentPage = () => {
@@ -6,7 +7,7 @@ export const DocumentPage = () => {
       <Helmet>
         <title>Revise | Documents</title>
       </Helmet>
-      <div>documents</div>
+      <SubjectWrapper prefix="documents" title="Các môn học(tài liệu)" />
     </>
   );
 };
