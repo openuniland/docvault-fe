@@ -16,7 +16,7 @@ const getLanguage = () =>
   JSON.parse(localStorage.getItem("language") || '{"":""}');
 
 const getTokens = () =>
-  JSON.parse(localStorage.getItem("language") || '{"":""}');
+  JSON.parse(localStorage.getItem("tokens") || '{"error": "null"}');
 
 const getSidebarStatus = () =>
   JSON.parse(localStorage.getItem("isOpenSidebar") || '{"status":"false"}');

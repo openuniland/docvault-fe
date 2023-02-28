@@ -1,21 +1,18 @@
 import { Route, Routes } from "react-router-dom";
 
-import { HomePage } from "app/pages/HomePage";
-import { LoginPage } from "app/pages/LoginPage";
-import { withAppHeader, withSidebar } from "app/layouts/hocs";
+import { Guards } from "app/pages/Guards";
+import { withAppHeader, withSidebar } from "../hocs";
 import { DocumentPage } from "app/pages/DocumentPage";
 
 const Pages = {
-  Home: withAppHeader(withSidebar(HomePage)),
-  Login: LoginPage,
+  Guards: Guards,
   Document: withAppHeader(withSidebar(DocumentPage)),
 };
 
 const Layout = () => {
   return (
     <Routes>
-      <Route path="/" element={<Pages.Home />} />
-      <Route path="/login" element={<Pages.Login />} />
+      <Route path="/" element={<Pages.Guards />} />
       <Route path="/documents" element={<Pages.Document />} />
     </Routes>
   );
