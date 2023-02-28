@@ -3,7 +3,6 @@ import classNames from "classnames/bind";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useCallback, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { useLogin } from "mutations/auth";
 import { ButtonCustomization } from "../ButtonCustomization";
@@ -18,7 +17,6 @@ const cx = classNames.bind(styles);
 export const LoginFrame = () => {
   const { mutateAsync } = useLogin();
   const { t } = useTranslation();
-  const navigate = useNavigate();
 
   const [openPropup, setOpenPropup] = useState(false);
 
@@ -38,7 +36,7 @@ export const LoginFrame = () => {
             googleToken: tokenResponse.access_token,
           });
           setTokens(data);
-          navigate("/");
+          window.location.reload();
         } catch (error: any) {
           if (error?.errors?.errorCode === "NOT_BELONG_TO_ORGANIZATION") {
             handleOpenPropup();

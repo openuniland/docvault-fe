@@ -30,11 +30,11 @@
 .textWrapper {
   font-size: 14px;
   font-weight: 400;
-  color: var(--dark-text-color);
   display: flex;
 
   & > p {
     padding-right: 5px;
+    color: var(--dark-text);
   }
 
   & > a {
