@@ -1,3 +1,13 @@
-.bg {
+.input,
+.select {
+  border-radius: 8px;
+  width: 100%;
   background-color: var(--white);
+  border: none;
+  outline: none;
+  color: var(--black);
+}
+
+.select {
+  max-height: 200px;
 }

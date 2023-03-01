@@ -1,44 +1,64 @@
 import classNames from "classnames/bind";
-import Input from "@mui/joy/Input";
-import Textarea from "@mui/joy/Textarea";
-import Select from "@mui/joy/Select";
-import Option from "@mui/joy/Option";
+import { MenuItem, Select, TextField } from "@mui/material";
 
 import styles from "./DocumentForm.module.scss";
+import { schoolYear } from "utils/constants";
 
 const cx = classNames.bind(styles);
 
 export const DocumentForm = () => {
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: 250,
+      },
+    },
+  };
   return (
     <div className={cx("container")}>
       <div className={cx("form")}>
-        <Input
-          className={cx("bg")}
-          color="info"
+        <TextField
+          className={cx("input")}
+          color="primary"
+          InputLabelProps={{ shrink: false }}
           placeholder="Tiêu đề tài liệu"
-          size="lg"
-          variant="outlined"
         />
-        <Textarea
-          className={cx("bg")}
-          color="info"
-          minRows={4}
-          size="lg"
+        <TextField
+          className={cx("input")}
+          color="primary"
+          InputLabelProps={{ shrink: false }}
           placeholder="Mô tả"
+          multiline
+          rows={3}
         />
         <Select
-          className={cx("bg")}
-          color="info"
-          disabled={false}
-          placeholder="Choose one…"
+          className={cx("select")}
+          MenuProps={MenuProps}
+          value={schoolYear[0]}
         >
-          <Option className={cx("bg")} value="dog">
-            Dog
-          </Option>
-          <Option className={cx("bg")} value="cat">
-            Cat
-          </Option>
+          <MenuItem disabled value="">
+            <em>Năm học</em>
+          </MenuItem>
+          {schoolYear.map(item => (
+            <MenuItem key={item} value={item}>
+              {item}
+            </MenuItem>
+          ))}
         </Select>
+
+        <Select className={cx("select")} MenuProps={MenuProps} value={1}>
+          <MenuItem disabled value="">
+            <em>Kỳ học</em>
+          </MenuItem>
+          <MenuItem value="1">1</MenuItem>
+          <MenuItem value="2">2</MenuItem>
+          <MenuItem value="3">3</MenuItem>
+        </Select>
+
+        <div>
+          <span>Mon hoc:</span>
+          <strong>Mon hoc</strong>
+        </div>
       </div>
     </div>
   );
