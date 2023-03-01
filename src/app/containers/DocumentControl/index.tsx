@@ -1,19 +1,26 @@
 import { Breadcrumbs, Typography } from "@mui/material";
 import classNames from "classnames/bind";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 import styles from "./DocumentControl.module.scss";
 import { useGetAllDocumentsBySubjectId } from "queries/document";
 import { ContentItem } from "app/components/ContentItem";
+import { useCallback } from "react";
 
 const cx = classNames.bind(styles);
 
 export const DocumentControl = () => {
   const { subjectId } = useParams();
+  const navigate = useNavigate();
   const { data: documentsBySubject } = useGetAllDocumentsBySubjectId(
     subjectId as string,
   );
+
+  const handleAddDocument = useCallback(() => {
+    navigate(`/documents/new/${subjectId}`);
+  }, [navigate]);
+
   return (
     <div className={cx("container")}>
       <Breadcrumbs aria-label="breadcrumb" className={cx("breadcrumb")}>
@@ -21,19 +28,19 @@ export const DocumentControl = () => {
           Các môn học(tài liệu)
         </Link>
         <Typography className={cx("text")} color="text.primary">
-          {subjectId}
+          {documentsBySubject?.subject?.subject_name}
         </Typography>
       </Breadcrumbs>
 
       <div className={cx("subjectWrapper")}>
         <Typography className={cx("subjectName")} color="text.primary">
-          {subjectId}
+          {documentsBySubject?.subject?.subject_name}
         </Typography>
-        <AddCircleIcon className={cx("addIcon")} />
+        <AddCircleIcon className={cx("addIcon")} onClick={handleAddDocument} />
       </div>
 
       <div className={cx("documentList")}>
-        {documentsBySubject?.map(document => (
+        {documentsBySubject?.documents.map(document => (
           <ContentItem
             key={document?._id}
             createdAt={document?.created_at}
@@ -44,7 +51,7 @@ export const DocumentControl = () => {
         ))}
       </div>
 
-      {documentsBySubject?.length === 0 && (
+      {documentsBySubject?.documents.length === 0 && (
         <Typography className={cx("subjectName")} color="text.primary">
           Tài liệu của môn học này không có (hoặc có nhưng chưa được admin phê
           duyệt).

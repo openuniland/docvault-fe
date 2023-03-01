@@ -18,3 +18,8 @@ export interface DocumentModel {
   };
   created_at: string;
 }
+
+export interface GetAllDocumentsBySubjectIdResponse {
+  documents: DocumentModel[];
+  subject: Subject;
+}

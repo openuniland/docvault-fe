@@ -8,3 +8,9 @@ export const getAllSubjects = async (): Promise<Subject[]> => {
 
   return response?.data?.data;
 };
+
+export const getSubjectById = async (subjectId: string): Promise<Subject> => {
+  const response: AxiosResponse = await http.get(`/subjects/${subjectId}`);
+
+  return response?.data?.data;
+};

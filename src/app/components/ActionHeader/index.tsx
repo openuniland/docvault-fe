@@ -1,5 +1,4 @@
 import classNames from "classnames/bind";
-import { ButtonCustomization } from "../ButtonCustomization";
 import { Avatar } from "@mui/material";
 import {
   Settings,
@@ -11,13 +10,20 @@ import {
 } from "@mui/icons-material";
 import Tippy from "@tippyjs/react/headless";
 
+import { ButtonCustomization } from "../ButtonCustomization";
 import styles from "./ActionHeader.module.scss";
-import { getTokens } from "utils/storage";
+import { getTokens, removeItemFromStorage } from "utils/storage";
+import { useCallback } from "react";
 
 const cx = classNames.bind(styles);
 
 export const ActionHeader = () => {
   const { userInfo } = getTokens();
+
+  const handleLogout = useCallback(() => {
+    removeItemFromStorage("tokens");
+    window.location.href = "/";
+  }, []);
 
   return (
     <div className={cx("container")}>
@@ -57,7 +63,7 @@ export const ActionHeader = () => {
                 </div>
               </div>
             </div>
-            <div className={cx("logout")}>
+            <div className={cx("logout")} onClick={handleLogout}>
               <Logout className={cx("icon")} />
               <p>Đăng xuất</p>
             </div>
