@@ -49,8 +49,6 @@ export const LoginFrame = () => {
     },
   });
 
-  console.log("reload");
-
   return (
     <div className={cx("container")}>
       <Logo className={cx("logo")} />

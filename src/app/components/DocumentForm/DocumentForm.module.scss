@@ -1,13 +1,31 @@
-.input,
-.select {
-  border-radius: 8px;
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   width: 100%;
-  background-color: var(--white);
-  border: none;
-  outline: none;
-  color: var(--black);
 }
 
-.select {
-  max-height: 200px;
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.formItem {
+  margin: 10px 0;
+}
+
+.resetColor {
+  color: #fff !important;
+}
+.input,
+.autocomplete {
+  color: #000;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.submit {
+  background-color: var(--main-green);
+  margin: 50px 0;
 }

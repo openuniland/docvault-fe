@@ -1,65 +1,169 @@
+import { Autocomplete, TextField } from "@mui/material";
 import classNames from "classnames/bind";
-import { MenuItem, Select, TextField } from "@mui/material";
+import { useCallback, useState } from "react";
+
+import { DocumentModelContent } from "types/DocumentModel";
+import { useGetAllSubjects } from "queries/subject";
+import { ContentRender } from "../ContentRender";
+import { DocumentContent } from "../DocumentContent";
 
 import styles from "./DocumentForm.module.scss";
-import { schoolYear } from "utils/constants";
+import { Box } from "@mui/system";
+import { Subject } from "types/Subject";
+import { ButtonCustomization } from "../ButtonCustomization";
+import { useCreateDocument } from "mutations/document";
 
 const cx = classNames.bind(styles);
 
 export const DocumentForm = () => {
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: 250,
-      },
-    },
+  const [contents, setContents] = useState<DocumentModelContent[]>([]);
+  const [subjectId, setSubjectId] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [schoolYear, setSchoolYear] = useState("");
+  const [semester, setSemester] = useState("");
+
+  const { data: subjects = [], isLoading } = useGetAllSubjects();
+
+  const { mutateAsync } = useCreateDocument();
+
+  const handleGetData = (data: DocumentModelContent) => {
+    console.log(data);
+    setContents([...contents, data]);
   };
+
+  const handleDeleteData = useCallback(
+    (index: number) => {
+      const newContents = [...contents];
+      newContents.splice(index, 1);
+      setContents(newContents);
+    },
+    [contents],
+  );
+
+  const handleSelectSubject = useCallback(
+    (_event: any, value: any) => {
+      const subject = value as Subject;
+      setSubjectId(subject._id);
+    },
+    [subjectId],
+  );
+
+  const handleChangeTitle = useCallback(
+    (event: React.SyntheticEvent) => {
+      const target = event.target as HTMLInputElement;
+      setTitle(target.value);
+    },
+    [title],
+  );
+
+  const handleChangeDescription = useCallback(
+    (event: React.SyntheticEvent) => {
+      const target = event.target as HTMLInputElement;
+      setDescription(target.value);
+    },
+    [description],
+  );
+
+  const handleChangeSchoolYear = useCallback(
+    (event: React.SyntheticEvent) => {
+      const target = event.target as HTMLInputElement;
+      setSchoolYear(target.value);
+    },
+    [schoolYear],
+  );
+
+  const handleSelectSemester = useCallback(
+    (_event: any, value: any) => {
+      setSemester(value as string);
+    },
+    [subjectId],
+  );
+
+  const handleSubmit = useCallback(async () => {
+    await mutateAsync({
+      title,
+      description,
+      school_year: schoolYear,
+      semester: Number(semester),
+      subject: subjectId,
+      content: contents,
+    });
+  }, [subjectId, contents]);
+
   return (
     <div className={cx("container")}>
       <div className={cx("form")}>
         <TextField
-          className={cx("input")}
-          color="primary"
-          InputLabelProps={{ shrink: false }}
+          className={cx("formItem")}
           placeholder="Tiêu đề tài liệu"
+          classes={{ root: cx("input") }}
+          value={title}
+          onChange={handleChangeTitle}
         />
         <TextField
-          className={cx("input")}
-          color="primary"
-          InputLabelProps={{ shrink: false }}
+          className={cx("formItem")}
           placeholder="Mô tả"
+          classes={{ root: cx("input") }}
           multiline
-          rows={3}
+          rows={5}
+          value={description}
+          onChange={handleChangeDescription}
         />
-        <Select
-          className={cx("select")}
-          MenuProps={MenuProps}
-          value={schoolYear[0]}
-        >
-          <MenuItem disabled value="">
-            <em>Năm học</em>
-          </MenuItem>
-          {schoolYear.map(item => (
-            <MenuItem key={item} value={item}>
-              {item}
-            </MenuItem>
-          ))}
-        </Select>
-
-        <Select className={cx("select")} MenuProps={MenuProps} value={1}>
-          <MenuItem disabled value="">
-            <em>Kỳ học</em>
-          </MenuItem>
-          <MenuItem value="1">1</MenuItem>
-          <MenuItem value="2">2</MenuItem>
-          <MenuItem value="3">3</MenuItem>
-        </Select>
-
-        <div>
-          <span>Mon hoc:</span>
-          <strong>Mon hoc</strong>
-        </div>
+        <TextField
+          className={cx("formItem")}
+          placeholder="Năm học (vd: 2019-2020)"
+          classes={{ root: cx("input") }}
+          value={schoolYear}
+          onChange={handleChangeSchoolYear}
+        />
+        <Autocomplete
+          className={cx("resetColor", "formItem")}
+          classes={{
+            root: cx("autocomplete"),
+            inputRoot: cx("hasClearIcon"),
+          }}
+          options={["1", "2", "3"].map(option => option)}
+          renderInput={params => (
+            <TextField
+              {...params}
+              placeholder="Kỳ học"
+              classes={{ root: cx("input") }}
+            />
+          )}
+          onChange={handleSelectSemester}
+        />
+        <Autocomplete
+          className={cx("resetColor", "formItem")}
+          classes={{
+            root: cx("autocomplete"),
+            inputRoot: cx("hasClearIcon"),
+          }}
+          loading={isLoading}
+          options={subjects}
+          getOptionLabel={option => option.subject_name}
+          renderOption={(props, option) => (
+            <Box component="li" {...props}>
+              {option.subject_name}
+            </Box>
+          )}
+          renderInput={params => (
+            <TextField
+              {...params}
+              placeholder="Môn học"
+              classes={{ root: cx("input") }}
+            />
+          )}
+          onChange={handleSelectSubject}
+        />
       </div>
+
+      <ContentRender contents={contents} onDelete={handleDeleteData} />
+      <DocumentContent onGetData={handleGetData} />
+
+      <ButtonCustomization className={cx("submit")} onClick={handleSubmit}>
+        Lưu tài liệu
+      </ButtonCustomization>
     </div>
   );
 };
