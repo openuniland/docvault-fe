@@ -1,8 +1,8 @@
 import { TextField } from "@mui/material";
 import classNames from "classnames/bind";
 import { useCallback, useState } from "react";
-import { ButtonCustomization } from "../ButtonCustomization";
 
+import { ButtonCustomization } from "../ButtonCustomization";
 import { DocumentModelContent } from "types/DocumentModel";
 import styles from "./DocumentContent.module.scss";
 
@@ -52,6 +52,8 @@ export const DocumentContent = (props: Props) => {
   );
 
   const handleEventUp = useCallback(() => {
+    if (title === "" || description === "") return;
+
     onGetData({
       name: title,
       description,
@@ -69,17 +71,16 @@ export const DocumentContent = (props: Props) => {
       <TextField
         className={cx("formItem")}
         placeholder="Tiêu đề nội dung"
-        classes={{ root: cx("input") }}
         InputProps={{
           className: cx("input"),
         }}
         value={title}
         onChange={handleChangeTitle}
+        error={title === ""}
       />
       <TextField
         className={cx("formItem")}
         placeholder="Mô tả nội dung"
-        classes={{ root: cx("input") }}
         multiline
         rows={5}
         InputProps={{
@@ -87,11 +88,11 @@ export const DocumentContent = (props: Props) => {
         }}
         value={description}
         onChange={handleChangeDescription}
+        error={description === ""}
       />
       <TextField
         className={cx("formItem")}
         placeholder="Link ảnh"
-        classes={{ root: cx("input") }}
         InputProps={{
           className: cx("input"),
         }}
@@ -101,7 +102,6 @@ export const DocumentContent = (props: Props) => {
       <TextField
         className={cx("formItem")}
         placeholder="Link file tài liệu"
-        classes={{ root: cx("input") }}
         InputProps={{
           className: cx("input"),
         }}

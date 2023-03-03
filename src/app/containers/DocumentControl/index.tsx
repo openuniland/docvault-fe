@@ -18,7 +18,7 @@ export const DocumentControl = () => {
   );
 
   const handleAddDocument = useCallback(() => {
-    navigate(`/documents/new/${subjectId}`);
+    navigate(`/documents/new`);
   }, [navigate]);
 
   return (

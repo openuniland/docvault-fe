@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 
-import { Subject } from "types/Subject";
+import { Subject, SubjectPayload } from "types/Subject";
 import http from "utils/api/http";
 
 export const getAllSubjects = async (): Promise<Subject[]> => {
@@ -11,6 +11,14 @@ export const getAllSubjects = async (): Promise<Subject[]> => {
 
 export const getSubjectById = async (subjectId: string): Promise<Subject> => {
   const response: AxiosResponse = await http.get(`/subjects/${subjectId}`);
+
+  return response?.data?.data;
+};
+
+export const createSubject = async (
+  payload: SubjectPayload,
+): Promise<Subject> => {
+  const response: AxiosResponse = await http.post(`/subjects`, payload);
 
   return response?.data?.data;
 };

@@ -67,7 +67,7 @@ export const LoginFrame = () => {
 
       <ModalCustomization
         open={openPropup}
-        handleClose={handleClosePropup}
+        handleAgree={handleClosePropup}
         actionDefault
         title="Notification"
       >

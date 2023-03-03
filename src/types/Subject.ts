@@ -3,3 +3,7 @@ export interface Subject {
   subject_name: string;
   is_approved: boolean;
 }
+
+export interface SubjectPayload {
+  subject_name: string;
+}

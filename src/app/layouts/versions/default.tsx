@@ -25,10 +25,7 @@ const Layout = () => {
         path="/documents/subject/:subjectId"
         element={<Pages.DocumentList />}
       />
-      <Route
-        path="/documents/new/:subjectId"
-        element={<Pages.AddDocumentPage />}
-      />
+      <Route path="/documents/new" element={<Pages.AddDocumentPage />} />
     </Routes>
   );
 };

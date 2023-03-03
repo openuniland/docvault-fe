@@ -8,4 +8,19 @@
   font-size: 16px;
   font-weight: 600;
   transition: all 0.3s ease;
+  width: 200px;
+  height: 38px;
+}
+
+.loadingIcon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

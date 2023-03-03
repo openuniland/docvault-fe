@@ -1,4 +1,4 @@
-import { Autocomplete, TextField } from "@mui/material";
+import { Alert, Autocomplete, Snackbar, TextField } from "@mui/material";
 import classNames from "classnames/bind";
 import { useCallback, useState } from "react";
 
@@ -22,13 +22,13 @@ export const DocumentForm = () => {
   const [description, setDescription] = useState("");
   const [schoolYear, setSchoolYear] = useState("");
   const [semester, setSemester] = useState("");
+  const [isSubmittedSuccessfully, setIsSubmittedSuccessfully] = useState(false);
 
   const { data: subjects = [], isLoading } = useGetAllSubjects();
 
-  const { mutateAsync } = useCreateDocument();
+  const { mutateAsync, isLoading: isLoadingCreateDoc } = useCreateDocument();
 
   const handleGetData = (data: DocumentModelContent) => {
-    console.log(data);
     setContents([...contents, data]);
   };
 
@@ -80,7 +80,24 @@ export const DocumentForm = () => {
     [subjectId],
   );
 
+  const handleCloseSnackbar = useCallback(
+    (event?: React.SyntheticEvent | Event, reason?: string) => {
+      if (reason === "clickaway") {
+        return;
+      }
+      setIsSubmittedSuccessfully(false);
+    },
+    [isSubmittedSuccessfully],
+  );
+
+  const handleOpenSnackbar = useCallback(() => {
+    setIsSubmittedSuccessfully(true);
+  }, [isSubmittedSuccessfully]);
+
   const handleSubmit = useCallback(async () => {
+    if (!subjectId || !title || !description || !schoolYear || !semester)
+      return;
+
     await mutateAsync({
       title,
       description,
@@ -89,7 +106,22 @@ export const DocumentForm = () => {
       subject: subjectId,
       content: contents,
     });
-  }, [subjectId, contents]);
+
+    setContents([]);
+    setTitle("");
+    setDescription("");
+    setSchoolYear("");
+
+    handleOpenSnackbar();
+  }, [
+    subjectId,
+    contents,
+    title,
+    description,
+    schoolYear,
+    semester,
+    handleOpenSnackbar,
+  ]);
 
   return (
     <div className={cx("container")}>
@@ -161,9 +193,27 @@ export const DocumentForm = () => {
       <ContentRender contents={contents} onDelete={handleDeleteData} />
       <DocumentContent onGetData={handleGetData} />
 
-      <ButtonCustomization className={cx("submit")} onClick={handleSubmit}>
+      <ButtonCustomization
+        isLoading={isLoadingCreateDoc}
+        className={cx("submit")}
+        onClick={handleSubmit}
+      >
         Lưu tài liệu
       </ButtonCustomization>
+
+      <Snackbar
+        open={isSubmittedSuccessfully}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          This is a success message!
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
