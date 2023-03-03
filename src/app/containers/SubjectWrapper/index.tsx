@@ -16,7 +16,6 @@ interface Props {
   prefix: string;
   title: string;
 }
-
 export const SubjectWrapper = (props: Props) => {
   const { prefix, title } = props;
 
