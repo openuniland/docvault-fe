@@ -18,9 +18,10 @@
 
   --brown-bg: #242529;
   --sidebar-hover: #efe9ff;
-  --division-line: #8a2be2;
+  --division-line: #483d52;
   --blue-shadow: #4c9aff;
   --brown-shadow: #444343;
+  --background-main: #161819;
 }
 
 * {
@@ -36,4 +37,24 @@ body {
   text-rendering: optimizeSpeed;
   color: var(--text-color);
   overflow-y: overlay;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

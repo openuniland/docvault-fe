@@ -1,0 +1,33 @@
+.container {
+  border-radius: 6px;
+  background-color: #161819;
+  border: 1px solid var(--white);
+  width: 270px;
+  height: 48px;
+  margin: 10px;
+
+  &:hover {
+    box-shadow: pink 0 0 10px;
+  }
+}
+
+.link {
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding: 14px;
+  text-decoration: none;
+}
+
+.subjectName {
+  font-size: 16px;
+  margin-left: 8px;
+  font-weight: 400;
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}

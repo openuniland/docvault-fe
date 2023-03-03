@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.formItem {
+  margin: 10px 0;
+}
+
+.resetColor {
+  color: #fff !important;
+}
+.input,
+.autocomplete {
+  color: #000;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.submit {
+  background-color: var(--main-green);
+  margin: 50px 0;
+}

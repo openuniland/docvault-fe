@@ -1,0 +1,30 @@
+.container {
+  background-color: #161819;
+  width: 100%;
+  height: 100%;
+}
+
+.header {
+  color: var(--white);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.icon {
+  font-size: 27px;
+  cursor: pointer;
+}
+
+.subjectsList {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  padding: 0 10px;
+}

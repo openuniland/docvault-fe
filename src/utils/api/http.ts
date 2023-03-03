@@ -1,18 +1,19 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 
 import configs from "configs";
 import { getTokens, removeItemFromStorage } from "utils/storage";
-
-const { accessToken } = getTokens();
+import handleRefreshToken from "./refreshToken";
 
 const http = axios.create({
   baseURL: configs.apiEndpoint,
 });
 
-http.defaults.headers.common.authorization = `Bearer ${accessToken}`;
-
 http.interceptors.request.use(
-  function (config: AxiosRequestConfig) {
+  function (config: any) {
+    const { accessToken } = getTokens();
+    if (accessToken && config) {
+      config.headers.authorization = `Bearer ${accessToken}`;
+    }
     return config;
   },
   function (error: any) {
@@ -25,11 +26,17 @@ http.interceptors.response.use(
     return response;
   },
   async function (error: any) {
-    const { response } = error;
+    const { config, response } = error;
     const errorMessage = response?.data?.message;
 
     if (errorMessage === "jwt expired") {
-      //
+      const apiResponseData = await handleRefreshToken({
+        baseURL: config.baseURL,
+        url: config.url,
+        method: config.method,
+        data: config.data,
+      });
+      return apiResponseData;
     }
 
     if (

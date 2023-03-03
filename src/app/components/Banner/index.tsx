@@ -12,9 +12,6 @@ export const Banner = () => {
         <div className={cx("bannerImg")}>
           <img src={bannerImg} alt="banner" className={cx("img")} />
         </div>
-        <div className={cx("bannerText")}>
-          <p className={cx("text")}>Thông báo</p>
-        </div>
       </div>
     </div>
   );

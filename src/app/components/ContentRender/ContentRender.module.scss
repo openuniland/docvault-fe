@@ -1,0 +1,52 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.contentItem {
+  background-color: #817d7d;
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0;
+}
+
+.iconWrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.deleteIcon {
+  color: #fff;
+  cursor: pointer;
+
+  &:hover {
+    color: #ff0000;
+  }
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.desc {
+  font-size: 16px;
+  color: #fff;
+  padding: 8px 0;
+}
+
+.image {
+  width: 400px;
+  height: 100%;
+  object-fit: cover;
+}
+
+.file {
+  font-size: 16px;
+  padding: 8px 0;
+  color: #002e79;
+}

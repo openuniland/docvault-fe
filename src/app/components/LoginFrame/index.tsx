@@ -49,8 +49,6 @@ export const LoginFrame = () => {
     },
   });
 
-  console.log("reload");
-
   return (
     <div className={cx("container")}>
       <Logo className={cx("logo")} />
@@ -69,7 +67,7 @@ export const LoginFrame = () => {
 
       <ModalCustomization
         open={openPropup}
-        handleClose={handleClosePropup}
+        handleAgree={handleClosePropup}
         actionDefault
         title="Notification"
       >

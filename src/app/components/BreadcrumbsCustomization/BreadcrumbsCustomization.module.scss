@@ -1,0 +1,12 @@
+.link {
+  color: #bdbcbc;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--white);
+  }
+}
+.text,
+.breadcrumb {
+  color: var(--white);
+}

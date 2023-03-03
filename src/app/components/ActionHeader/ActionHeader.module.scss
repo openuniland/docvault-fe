@@ -1,3 +1,10 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
 .messengerIcon,
 .notificationsIcon {
   border-radius: 0px;
