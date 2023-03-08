@@ -1,12 +1,13 @@
-import { Breadcrumbs, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import classNames from "classnames/bind";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 import styles from "./DocumentControl.module.scss";
 import { useGetAllDocumentsBySubjectId } from "queries/document";
 import { ContentItem } from "app/components/ContentItem";
 import { useCallback } from "react";
+import { BreadcrumbsCustomization } from "app/components/BreadcrumbsCustomization";
 
 const cx = classNames.bind(styles);
 
@@ -23,14 +24,13 @@ export const DocumentControl = () => {
 
   return (
     <div className={cx("container")}>
-      <Breadcrumbs aria-label="breadcrumb" className={cx("breadcrumb")}>
-        <Link color="inherit" to="/documents" className={cx("link")}>
-          Các môn học(tài liệu)
-        </Link>
-        <Typography className={cx("text")} color="text.primary">
-          {documentsBySubject?.subject?.subject_name}
-        </Typography>
-      </Breadcrumbs>
+      <BreadcrumbsCustomization
+        className={cx("breadcrumb")}
+        current={documentsBySubject?.subject?.subject_name}
+        breadcrumbsList={[
+          { linkTo: "/documents", text: "Các môn học(tài liệu)" },
+        ]}
+      />
 
       <div className={cx("subjectWrapper")}>
         <Typography className={cx("subjectName")} color="text.primary">

@@ -13,7 +13,7 @@ interface BreadcrumbsList {
 
 interface Props {
   breadcrumbsList: BreadcrumbsList[];
-  current: string;
+  current?: string;
   className?: string;
 }
 
