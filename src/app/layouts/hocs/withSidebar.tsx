@@ -11,6 +11,7 @@ const withSidebar = (WrappedComponent: React.ComponentType) => {
             flex: 1,
             height: "calc(100vh - 110px)",
             overflowY: "scroll",
+            backgroundColor: "#161819",
           }}
         >
           <WrappedComponent {...props} />

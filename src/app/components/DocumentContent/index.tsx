@@ -52,7 +52,7 @@ export const DocumentContent = (props: Props) => {
   );
 
   const handleEventUp = useCallback(() => {
-    if (title === "" || description === "") return;
+    if (title === "") return;
 
     onGetData({
       name: title,
@@ -88,7 +88,6 @@ export const DocumentContent = (props: Props) => {
         }}
         value={description}
         onChange={handleChangeDescription}
-        error={description === ""}
       />
       <TextField
         className={cx("formItem")}
