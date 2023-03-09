@@ -1,0 +1,62 @@
+.container {
+  background-color: var(--background-main);
+  width: 100%;
+  min-height: 100%;
+  padding: 0 20px 20px 20px;
+  max-width: 1000px;
+  margin: auto;
+  margin-bottom: 40px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.helpIcon {
+  color: var(--white);
+  cursor: pointer;
+
+  &:hover {
+    color: yellow;
+  }
+}
+
+.title {
+  font-size: 36px;
+  line-height: 46px;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.description {
+  padding: 20px 0;
+}
+
+.description,
+.schoolYear {
+  color: var(--white);
+}
+
+.descWrapper {
+  display: flex;
+}
+
+.highlight {
+  color: #05ff00;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.titleName,
+.highlight,
+.schoolYear,
+.description {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.content {
+  margin-top: 36px;
+}

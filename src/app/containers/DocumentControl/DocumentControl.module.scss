@@ -1,7 +1,7 @@
 .container {
   height: 100%;
   background-color: var(--background-main);
-  padding: 20px;
+  padding: 0 20px 20px 20px;
 }
 
 .link {
@@ -15,10 +15,6 @@
 .text,
 .breadcrumb {
   color: var(--white);
-}
-
-.breadcrumb {
-  padding: 20px 0;
 }
 
 .subjectWrapper {

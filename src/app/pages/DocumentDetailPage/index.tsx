@@ -1,3 +1,4 @@
+import { DocumentShow } from "app/containers/DocumentShow";
 import { Helmet } from "react-helmet-async";
 
 export const DocumentDetailPage = () => {
@@ -6,7 +7,7 @@ export const DocumentDetailPage = () => {
       <Helmet>
         <title>Revise | Documents</title>
       </Helmet>
-      <div>chi tiet ne</div>
+      <DocumentShow />
     </>
   );
 };

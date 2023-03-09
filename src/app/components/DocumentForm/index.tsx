@@ -95,8 +95,7 @@ export const DocumentForm = () => {
   }, [isSubmittedSuccessfully]);
 
   const handleSubmit = useCallback(async () => {
-    if (!subjectId || !title || !description || !schoolYear || !semester)
-      return;
+    if (!subjectId || !title || !schoolYear || !semester) return;
 
     await mutateAsync({
       title,

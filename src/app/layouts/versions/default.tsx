@@ -20,7 +20,10 @@ const Layout = () => {
     <Routes>
       <Route path="/" element={<Pages.Guards />} />
       <Route path="/documents" element={<Pages.Document />} />
-      <Route path="/documents/:id" element={<Pages.DocumentDetailPage />} />
+      <Route
+        path="/documents/:documentId"
+        element={<Pages.DocumentDetailPage />}
+      />
       <Route
         path="/documents/subject/:subjectId"
         element={<Pages.DocumentList />}

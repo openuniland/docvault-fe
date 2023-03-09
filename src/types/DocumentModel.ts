@@ -17,7 +17,7 @@ export interface DocumentModel {
   semester: number;
   school_year: string;
   is_approved: string;
-  content: DocumentModelContent;
+  content: DocumentModelContent[];
   created_at: string;
 }
 
