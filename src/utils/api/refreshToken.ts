@@ -41,6 +41,7 @@ async function handleRefreshToken({
       data: data,
       headers: {
         Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
       },
     });
   }
