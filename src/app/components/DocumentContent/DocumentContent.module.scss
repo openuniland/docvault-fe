@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: #f6f6f8;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 14px;
+  width: 100%;
+  align-items: center;
+}
+
+.formItem {
+  margin: 6px 0;
+  width: 100%;
+}
+
+.input {
+  color: #000;
+  background-color: #fff;
+  border-radius: 8px;
+}

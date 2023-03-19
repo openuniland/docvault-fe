@@ -1,0 +1,44 @@
+.container {
+  height: 100%;
+  background-color: var(--background-main);
+  padding: 0 20px 20px 20px;
+}
+
+.link {
+  color: #bdbcbc;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--white);
+  }
+}
+.text,
+.breadcrumb {
+  color: var(--white);
+}
+
+.subjectWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background-color: #1f8a70;
+}
+
+.subjectName {
+  color: var(--white);
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.addIcon {
+  font-size: 36px;
+  color: var(--white);
+  cursor: pointer;
+}
+
+.documentList {
+  margin: 16px -10px;
+  display: flex;
+  flex-wrap: wrap;
+}

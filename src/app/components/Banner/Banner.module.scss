@@ -1,0 +1,26 @@
+.container {
+  width: calc(100vw - 384px);
+  height: 250px;
+  background-color: var(--black);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  width: 1055px;
+  height: 200px;
+  background-color: #ffffe5;
+  position: relative;
+}
+
+.bannerImg {
+  position: absolute;
+  top: 20px;
+  left: 174px;
+}
+
+.img {
+  width: 192px;
+  height: 161px;
+}

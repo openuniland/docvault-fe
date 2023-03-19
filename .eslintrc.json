@@ -1,7 +1,7 @@
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "prettier", "simple-import-sort"],
+  "plugins": ["@typescript-eslint", "prettier"],
   "extends": ["airbnb-typescript/base", "plugin:prettier/recommended"],
   "parserOptions": {
     "project": "./tsconfig.json"
@@ -22,6 +22,12 @@
         "ignoreRestSiblings": false
       }
     ],
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
     "@typescript-eslint/naming-convention": [
       "error",
       {
@@ -39,8 +45,12 @@
         "ignoreStrings": true
       }
     ],
-    "operator-linebreak": "off",
-    "simple-import-sort/imports": "warn",
-    "simple-import-sort/exports": "warn"
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    "operator-linebreak": "off"
   }
 }

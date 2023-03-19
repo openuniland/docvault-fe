@@ -3,3 +3,7 @@ export interface CredentialType {
   credential: string;
   select_by: string;
 }
+
+export interface LoginPayload {
+  googleToken: string;
+}

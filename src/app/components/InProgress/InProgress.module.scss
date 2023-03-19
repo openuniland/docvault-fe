@@ -1,0 +1,16 @@
+.container {
+  padding: 28px 22px 0 22px;
+}
+
+.title {
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  color: var(--white);
+  margin-bottom: 22px;
+}
+
+.examList {
+  display: flex;
+  flex-wrap: wrap;
+}
