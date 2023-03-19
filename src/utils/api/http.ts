@@ -27,9 +27,9 @@ http.interceptors.response.use(
   },
   async function (error: any) {
     const { config, response } = error;
-    const errorMessage = response?.data?.message;
+    const errorCode = response?.data?.errors?.errorCode;
 
-    if (errorMessage === "jwt expired") {
+    if (errorCode === "TOKEN_EXPIRED") {
       const apiResponseData = await handleRefreshToken({
         baseURL: config.baseURL,
         url: config.url,
@@ -39,12 +39,8 @@ http.interceptors.response.use(
       return apiResponseData;
     }
 
-    if (
-      errorMessage === "invalid signature" ||
-      errorMessage === "jwt malformed"
-    ) {
+    if (errorCode === "INVALID_TOKEN") {
       removeItemFromStorage("tokens");
-      removeItemFromStorage("userData");
       window.location.replace("/");
     }
 

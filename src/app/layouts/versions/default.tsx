@@ -6,6 +6,8 @@ import { DocumentPage } from "app/pages/DocumentPage";
 import { DocumentListPage } from "app/pages/DocumentListPage";
 import { DocumentDetailPage } from "app/pages/DocumentDetailPage";
 import { AddDocumentPage } from "app/pages/AddDocumentPage";
+import { TestPage } from "app/pages/TestPage";
+import { TestListPage } from "app/pages/TestListPage";
 
 const Pages = {
   Guards: Guards,
@@ -13,6 +15,8 @@ const Pages = {
   DocumentList: withAppHeader(withSidebar(DocumentListPage)),
   DocumentDetailPage: withAppHeader(withSidebar(DocumentDetailPage)),
   AddDocumentPage: withAppHeader(withSidebar(AddDocumentPage)),
+  Test: withAppHeader(withSidebar(TestPage)),
+  TestList: withAppHeader(withSidebar(TestListPage)),
 };
 
 const Layout = () => {
@@ -29,6 +33,8 @@ const Layout = () => {
         element={<Pages.DocumentList />}
       />
       <Route path="/documents/new" element={<Pages.AddDocumentPage />} />
+      <Route path="/exams" element={<Pages.Test />} />
+      <Route path="/exams/subject/:subjectId" element={<Pages.TestList />} />
     </Routes>
   );
 };
