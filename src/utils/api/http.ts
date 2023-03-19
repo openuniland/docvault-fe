@@ -27,7 +27,7 @@ http.interceptors.response.use(
   },
   async function (error: any) {
     const { config, response } = error;
-    const errorCode = response?.data?.errors?.errorCode;
+    const { errorCode } = response?.data?.errors;
 
     if (errorCode === "TOKEN_EXPIRED") {
       const apiResponseData = await handleRefreshToken({
