@@ -12,16 +12,17 @@ const cx = classNames.bind(styles);
 interface Props {
   title: string;
   description: string;
+  prefix: string;
   createdAt: string;
   id: string;
 }
 
 export const ContentItem = (props: Props) => {
-  const { title, description, createdAt, id } = props;
+  const { title, description, prefix, createdAt, id } = props;
 
   return (
     <div className={cx("container")}>
-      <Link to={`/documents/${id}`} className={cx("link")}>
+      <Link to={`/${prefix}/${id}`} className={cx("link")}>
         <div className={cx("starWrapper")}>
           <StarBorderIcon className={cx("starIcon")} />
         </div>

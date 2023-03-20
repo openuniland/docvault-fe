@@ -1,0 +1,82 @@
+.container {
+  background-color: var(--background-main);
+  width: 100%;
+  min-height: 100%;
+  padding: 0 20px 20px 20px;
+  max-width: 1000px;
+  margin: auto;
+  margin-bottom: 40px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.helpIcon {
+  color: var(--white);
+  cursor: pointer;
+
+  &:hover {
+    color: yellow;
+  }
+}
+
+.title {
+  font-size: 36px;
+  line-height: 46px;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.description {
+  padding: 8px 0;
+}
+
+.content {
+  margin-top: 36px;
+}
+
+.titleContent {
+  color: var(--white);
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+
+.descWrapper {
+  display: flex;
+}
+
+.titleName {
+  font-size: 18px;
+}
+
+.highlight {
+  font-size: 18px;
+  color: #14ff00;
+  margin: 0 5px;
+}
+
+.attention {
+  font-size: 18px;
+  color: #ffbfbf;
+  margin: 15px 0;
+}
+
+.examBtn {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 95px;
+}
+
+.btn {
+  padding: 10px;
+  width: 270px;
+  height: 100px;
+  box-shadow: 0px 0px 10px #32c766;
+  border-radius: 2px;
+  background: #32c766;
+  font-size: 22px;
+  color: var(--black);
+}
