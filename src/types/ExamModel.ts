@@ -5,7 +5,7 @@ import { Subject } from "./Subject";
 export interface ExamModel {
   _id: string;
   author: User;
-  question: Question;
+  questions: Question[];
   subject: Subject;
   title: string;
   semester: number;

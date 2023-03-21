@@ -45,6 +45,7 @@ export const DocumentControl = () => {
             key={document?._id}
             createdAt={document?.created_at}
             description={document.description}
+            prefix="documents"
             id={document?._id}
             title={document?.title}
           />
