@@ -39,7 +39,11 @@ http.interceptors.response.use(
       return apiResponseData;
     }
 
-    if (errorCode === "INVALID_TOKEN") {
+    if (
+      errorCode === "INVALID_TOKEN" ||
+      errorCode === "UNAUTHORIZED" ||
+      errorCode === "BEARER_TOKEN"
+    ) {
       removeItemFromStorage("tokens");
       window.location.replace("/");
     }
