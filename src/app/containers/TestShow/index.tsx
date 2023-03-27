@@ -31,7 +31,7 @@ export const TestShow = () => {
         {exam?.title}
       </Typography>
       <Typography className={cx("description")} component="p">
-        {`Đề thi thử kì ${exam?.semester} năm học ${exam?.school_year} `}
+        {exam?.description}
       </Typography>
 
       <div className={cx("content")}>
@@ -59,7 +59,7 @@ export const TestShow = () => {
             Tác giả đăng:
           </Typography>
           <Typography className={cx("highlight")} component="strong">
-            {exam?.author?.fullname}
+            {exam?.author?.fullname || exam?.author?.nickname}
           </Typography>
         </div>
       </div>

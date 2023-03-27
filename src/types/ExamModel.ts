@@ -8,6 +8,7 @@ export interface ExamModel {
   questions: Question[];
   subject: Subject;
   title: string;
+  description: string;
   semester: number;
   school_year: string;
   is_deleted: boolean;

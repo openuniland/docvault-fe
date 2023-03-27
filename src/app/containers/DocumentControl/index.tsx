@@ -34,13 +34,13 @@ export const DocumentControl = () => {
 
       <div className={cx("subjectWrapper")}>
         <Typography className={cx("subjectName")} color="text.primary">
-          {documentsBySubject?.subject?.subject_name}
+          Thêm tài liệu mới
         </Typography>
         <AddCircleIcon className={cx("addIcon")} onClick={handleAddDocument} />
       </div>
 
       <div className={cx("documentList")}>
-        {documentsBySubject?.documents.map(document => (
+        {documentsBySubject?.documents?.map(document => (
           <ContentItem
             key={document?._id}
             createdAt={document?.created_at}
@@ -52,7 +52,7 @@ export const DocumentControl = () => {
         ))}
       </div>
 
-      {documentsBySubject?.documents.length === 0 && (
+      {documentsBySubject?.documents?.length === 0 && (
         <Typography className={cx("subjectName")} color="text.primary">
           Tài liệu của môn học này không có (hoặc có nhưng chưa được admin phê
           duyệt).
