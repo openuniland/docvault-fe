@@ -1,218 +1,335 @@
-import { Alert, Autocomplete, Snackbar, TextField } from "@mui/material";
+import {
+  Paper,
+  TextField,
+  FormControl,
+  Autocomplete,
+  Box,
+} from "@mui/material";
 import classNames from "classnames/bind";
 import { useCallback, useState } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
-import { DocumentModelContent } from "types/DocumentModel";
 import { useGetAllSubjects } from "queries/subject";
 import { ContentRender } from "../ContentRender";
-import { DocumentContent } from "../DocumentContent";
 
 import styles from "./DocumentForm.module.scss";
-import { Box } from "@mui/system";
-import { Subject } from "types/Subject";
+import * as Yup from "yup";
+import {
+  CreateDocumentModelForm,
+  DocumentModelContent,
+} from "types/DocumentModel";
 import { ButtonCustomization } from "../ButtonCustomization";
-import { useCreateDocument } from "mutations/document";
 
 const cx = classNames.bind(styles);
 
-export const DocumentForm = () => {
-  const [contents, setContents] = useState<DocumentModelContent[]>([]);
-  const [subjectId, setSubjectId] = useState("");
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [schoolYear, setSchoolYear] = useState("");
-  const [semester, setSemester] = useState("");
-  const [isSubmittedSuccessfully, setIsSubmittedSuccessfully] = useState(false);
+const newDocumentSchema = Yup.object().shape({
+  title: Yup.string().trim().required("Title is required field"),
+  school_year: Yup.string().trim().required("School year is required field"),
+  semester: Yup.number().required("Semester is required field"),
+  subject: Yup.object().required("Subject is required field"),
+});
+const contentSchema = Yup.object().shape({
+  name: Yup.string().trim().required("Name is required field"),
+});
+interface Props {
+  onCreateNewDocument?: (document: CreateDocumentModelForm) => void;
+}
+export const DocumentForm = (props: Props) => {
+  const { onCreateNewDocument = () => {} } = props;
+  const [content, setContent] = useState<DocumentModelContent[]>([]);
 
-  const { data: subjects = [], isLoading } = useGetAllSubjects();
+  const { data: subjects = [], isLoading: isLoadingSubject } =
+    useGetAllSubjects();
 
-  const { mutateAsync, isLoading: isLoadingCreateDoc } = useCreateDocument();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+    reset,
+  } = useForm<CreateDocumentModelForm>({
+    resolver: yupResolver(newDocumentSchema),
+    defaultValues: {
+      semester: undefined,
+      subject: undefined,
+      is_approved: false,
+    },
+  });
 
-  const handleGetData = (data: DocumentModelContent) => {
-    setContents([...contents, data]);
-  };
+  const {
+    handleSubmit: handleSubmitContent,
+    control: controlContent,
+    formState: { errors: errorsContent },
+    reset: resetContent,
+  } = useForm<DocumentModelContent>({
+    resolver: yupResolver(contentSchema),
+  });
 
-  const handleDeleteData = useCallback(
+  const handleChangeData = useCallback(
+    (data: CreateDocumentModelForm) => {
+      onCreateNewDocument({
+        ...data,
+        content: content,
+      });
+
+      setContent([]);
+      reset();
+    },
+    [reset, content],
+  );
+  const handleChangeContent = useCallback(
+    (data: DocumentModelContent) => {
+      setContent([...content, data]);
+      resetContent();
+    },
+    [content, resetContent],
+  );
+
+  const handleDeleteContent = useCallback(
     (index: number) => {
-      const newContents = [...contents];
-      newContents.splice(index, 1);
-      setContents(newContents);
+      setContent(prev => prev.filter((_, i) => i !== index));
     },
-    [contents],
+    [content],
   );
-
-  const handleSelectSubject = useCallback(
-    (_event: any, value: any) => {
-      const subject = value as Subject;
-      setSubjectId(subject._id);
-    },
-    [subjectId],
-  );
-
-  const handleChangeTitle = useCallback(
-    (event: React.SyntheticEvent) => {
-      const target = event.target as HTMLInputElement;
-      setTitle(target.value);
-    },
-    [title],
-  );
-
-  const handleChangeDescription = useCallback(
-    (event: React.SyntheticEvent) => {
-      const target = event.target as HTMLInputElement;
-      setDescription(target.value);
-    },
-    [description],
-  );
-
-  const handleChangeSchoolYear = useCallback(
-    (event: React.SyntheticEvent) => {
-      const target = event.target as HTMLInputElement;
-      setSchoolYear(target.value);
-    },
-    [schoolYear],
-  );
-
-  const handleSelectSemester = useCallback(
-    (_event: any, value: any) => {
-      setSemester(value as string);
-    },
-    [subjectId],
-  );
-
-  const handleCloseSnackbar = useCallback(
-    (event?: React.SyntheticEvent | Event, reason?: string) => {
-      if (reason === "clickaway") {
-        return;
-      }
-      setIsSubmittedSuccessfully(false);
-    },
-    [isSubmittedSuccessfully],
-  );
-
-  const handleOpenSnackbar = useCallback(() => {
-    setIsSubmittedSuccessfully(true);
-  }, [isSubmittedSuccessfully]);
-
-  const handleSubmit = useCallback(async () => {
-    if (!subjectId || !title || !schoolYear || !semester) return;
-
-    await mutateAsync({
-      title,
-      description,
-      school_year: schoolYear,
-      semester: Number(semester),
-      subject: subjectId,
-      content: contents,
-    });
-
-    setContents([]);
-    setTitle("");
-    setDescription("");
-    setSchoolYear("");
-
-    handleOpenSnackbar();
-  }, [
-    subjectId,
-    contents,
-    title,
-    description,
-    schoolYear,
-    semester,
-    handleOpenSnackbar,
-  ]);
 
   return (
     <div className={cx("container")}>
-      <div className={cx("form")}>
-        <TextField
-          className={cx("formItem")}
-          placeholder="Tiêu đề tài liệu"
-          classes={{ root: cx("input") }}
-          value={title}
-          onChange={handleChangeTitle}
-        />
-        <TextField
-          className={cx("formItem")}
-          placeholder="Mô tả"
-          classes={{ root: cx("input") }}
-          multiline
-          rows={5}
-          value={description}
-          onChange={handleChangeDescription}
-        />
-        <TextField
-          className={cx("formItem")}
-          placeholder="Năm học (vd: 2019-2020)"
-          classes={{ root: cx("input") }}
-          value={schoolYear}
-          onChange={handleChangeSchoolYear}
-        />
-        <Autocomplete
-          className={cx("resetColor", "formItem")}
-          classes={{
-            root: cx("autocomplete"),
-            inputRoot: cx("hasClearIcon"),
-          }}
-          options={["1", "2", "3"].map(option => option)}
-          renderInput={params => (
-            <TextField
-              {...params}
-              placeholder="Kỳ học"
-              classes={{ root: cx("input") }}
-            />
-          )}
-          onChange={handleSelectSemester}
-        />
-        <Autocomplete
-          className={cx("resetColor", "formItem")}
-          classes={{
-            root: cx("autocomplete"),
-            inputRoot: cx("hasClearIcon"),
-          }}
-          loading={isLoading}
-          options={subjects}
-          getOptionLabel={option => option.subject_name}
-          renderOption={(props, option) => (
-            <Box component="li" {...props}>
-              {option.subject_name}
-            </Box>
-          )}
-          renderInput={params => (
-            <TextField
-              {...params}
-              placeholder="Môn học"
-              classes={{ root: cx("input") }}
-            />
-          )}
-          onChange={handleSelectSubject}
-        />
-      </div>
+      <Box className={cx("formWrapper")}>
+        <Paper elevation={3} className={cx("paperWrapper")}>
+          <form
+            action=""
+            onSubmit={handleSubmit(handleChangeData)}
+            className={cx("form")}
+          >
+            <FormControl className={cx("formItem")}>
+              <Controller
+                name="title"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Title"
+                    variant="outlined"
+                    error={!!errors.title}
+                    helperText={errors.title ? errors.title?.message : ""}
+                    fullWidth
+                    margin="dense"
+                  />
+                )}
+              />
+            </FormControl>
+            <FormControl className={cx("formItem")}>
+              <Controller
+                name="description"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Description"
+                    variant="outlined"
+                    fullWidth
+                    margin="dense"
+                  />
+                )}
+              />
+            </FormControl>
+            <FormControl className={cx("formItem")}>
+              <Controller
+                control={control}
+                name="subject"
+                render={({ field: { onChange, value } }) => (
+                  <Autocomplete
+                    placeholder="Subject"
+                    onChange={(event, item) => {
+                      onChange(item);
+                    }}
+                    options={subjects}
+                    loading={isLoadingSubject}
+                    getOptionLabel={option => option.subject_name}
+                    value={value || null}
+                    sx={{ width: 300 }}
+                    disablePortal
+                    renderInput={params => (
+                      <TextField
+                        {...params}
+                        label="Môn học"
+                        error={!!errors.subject}
+                        helperText={
+                          errors.subject ? errors.subject?.message : ""
+                        }
+                      />
+                    )}
+                  />
+                )}
+              />
+            </FormControl>
+            <FormControl className={cx("formItem")}>
+              <Controller
+                control={control}
+                name="semester"
+                render={({ field: { onChange, value } }) => (
+                  <Autocomplete
+                    placeholder="Semester"
+                    onChange={(event, item) => {
+                      onChange(item);
+                    }}
+                    value={value || null}
+                    options={["1", "2", "3"]}
+                    sx={{ width: 300 }}
+                    disablePortal
+                    renderInput={params => (
+                      <TextField
+                        {...params}
+                        label="Kỳ học"
+                        error={!!errors.semester}
+                        helperText={
+                          errors.semester ? errors.semester?.message : ""
+                        }
+                      />
+                    )}
+                  />
+                )}
+              />
+            </FormControl>
+            <FormControl className={cx("formItem")}>
+              <Controller
+                name="school_year"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="School year (for instance: 2021-2022))"
+                    variant="outlined"
+                    error={!!errors.school_year}
+                    helperText={
+                      errors.school_year ? errors.school_year?.message : ""
+                    }
+                    fullWidth
+                    margin="dense"
+                  />
+                )}
+              />
+            </FormControl>
 
-      <ContentRender contents={contents} onDelete={handleDeleteData} />
-      <DocumentContent onGetData={handleGetData} />
+            <FormControl className={cx("formItem")}>
+              <ButtonCustomization
+                className={cx("btnSubmitForm")}
+                onClick={handleSubmit(handleChangeData)}
+              >
+                Submit
+              </ButtonCustomization>
+            </FormControl>
+          </form>
+        </Paper>
+        <ContentRender contents={content} onDelete={handleDeleteContent} />
+      </Box>
+      <Box className={cx("subForm")}>
+        <Paper elevation={3} className={cx("subPaper")}>
+          <form
+            onSubmit={handleSubmitContent(handleChangeContent)}
+            className={cx("form")}
+          >
+            <span className={cx("documentContent")}>Document Content</span>
+            <FormControl className={cx("subFormItem")}>
+              <Controller
+                name="name"
+                control={controlContent}
+                defaultValue=""
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="name"
+                    variant="outlined"
+                    error={!!errorsContent.name}
+                    helperText={
+                      errorsContent.name ? errorsContent.name?.message : ""
+                    }
+                    fullWidth
+                    margin="dense"
+                  />
+                )}
+              />
+            </FormControl>
 
-      <ButtonCustomization
-        isLoading={isLoadingCreateDoc}
-        className={cx("submit")}
-        onClick={handleSubmit}
-      >
-        Lưu tài liệu
-      </ButtonCustomization>
+            <FormControl className={cx("subFormItem")}>
+              <Controller
+                name="description"
+                control={controlContent}
+                defaultValue=""
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="description"
+                    variant="outlined"
+                    error={!!errorsContent.description}
+                    helperText={
+                      errorsContent.description
+                        ? errorsContent.description?.message
+                        : ""
+                    }
+                    fullWidth
+                    margin="dense"
+                  />
+                )}
+              />
+            </FormControl>
 
-      <Snackbar
-        open={isSubmittedSuccessfully}
-        autoHideDuration={3000}
-        onClose={handleCloseSnackbar}
-      >
-        <Alert
-          onClose={handleCloseSnackbar}
-          severity="success"
-          sx={{ width: "100%" }}
-        >
-          This is a success message!
-        </Alert>
-      </Snackbar>
+            <FormControl className={cx("subFormItem")}>
+              <Controller
+                name="image"
+                control={controlContent}
+                defaultValue=""
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="image"
+                    variant="outlined"
+                    error={!!errorsContent.image}
+                    helperText={
+                      errorsContent.image ? errorsContent.image?.message : ""
+                    }
+                    fullWidth
+                    margin="dense"
+                  />
+                )}
+              />
+            </FormControl>
+
+            <FormControl className={cx("subFormItem")}>
+              <Controller
+                name="file"
+                control={controlContent}
+                defaultValue=""
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="file"
+                    variant="outlined"
+                    error={!!errorsContent.file}
+                    helperText={
+                      errorsContent.file ? errorsContent.file?.message : ""
+                    }
+                    fullWidth
+                    margin="dense"
+                  />
+                )}
+              />
+            </FormControl>
+
+            <FormControl className={cx("subFormItem")}>
+              <ButtonCustomization
+                className={cx("btnSubmitForm")}
+                onClick={handleSubmitContent(handleChangeContent)}
+              >
+                Render
+              </ButtonCustomization>
+            </FormControl>
+          </form>
+        </Paper>
+      </Box>
     </div>
   );
 };

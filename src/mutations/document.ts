@@ -1,7 +1,7 @@
 import { useMutation } from "react-query";
 
 import { createDocument } from "services/document";
-import { DocumentPayload } from "types/DocumentModel";
+import { CreateTheDocumentPayload } from "types/DocumentModel";
 
 export const useCreateDocument = () =>
-  useMutation((payload: DocumentPayload) => createDocument(payload));
+  useMutation((payload: CreateTheDocumentPayload) => createDocument(payload));

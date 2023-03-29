@@ -3,4 +3,6 @@ export interface User {
   email: string;
   fullname: string;
   avatar: string;
+  nickname: string;
+  is_show_info: boolean;
 }

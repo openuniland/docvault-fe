@@ -1,10 +1,24 @@
-.container {
-  background-color: #161819;
-  width: 100%;
-  min-height: 100%;
-  padding: 20px;
+.boxHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  padding: 0 20px;
+  height: 56px;
 }
 
-.title {
-  color: var(--white);
+.link {
+  color: var(--poper-color);
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--sidebar-hover);
+  }
+}
+
+.current {
+  color: var(--white-gray);
+  font-weight: 500;
 }

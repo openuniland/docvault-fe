@@ -41,7 +41,7 @@ export const DocumentShow = () => {
             Người đăng:
           </Typography>
           <Typography className={cx("highlight")} component="strong">
-            {document?.author?.fullname}
+            {document?.author?.fullname || document?.author?.nickname}
           </Typography>
         </div>
         <div className={cx("descWrapper")}>
