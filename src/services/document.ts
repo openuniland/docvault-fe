@@ -2,7 +2,7 @@ import { AxiosResponse } from "axios";
 
 import {
   DocumentModel,
-  DocumentPayload,
+  CreateTheDocumentPayload,
   GetAllDocumentsBySubjectIdResponse,
 } from "types/DocumentModel";
 
@@ -19,9 +19,12 @@ export const getAllDocumentsBySubjectId = async (
 };
 
 export const createDocument = async (
-  payload: DocumentPayload,
+  payload: CreateTheDocumentPayload,
 ): Promise<DocumentModel> => {
-  const response: AxiosResponse = await http.post(`/documents`, payload);
+  const response: AxiosResponse = await http.post(
+    `/administrator/documents`,
+    payload,
+  );
 
   return response?.data?.data;
 };

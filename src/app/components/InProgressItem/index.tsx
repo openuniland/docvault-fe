@@ -22,7 +22,7 @@ export const InProgressItem = (props: Props) => {
   const { subjectName = "", title, totalQuestion = 0, userAnswer } = props;
 
   const completedQuestion = useMemo(() => {
-    return userAnswer?.answers_id.filter(answer => answer !== "") || [];
+    return userAnswer?.answers_id?.filter(answer => answer !== "") || [];
   }, [userAnswer]);
 
   const percentage = useMemo(() => {
