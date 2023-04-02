@@ -1,7 +1,8 @@
 import { Typography } from "@mui/material";
 import classNames from "classnames/bind";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { useCallback } from "react";
 
 import styles from "./TestControl.module.scss";
 import { useGetAllExamsBySubjectId } from "queries/exam";
@@ -12,9 +13,13 @@ const cx = classNames.bind(styles);
 
 export const TestControl = () => {
   const { subjectId } = useParams();
+  const navigate = useNavigate();
   const { data: examsBySubject } = useGetAllExamsBySubjectId(
     subjectId as string,
   );
+  const handleAddTestPage = useCallback(() => {
+    navigate(`/exams/new`);
+  }, [navigate]);
   return (
     <div className={cx("container")}>
       <BreadcrumbsCustomization
@@ -27,7 +32,7 @@ export const TestControl = () => {
         <Typography className={cx("subjectName")} color="text.primary">
           Thêm bài kiểm tra mới
         </Typography>
-        <AddCircleIcon className={cx("addIcon")} />
+        <AddCircleIcon className={cx("addIcon")} onClick={handleAddTestPage} />
       </div>
 
       <div className={cx("examList")}>
