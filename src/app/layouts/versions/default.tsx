@@ -40,7 +40,7 @@ const Layout = () => {
       <Route path="/exams" element={<Pages.Test />} />
       <Route path="/exams/subject/:subjectId" element={<Pages.TestList />} />
       <Route path="/exams/:examId" element={<Pages.TestPageDetail />} />
-      <Route path="exams/new" element={<Pages.AddTestPage />} />
+      <Route path="/exams/new" element={<Pages.AddTestPage />} />
     </Routes>
   );
 };
