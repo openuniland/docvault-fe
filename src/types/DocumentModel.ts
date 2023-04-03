@@ -34,3 +34,22 @@ export interface DocumentPayload {
   school_year: string;
   content?: DocumentModelContent[];
 }
+
+export interface CreateDocumentModelForm {
+  title: string;
+  description: string;
+  subject: Subject;
+  semester: string;
+  school_year: string;
+  content: DocumentModelContent[];
+  is_approved: boolean;
+}
+export interface CreateTheDocumentPayload {
+  title: string;
+  description: string;
+  subject: string;
+  semester: number;
+  school_year: string;
+  content?: DocumentModelContent[];
+  is_approved: boolean;
+}

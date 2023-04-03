@@ -9,6 +9,7 @@ import { StyledEngineProvider, ThemeProvider } from "@mui/material/styles";
 import GolobalStyles from "styles/GlobalStyles";
 import configs from "configs";
 import muiTheme from "themes/muiTheme";
+import { SnackbarProvider } from "notistack";
 
 const queryClient = new QueryClient();
 const clientId = configs.google.clientId;
@@ -28,7 +29,16 @@ export function App() {
           <StyledEngineProvider injectFirst>
             <GolobalStyles>
               <GoogleOAuthProvider clientId={clientId}>
-                <RootLayout />
+                <SnackbarProvider
+                  maxSnack={3}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  autoHideDuration={2000}
+                >
+                  <RootLayout />
+                </SnackbarProvider>
               </GoogleOAuthProvider>
             </GolobalStyles>
           </StyledEngineProvider>
