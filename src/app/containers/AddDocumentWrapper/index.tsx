@@ -5,7 +5,7 @@ import { DocumentForm } from "app/components/DocumentForm";
 import { useCreateDocument } from "mutations/document";
 import { CreateDocumentModelForm } from "types/DocumentModel";
 import { useCallback } from "react";
-import { enqueueSnackbar, SnackbarProvider } from "notistack";
+import { enqueueSnackbar } from "notistack";
 import { Box, Breadcrumbs, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -34,7 +34,7 @@ export const AddDocumentWrapper = () => {
     [],
   );
   return (
-    <SnackbarProvider>
+    <>
       <Box className={cx("boxHeader")}>
         <Breadcrumbs aria-label="breadcrumb" separator="/" color="white">
           <Link className={cx("link")} to="/documents">
@@ -45,6 +45,6 @@ export const AddDocumentWrapper = () => {
       </Box>
 
       <DocumentForm onCreateNewDocument={handleCreateNewDocument} />
-    </SnackbarProvider>
+    </>
   );
 };

@@ -16,7 +16,7 @@ import { useState, useCallback, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { enqueueSnackbar, SnackbarProvider } from "notistack";
+import { enqueueSnackbar } from "notistack";
 
 import styles from "./TestForm.module.scss";
 import {
@@ -156,265 +156,261 @@ export const TestForm = (props: Props) => {
     }
   }, [exam?.questions?.length]);
   return (
-    <SnackbarProvider>
-      <div className={cx("container")}>
-        <Box className={cx("formWrapper")}>
-          <Paper className={cx("paperWrapper")} elevation={3}>
-            <form
-              onSubmit={handleSubmit(handleChangeData)}
-              className={cx("form")}
-            >
-              <FormControl className={cx("formItem", "firstFormItem")}>
-                <Controller
-                  name="title"
-                  control={controlExam}
-                  defaultValue=""
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Tiêu đề"
-                      variant="outlined"
-                      error={!!errors.title}
-                      helperText={errors.title ? errors.title?.message : ""}
-                      fullWidth
-                    />
-                  )}
-                />
-              </FormControl>
-              <FormControl className={cx("formItem")}>
-                <Controller
-                  name="description"
-                  defaultValue=""
-                  control={controlExam}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Mô tả"
-                      variant="outlined"
-                      fullWidth
-                    />
-                  )}
-                />
-              </FormControl>
-              <FormControl className={cx("formItem")}>
-                <Controller
-                  control={controlExam}
-                  name="subject"
-                  render={({ field: { onChange, value } }) => (
-                    <Autocomplete
-                      placeholder="Subject"
-                      onChange={(event, item) => {
-                        onChange(item);
-                      }}
-                      options={subjects}
-                      loading={isLoadingSubject}
-                      getOptionLabel={option => option.subject_name}
-                      value={value || null}
-                      sx={{ width: 300 }}
-                      disablePortal
-                      renderInput={params => (
-                        <TextField
-                          {...params}
-                          label="Môn học"
-                          error={!!errors.subject}
-                          helperText={
-                            errors.subject ? errors.subject?.message : ""
-                          }
-                        />
-                      )}
-                    />
-                  )}
-                />
-              </FormControl>
-              <FormControl className={cx("formItem")}>
-                <Controller
-                  control={controlExam}
-                  name="semester"
-                  render={({ field: { onChange, value } }) => (
-                    <Autocomplete
-                      placeholder="Semester"
-                      onChange={(event, item) => {
-                        onChange(item);
-                      }}
-                      value={value || null}
-                      options={["1", "2", "3"]}
-                      sx={{ width: 300 }}
-                      disablePortal
-                      renderInput={params => (
-                        <TextField
-                          {...params}
-                          label="Kỳ học"
-                          error={!!errors.semester}
-                          helperText={
-                            errors.semester ? errors.semester?.message : ""
-                          }
-                        />
-                      )}
-                    />
-                  )}
-                />
-              </FormControl>
-              <FormControl className={cx("formItem")}>
-                <Controller
-                  name="school_year"
-                  control={controlExam}
-                  defaultValue=""
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Năm học (ví dụ 2020-2021)"
-                      variant="outlined"
-                      error={!!errors.school_year}
-                      helperText={
-                        errors.school_year ? errors.school_year?.message : ""
-                      }
-                      fullWidth
-                    />
-                  )}
-                />
-              </FormControl>
-              <FormControl className={cx("formItem")}>
-                <Button
-                  variant="contained"
-                  type="submit"
-                  className={cx("submit")}
-                >
-                  Tạo bài kiểm tra
-                </Button>
-              </FormControl>
-            </form>
-          </Paper>
-          <Paper elevation={3} className={cx("subFormWrapper")}>
-            <form
-              onSubmit={handleSubmitQuestion(handleChangeQuestion)}
-              className={cx("form")}
-            >
-              <FormControl className={cx("subFormItem")}>
-                <Controller
-                  name="content"
-                  control={controlQuestion}
-                  defaultValue=""
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Câu hỏi"
-                      variant="outlined"
-                      error={!!errorsQuestion.content}
-                      helperText={
-                        errorsQuestion.content
-                          ? errorsQuestion.content?.message
-                          : ""
-                      }
-                      fullWidth
-                    />
-                  )}
-                />
-              </FormControl>
-              <FormControl className={cx("subFormItem")}>
-                <Controller
-                  name="image"
-                  control={controlQuestion}
-                  defaultValue=""
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Link ảnh"
-                      variant="outlined"
-                      error={!!errorsQuestion.image}
-                      helperText={
-                        errorsQuestion.image
-                          ? errorsQuestion.image?.message
-                          : ""
-                      }
-                      fullWidth
-                    />
-                  )}
-                />
-              </FormControl>
-              <FormControl className={cx("subFormItem")}>
-                <Controller
-                  control={controlQuestion}
-                  name="accuracy"
-                  render={({ field: { onChange, value } }) => (
-                    <Autocomplete
-                      placeholder="Accuracy"
-                      onChange={(event, item) => {
-                        onChange(item);
-                      }}
-                      value={value || null}
-                      options={["high", "medium", "low"]}
-                      sx={{ width: 300 }}
-                      disablePortal
-                      renderInput={params => (
-                        <TextField
-                          {...params}
-                          label="Độ chính xác"
-                          error={!!errorsQuestion.accuracy}
-                          helperText={
-                            errorsQuestion.accuracy
-                              ? errorsQuestion.accuracy?.message
-                              : ""
-                          }
-                        />
-                      )}
-                    />
-                  )}
-                />
-              </FormControl>
-              <FormControl className={cx("subFormItem", "subFormItemAnswer")}>
-                <Controller
-                  name="new_answers"
-                  control={controlQuestion}
-                  defaultValue=""
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Đáp án..."
-                      variant="outlined"
-                      error={!!errorsQuestion.new_answers}
-                      helperText={
-                        errorsQuestion.new_answers
-                          ? errorsQuestion.new_answers?.message
-                          : ""
-                      }
-                      fullWidth
-                    />
-                  )}
-                />
-                <AddCircleIcon
-                  onClick={handleAddAnswer}
-                  className={cx("addAnswerIcon")}
-                />
-              </FormControl>
-              <RadioGroup
-                value={correctAnswer}
-                onChange={handleChooseCorrectAnswer}
-              >
-                {answers.map(answer => (
-                  <FormControlLabel
-                    key={answer?.id}
-                    value={answer.id}
-                    control={<Radio />}
-                    label={answer?.content}
+    <div className={cx("container")}>
+      <Box className={cx("formWrapper")}>
+        <Paper className={cx("paperWrapper")} elevation={3}>
+          <form
+            onSubmit={handleSubmit(handleChangeData)}
+            className={cx("form")}
+          >
+            <FormControl className={cx("formItem", "firstFormItem")}>
+              <Controller
+                name="title"
+                control={controlExam}
+                defaultValue=""
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Tiêu đề"
+                    variant="outlined"
+                    error={!!errors.title}
+                    helperText={errors.title ? errors.title?.message : ""}
+                    fullWidth
                   />
-                ))}
-              </RadioGroup>
-              <FormControl className={cx("subFormItem")}>
-                <Button
-                  className={cx("btnSubmitSubForm")}
-                  variant="contained"
-                  type="submit"
-                >
-                  Tạo câu hỏi
-                </Button>
-              </FormControl>
-            </form>
-          </Paper>
-        </Box>
-        <Box className={cx("render")}>
-          <RenderQuestion questions={questions} />
-        </Box>
-      </div>
-    </SnackbarProvider>
+                )}
+              />
+            </FormControl>
+            <FormControl className={cx("formItem")}>
+              <Controller
+                name="description"
+                defaultValue=""
+                control={controlExam}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Mô tả"
+                    variant="outlined"
+                    fullWidth
+                  />
+                )}
+              />
+            </FormControl>
+            <FormControl className={cx("formItem")}>
+              <Controller
+                control={controlExam}
+                name="subject"
+                render={({ field: { onChange, value } }) => (
+                  <Autocomplete
+                    placeholder="Subject"
+                    onChange={(event, item) => {
+                      onChange(item);
+                    }}
+                    options={subjects}
+                    loading={isLoadingSubject}
+                    getOptionLabel={option => option.subject_name}
+                    value={value || null}
+                    sx={{ width: 300 }}
+                    disablePortal
+                    renderInput={params => (
+                      <TextField
+                        {...params}
+                        label="Môn học"
+                        error={!!errors.subject}
+                        helperText={
+                          errors.subject ? errors.subject?.message : ""
+                        }
+                      />
+                    )}
+                  />
+                )}
+              />
+            </FormControl>
+            <FormControl className={cx("formItem")}>
+              <Controller
+                control={controlExam}
+                name="semester"
+                render={({ field: { onChange, value } }) => (
+                  <Autocomplete
+                    placeholder="Semester"
+                    onChange={(event, item) => {
+                      onChange(item);
+                    }}
+                    value={value || null}
+                    options={["1", "2", "3"]}
+                    sx={{ width: 300 }}
+                    disablePortal
+                    renderInput={params => (
+                      <TextField
+                        {...params}
+                        label="Kỳ học"
+                        error={!!errors.semester}
+                        helperText={
+                          errors.semester ? errors.semester?.message : ""
+                        }
+                      />
+                    )}
+                  />
+                )}
+              />
+            </FormControl>
+            <FormControl className={cx("formItem")}>
+              <Controller
+                name="school_year"
+                control={controlExam}
+                defaultValue=""
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Năm học (ví dụ 2020-2021)"
+                    variant="outlined"
+                    error={!!errors.school_year}
+                    helperText={
+                      errors.school_year ? errors.school_year?.message : ""
+                    }
+                    fullWidth
+                  />
+                )}
+              />
+            </FormControl>
+            <FormControl className={cx("formItem")}>
+              <Button
+                variant="contained"
+                type="submit"
+                className={cx("submit")}
+              >
+                Tạo bài kiểm tra
+              </Button>
+            </FormControl>
+          </form>
+        </Paper>
+        <Paper elevation={3} className={cx("subFormWrapper")}>
+          <form
+            onSubmit={handleSubmitQuestion(handleChangeQuestion)}
+            className={cx("form")}
+          >
+            <FormControl className={cx("subFormItem")}>
+              <Controller
+                name="content"
+                control={controlQuestion}
+                defaultValue=""
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Câu hỏi"
+                    variant="outlined"
+                    error={!!errorsQuestion.content}
+                    helperText={
+                      errorsQuestion.content
+                        ? errorsQuestion.content?.message
+                        : ""
+                    }
+                    fullWidth
+                  />
+                )}
+              />
+            </FormControl>
+            <FormControl className={cx("subFormItem")}>
+              <Controller
+                name="image"
+                control={controlQuestion}
+                defaultValue=""
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Link ảnh"
+                    variant="outlined"
+                    error={!!errorsQuestion.image}
+                    helperText={
+                      errorsQuestion.image ? errorsQuestion.image?.message : ""
+                    }
+                    fullWidth
+                  />
+                )}
+              />
+            </FormControl>
+            <FormControl className={cx("subFormItem")}>
+              <Controller
+                control={controlQuestion}
+                name="accuracy"
+                render={({ field: { onChange, value } }) => (
+                  <Autocomplete
+                    placeholder="Accuracy"
+                    onChange={(event, item) => {
+                      onChange(item);
+                    }}
+                    value={value || null}
+                    options={["high", "medium", "low"]}
+                    sx={{ width: 300 }}
+                    disablePortal
+                    renderInput={params => (
+                      <TextField
+                        {...params}
+                        label="Độ chính xác"
+                        error={!!errorsQuestion.accuracy}
+                        helperText={
+                          errorsQuestion.accuracy
+                            ? errorsQuestion.accuracy?.message
+                            : ""
+                        }
+                      />
+                    )}
+                  />
+                )}
+              />
+            </FormControl>
+            <FormControl className={cx("subFormItem", "subFormItemAnswer")}>
+              <Controller
+                name="new_answers"
+                control={controlQuestion}
+                defaultValue=""
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Đáp án..."
+                    variant="outlined"
+                    error={!!errorsQuestion.new_answers}
+                    helperText={
+                      errorsQuestion.new_answers
+                        ? errorsQuestion.new_answers?.message
+                        : ""
+                    }
+                    fullWidth
+                  />
+                )}
+              />
+              <AddCircleIcon
+                onClick={handleAddAnswer}
+                className={cx("addAnswerIcon")}
+              />
+            </FormControl>
+            <RadioGroup
+              value={correctAnswer}
+              onChange={handleChooseCorrectAnswer}
+            >
+              {answers.map(answer => (
+                <FormControlLabel
+                  key={answer?.id}
+                  value={answer.id}
+                  control={<Radio />}
+                  label={answer?.content}
+                />
+              ))}
+            </RadioGroup>
+            <FormControl className={cx("subFormItem")}>
+              <Button
+                className={cx("btnSubmitSubForm")}
+                variant="contained"
+                type="submit"
+              >
+                Tạo câu hỏi
+              </Button>
+            </FormControl>
+          </form>
+        </Paper>
+      </Box>
+      <Box className={cx("render")}>
+        <RenderQuestion questions={questions} />
+      </Box>
+    </div>
   );
 };

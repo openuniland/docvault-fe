@@ -1,7 +1,7 @@
 import classNames from "classnames/bind";
 import { useCallback, useLayoutEffect, useState } from "react";
 import { Box, Skeleton, Typography } from "@mui/material";
-import { enqueueSnackbar, SnackbarProvider } from "notistack";
+import { enqueueSnackbar } from "notistack";
 
 import styles from "./AddTestWrapper.module.scss";
 import { BreadcrumbsCustomization } from "app/components/BreadcrumbsCustomization";
@@ -59,45 +59,42 @@ export const AddTestWrapper = () => {
   }, [draftExam?._id]);
 
   return (
-    <SnackbarProvider>
-      <div className={cx("container")}>
-        <BreadcrumbsCustomization
-          className={cx("breadcrumbs")}
-          current="Tạo bài kiểm tra"
-          breadcrumbsList={[{ linkTo: "/exams", text: "Các môn học" }]}
-        />
-        {isLoading ? (
-          <Box className={cx("draftExamWrapper")}>
-            <Skeleton className={cx("skeleton")} />
-          </Box>
-        ) : (
-          <Box className={cx("draftExamWrapper")}>
-            <div className={cx("draftExam")}>
-              <Typography color="white">
-                Draft exam hiện tại của bạn là :
-              </Typography>
-              <Typography color="white">
-                {exam?._id ? exam?._id : "null"}
-              </Typography>
-              {!exam?._id && (
-                <span
-                  className={cx("generate")}
-                  onClick={handleGenerateDraftExam}
-                >
-                  Generate
-                </span>
-              )}
-            </div>
+    <div className={cx("container")}>
+      <BreadcrumbsCustomization
+        className={cx("breadcrumbs")}
+        current="Tạo bài kiểm tra"
+        breadcrumbsList={[{ linkTo: "/exams", text: "Các môn học" }]}
+      />
+      {isLoading ? (
+        <Box className={cx("draftExamWrapper")}>
+          <Skeleton className={cx("skeleton")} />
+        </Box>
+      ) : (
+        <Box className={cx("draftExamWrapper")}>
+          <div className={cx("draftExam")}>
+            <Typography color="white">
+              Draft exam hiện tại của bạn là :
+            </Typography>
+            <Typography color="white">
+              {exam?._id ? exam?._id : "null"}
+            </Typography>
             {!exam?._id && (
-              <p className={cx("note")}>
-                Bạn vui lòng tạo exam id trước khi tạo bài kiểm tra(Bấm
-                generate)
-              </p>
+              <span
+                className={cx("generate")}
+                onClick={handleGenerateDraftExam}
+              >
+                Generate
+              </span>
             )}
-          </Box>
-        )}
-        <TestForm exam={exam} onSubmit={handleSubmitExam} />
-      </div>
-    </SnackbarProvider>
+          </div>
+          {!exam?._id && (
+            <p className={cx("note")}>
+              Bạn vui lòng tạo exam id trước khi tạo bài kiểm tra(Bấm generate)
+            </p>
+          )}
+        </Box>
+      )}
+      <TestForm exam={exam} onSubmit={handleSubmitExam} />
+    </div>
   );
 };
