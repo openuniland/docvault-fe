@@ -65,7 +65,12 @@ export const TestShow = () => {
       </div>
 
       <div className={cx("examBtn")}>
-        <ButtonCustomization className={cx("btn")}>
+        <ButtonCustomization
+          className={cx("btn")}
+          page="exams"
+          prefix="view"
+          id={examId}
+        >
           Xem bài kiểm tra
         </ButtonCustomization>
         <ButtonCustomization className={cx("btn")}>Thi thử</ButtonCustomization>

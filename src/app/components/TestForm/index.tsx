@@ -409,7 +409,7 @@ export const TestForm = (props: Props) => {
         </Paper>
       </Box>
       <Box className={cx("render")}>
-        <RenderQuestion questions={questions} />
+        <RenderQuestion questions={questions} showDeleteButton />
       </Box>
     </div>
   );
