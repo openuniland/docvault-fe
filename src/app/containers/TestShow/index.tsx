@@ -2,6 +2,7 @@ import classNames from "classnames/bind";
 import { useParams } from "react-router-dom";
 import { Tooltip, Typography } from "@mui/material";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import { Link } from "react-router-dom";
 
 import styles from "./TestShow.module.scss";
 import { useGetExamById } from "queries/exam";
@@ -65,9 +66,11 @@ export const TestShow = () => {
       </div>
 
       <div className={cx("examBtn")}>
-        <ButtonCustomization className={cx("btn")}>
-          Xem bài kiểm tra
-        </ButtonCustomization>
+        <Link to={`/exams/view/${examId}`} className={cx("link")}>
+          <ButtonCustomization className={cx("btn")}>
+            Xem bài kiểm tra
+          </ButtonCustomization>
+        </Link>
         <ButtonCustomization className={cx("btn")}>Thi thử</ButtonCustomization>
       </div>
     </div>

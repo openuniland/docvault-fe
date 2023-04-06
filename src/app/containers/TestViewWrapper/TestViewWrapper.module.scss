@@ -1,0 +1,46 @@
+.container {
+  background-color: #161819;
+  width: 100%;
+  min-height: 100%;
+  padding: 20px;
+}
+
+.examName {
+  color: var(--white);
+  font-size: 48px;
+  margin-bottom: 38px;
+}
+
+.examItem {
+  display: flex;
+  margin-bottom: 22px;
+}
+
+.nameItem {
+  font-size: 18px;
+}
+
+.colon1 {
+  margin-left: 79px;
+  margin-right: 21px;
+}
+
+.colon2 {
+  margin-left: 44px;
+  margin-right: 21px;
+}
+
+.space {
+  margin-left: 5px;
+}
+
+.highlight {
+  font-size: 18px;
+  color: var(--exam-highlight);
+}
+
+.highlightspace {
+  font-size: 18px;
+  color: var(--exam-highlight);
+  margin-left: 5px;
+}
