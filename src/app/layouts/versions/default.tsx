@@ -10,6 +10,7 @@ import { TestPage } from "app/pages/TestPage";
 import { TestListPage } from "app/pages/TestListPage";
 import { TestDetailPage } from "app/pages/TestDetailPage";
 import { AddTestPage } from "app/pages/AddTestPage";
+import { TestViewPage } from "app/pages/TestViewPage";
 
 const Pages = {
   Guards: Guards,
@@ -21,6 +22,7 @@ const Pages = {
   TestList: withAppHeader(withSidebar(TestListPage)),
   TestPageDetail: withAppHeader(withSidebar(TestDetailPage)),
   AddTestPage: withAppHeader(withSidebar(AddTestPage)),
+  TestViewPage: withAppHeader(withSidebar(TestViewPage)),
 };
 
 const Layout = () => {
@@ -41,6 +43,7 @@ const Layout = () => {
       <Route path="/exams/subject/:subjectId" element={<Pages.TestList />} />
       <Route path="/exams/:examId" element={<Pages.TestPageDetail />} />
       <Route path="/exams/new" element={<Pages.AddTestPage />} />
+      <Route path="/exams/view/:examId" element={<Pages.TestViewPage />} />
     </Routes>
   );
 };

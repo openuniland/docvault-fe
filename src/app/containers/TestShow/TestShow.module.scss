@@ -54,7 +54,7 @@
 
 .highlight {
   font-size: 18px;
-  color: #14ff00;
+  color: var(--exam-highlight);
   margin: 0 5px;
 }
 
@@ -79,4 +79,8 @@
   background: #32c766;
   font-size: 22px;
   color: var(--black);
+}
+
+.link {
+  text-decoration: none;
 }

@@ -1,8 +1,11 @@
 import { Answer } from "./Answer";
 import { Subject } from "./Subject";
+import { ExamModel } from "./ExamModel";
+import { User } from "./User";
 
 export interface Question {
   _id: string;
+  author: User;
   content: string;
   subject: Subject;
   correct_answer: Answer;
@@ -22,4 +25,9 @@ export interface NewQuestionPayload {
   accuracy: string;
   is_essay: boolean;
   is_approved: boolean;
+}
+
+export interface GetAllQuestionsByExamIdResponse {
+  questions: Question[];
+  exam: ExamModel;
 }
