@@ -9,8 +9,8 @@ import styles from "./TestShow.module.scss";
 import { useGetExamById } from "queries/exam";
 import { BreadcrumbsCustomization } from "app/components/BreadcrumbsCustomization";
 import { ButtonCustomization } from "app/components/ButtonCustomization";
-import { PopupDuration } from "app/components/PopupDuration";
 import { useCreateUserExam } from "mutations/userExam";
+import { ModalCustomization } from "app/components/ModalCustomization";
 
 const cx = classNames.bind(styles);
 
@@ -40,7 +40,7 @@ export const TestShow = () => {
         setDurationError("");
       }
     },
-    [examDuration],
+    [examDuration, durationError],
   );
 
   const handleCreateUserExam = useCallback(async () => {
@@ -59,7 +59,7 @@ export const TestShow = () => {
     } catch (error) {
       setDurationError("Có lỗi xảy ra vui lòng liên hệ bộ phận phát triển");
     }
-  }, [examDuration]);
+  }, [examDuration, durationError]);
 
   return (
     <div className={cx("container")}>
@@ -122,7 +122,7 @@ export const TestShow = () => {
         </ButtonCustomization>
       </div>
 
-      <PopupDuration
+      <ModalCustomization
         open={openPropup}
         handleCancel={handleClosePopup}
         handleAgree={handleCreateUserExam}
@@ -130,6 +130,8 @@ export const TestShow = () => {
         title="Chuẩn bị trước khi ôn tập"
         contentText="Cài đặt thời gian hợp lý cho đề và cũng như thời gian mình có"
         loading={isLoading}
+        textAgreeBtn="Start"
+        colorBtn="success"
       >
         <TextField
           autoFocus
@@ -145,7 +147,7 @@ export const TestShow = () => {
           error={!!durationError}
           helperText={durationError}
         />
-      </PopupDuration>
+      </ModalCustomization>
     </div>
   );
 };

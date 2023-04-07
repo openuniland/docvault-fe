@@ -91,6 +91,7 @@ export const SubjectWrapper = (props: Props) => {
         title="Tạo môn học"
         contentText="Tạo một môn học mới, và môn học đó chưa tồn tại!"
         loading={isLoading}
+        textAgreeBtn="Agree"
       >
         <TextField
           autoFocus
