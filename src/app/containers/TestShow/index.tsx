@@ -19,14 +19,15 @@ export const TestShow = () => {
   const { data: exam } = useGetExamById(examId as string);
 
   const [openPropup, setOpenPropup] = useState(false);
-  const [examDuration, setExamDuration] = useState<number>(0);
+  const [examDuration, setExamDuration] = useState<string>("0");
   const [durationError, setDurationError] = useState<string>("");
 
   const { mutateAsync, isLoading } = useCreateUserExam();
 
   const handleClosePopup = useCallback(() => {
     setOpenPropup(false);
-    setExamDuration(0);
+    setExamDuration("0");
+    setDurationError("");
   }, [openPropup]);
 
   const handleOpenPopup = useCallback(() => {
@@ -35,7 +36,7 @@ export const TestShow = () => {
 
   const handleChangeExamDuration = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setExamDuration(Number(e.target.value));
+      setExamDuration(e.target.value);
       if (durationError !== "") {
         setDurationError("");
       }
@@ -45,15 +46,15 @@ export const TestShow = () => {
 
   const handleCreateUserExam = useCallback(async () => {
     try {
-      if (examDuration <= 0) {
+      if (Number(examDuration) <= 0) {
         setDurationError("Thời gian làm bài cần lớn hơn 0 !!!");
         return;
       }
       await mutateAsync({
-        duration: examDuration * 60000,
+        duration: Number(examDuration) * 60000,
         exam_id: exam?._id!,
       });
-      setExamDuration(0);
+      setExamDuration("0");
       handleClosePopup();
       setDurationError("");
     } catch (error) {
