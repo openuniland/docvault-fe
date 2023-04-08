@@ -23,6 +23,15 @@ interface Props {
   actionDefault?: boolean;
   contentText?: string;
   loading?: boolean;
+  textAgreeBtn?: string;
+  colorBtn?:
+    | "success"
+    | "inherit"
+    | "error"
+    | "primary"
+    | "secondary"
+    | "info"
+    | "warning";
 }
 
 export const ModalCustomization = (props: Props) => {
@@ -36,6 +45,8 @@ export const ModalCustomization = (props: Props) => {
     actionDefault,
     contentText,
     loading,
+    textAgreeBtn,
+    colorBtn,
   } = props;
   return (
     <div className={cx("container")}>
@@ -58,17 +69,25 @@ export const ModalCustomization = (props: Props) => {
 
         {actionDefault && (
           <DialogActions>
-            <Button size="medium" onClick={handleCancel} variant="outlined">
+            <Button
+              size="medium"
+              onClick={handleCancel}
+              variant="outlined"
+              color="error"
+            >
               Cancel
             </Button>
-            <LoadingButton
-              size="medium"
-              onClick={handleAgree}
-              loading={loading}
-              variant="contained"
-            >
-              Agree
-            </LoadingButton>
+            {textAgreeBtn && (
+              <LoadingButton
+                size="medium"
+                onClick={handleAgree}
+                loading={loading}
+                variant="contained"
+                color={colorBtn}
+              >
+                {textAgreeBtn}
+              </LoadingButton>
+            )}
           </DialogActions>
         )}
       </Dialog>
