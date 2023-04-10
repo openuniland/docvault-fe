@@ -4,6 +4,7 @@ import {
   DocumentModel,
   CreateTheDocumentPayload,
   GetAllDocumentsBySubjectIdResponse,
+  GetDocumentsByOwnerResponse,
 } from "types/DocumentModel";
 
 import http from "utils/api/http";
@@ -36,3 +37,10 @@ export const getDocument = async (
 
   return response?.data?.data;
 };
+
+export const getDocumentsByOwner =
+  async (): Promise<GetDocumentsByOwnerResponse> => {
+    const response: AxiosResponse = await http.get(`/documents/owner`);
+
+    return response?.data?.data;
+  };

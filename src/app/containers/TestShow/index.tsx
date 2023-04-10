@@ -14,6 +14,7 @@ const cx = classNames.bind(styles);
 export const TestShow = () => {
   const { examId } = useParams();
   const { data: exam } = useGetExamById(examId as string);
+  console.log(exam?.is_approved);
 
   return (
     <div className={cx("container")}>
@@ -27,7 +28,15 @@ export const TestShow = () => {
           <HelpOutlineIcon className={cx("helpIcon")} />
         </Tooltip>
       </div>
-
+      {exam?.is_approved ? (
+        <></>
+      ) : (
+        <div className={cx("notification")}>
+          <Typography className={cx("notiText")} component="p">
+            Đang chờ phê duyệt
+          </Typography>
+        </div>
+      )}
       <Typography className={cx("title")} component="h1">
         {exam?.title}
       </Typography>
@@ -71,7 +80,11 @@ export const TestShow = () => {
             Xem bài kiểm tra
           </ButtonCustomization>
         </Link>
-        <ButtonCustomization className={cx("btn")}>Thi thử</ButtonCustomization>
+        {exam?.is_approved && (
+          <ButtonCustomization className={cx("btn")}>
+            Thi thử
+          </ButtonCustomization>
+        )}
       </div>
     </div>
   );

@@ -14,17 +14,22 @@ import { ButtonCustomization } from "../ButtonCustomization";
 import styles from "./ActionHeader.module.scss";
 import { getTokens, removeItemFromStorage } from "utils/storage";
 import { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
 export const ActionHeader = () => {
   const { userInfo } = getTokens();
+  const navigate = useNavigate();
 
   const handleLogout = useCallback(() => {
     removeItemFromStorage("tokens");
     window.location.href = "/";
   }, []);
 
+  const handleNavigateProfilePage = useCallback(() => {
+    navigate(`/profile`);
+  }, [navigate]);
   return (
     <div className={cx("container")}>
       <div className={cx("actionIcon")}>
@@ -74,7 +79,11 @@ export const ActionHeader = () => {
         )}
       >
         <div className={cx("avatar")}>
-          <Avatar src={userInfo?.avatar} className={cx("avatarIcon")} />
+          <Avatar
+            src={userInfo?.avatar}
+            className={cx("avatarIcon")}
+            onDoubleClick={handleNavigateProfilePage}
+          />
         </div>
       </Tippy>
     </div>
