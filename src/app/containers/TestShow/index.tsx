@@ -1,13 +1,16 @@
 import classNames from "classnames/bind";
 import { useParams } from "react-router-dom";
-import { Tooltip, Typography } from "@mui/material";
+import { Tooltip, Typography, TextField } from "@mui/material";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 
 import styles from "./TestShow.module.scss";
 import { useGetExamById } from "queries/exam";
 import { BreadcrumbsCustomization } from "app/components/BreadcrumbsCustomization";
 import { ButtonCustomization } from "app/components/ButtonCustomization";
+import { useCreateUserExam } from "mutations/userExam";
+import { ModalCustomization } from "app/components/ModalCustomization";
 
 const cx = classNames.bind(styles);
 
@@ -15,6 +18,50 @@ export const TestShow = () => {
   const { examId } = useParams();
   const { data: exam } = useGetExamById(examId as string);
   console.log(exam?.is_approved);
+
+  const [openPropup, setOpenPropup] = useState(false);
+  const [examDuration, setExamDuration] = useState<string>("0");
+  const [durationError, setDurationError] = useState<string>("");
+
+  const { mutateAsync, isLoading } = useCreateUserExam();
+
+  const handleClosePopup = useCallback(() => {
+    setOpenPropup(false);
+    setExamDuration("0");
+    setDurationError("");
+  }, [openPropup]);
+
+  const handleOpenPopup = useCallback(() => {
+    setOpenPropup(true);
+  }, [openPropup]);
+
+  const handleChangeExamDuration = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setExamDuration(e.target.value);
+      if (durationError !== "") {
+        setDurationError("");
+      }
+    },
+    [examDuration, durationError],
+  );
+
+  const handleCreateUserExam = useCallback(async () => {
+    try {
+      if (Number(examDuration) <= 0) {
+        setDurationError("Thời gian làm bài cần lớn hơn 0 !!!");
+        return;
+      }
+      await mutateAsync({
+        duration: Number(examDuration) * 60000,
+        exam_id: exam?._id!,
+      });
+      setExamDuration("0");
+      handleClosePopup();
+      setDurationError("");
+    } catch (error) {
+      setDurationError("Có lỗi xảy ra vui lòng liên hệ bộ phận phát triển");
+    }
+  }, [examDuration, durationError]);
 
   return (
     <div className={cx("container")}>
@@ -81,11 +128,38 @@ export const TestShow = () => {
           </ButtonCustomization>
         </Link>
         {exam?.is_approved && (
-          <ButtonCustomization className={cx("btn")}>
+          <ButtonCustomization className={cx("btn")} onClick={handleOpenPopup}>
             Thi thử
           </ButtonCustomization>
         )}
       </div>
+
+      <ModalCustomization
+        open={openPropup}
+        handleCancel={handleClosePopup}
+        handleAgree={handleCreateUserExam}
+        actionDefault
+        title="Chuẩn bị trước khi ôn tập"
+        contentText="Cài đặt thời gian hợp lý cho đề và cũng như thời gian mình có"
+        loading={isLoading}
+        textAgreeBtn="Start"
+        colorBtn="success"
+      >
+        <TextField
+          autoFocus
+          margin="dense"
+          id="name"
+          label="Thời gian (phút)"
+          type="number"
+          variant="standard"
+          fullWidth
+          color="success"
+          onChange={handleChangeExamDuration}
+          value={examDuration}
+          error={!!durationError}
+          helperText={durationError}
+        />
+      </ModalCustomization>
     </div>
   );
 };

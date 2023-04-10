@@ -20,3 +20,7 @@ export interface UserExam {
   school_year: string;
   is_completed: boolean;
 }
+export interface CreateUserExamPayload {
+  duration: number; // in miliseconds
+  exam_id: string;
+}
