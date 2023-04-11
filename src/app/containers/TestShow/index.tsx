@@ -17,7 +17,6 @@ const cx = classNames.bind(styles);
 export const TestShow = () => {
   const { examId } = useParams();
   const { data: exam } = useGetExamById(examId as string);
-  console.log(exam?.is_approved);
 
   const [openPropup, setOpenPropup] = useState(false);
   const [examDuration, setExamDuration] = useState<string>("0");
@@ -75,9 +74,7 @@ export const TestShow = () => {
           <HelpOutlineIcon className={cx("helpIcon")} />
         </Tooltip>
       </div>
-      {exam?.is_approved ? (
-        <></>
-      ) : (
+      {!exam?.is_approved && (
         <div className={cx("notification")}>
           <Typography className={cx("notiText")} component="p">
             Đang chờ phê duyệt

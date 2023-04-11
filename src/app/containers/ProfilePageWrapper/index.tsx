@@ -12,7 +12,6 @@ const cx = classNames.bind(styles);
 export const ProfilePageWrapper = () => {
   const { data: documentsByOwner } = useGetDocumentsByOwner();
   const { data: examsByOwner } = useGetExamsByOwner();
-  console.log(examsByOwner);
   return (
     <div className={cx("container")}>
       <BreadcrumbsCustomization

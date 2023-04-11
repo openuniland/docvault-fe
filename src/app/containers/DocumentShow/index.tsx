@@ -27,9 +27,7 @@ export const DocumentShow = () => {
           <HelpOutlineIcon className={cx("helpIcon")} />
         </Tooltip>
       </div>
-      {document?.is_approved ? (
-        <></>
-      ) : (
+      {!document?.is_approved && (
         <div className={cx("notification")}>
           <Typography className={cx("notiText")} component="p">
             Đang chờ phê duyệt
