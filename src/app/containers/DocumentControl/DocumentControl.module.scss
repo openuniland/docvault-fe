@@ -1,6 +1,6 @@
 .container {
   height: 100%;
-  background-color: var(--background-main);
+  background-color: var(--primary-background);
   padding: 0 20px 20px 20px;
 }
 
@@ -9,12 +9,12 @@
   text-decoration: none;
 
   &:hover {
-    color: var(--white);
+    color: var(--text);
   }
 }
 .text,
 .breadcrumb {
-  color: var(--white);
+  color: var(--text);
 }
 
 .subjectWrapper {
@@ -22,18 +22,18 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 20px;
-  background-color: #1f8a70;
+  background-color: var(--primary-light);
 }
 
 .subjectName {
-  color: var(--white);
+  color: var(--text);
   font-weight: 600;
   font-size: 20px;
 }
 
 .addIcon {
   font-size: 36px;
-  color: var(--white);
+  color: var(--text);
   cursor: pointer;
 }
 

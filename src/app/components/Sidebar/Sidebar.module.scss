@@ -2,7 +2,7 @@
   width: 345px;
   height: auto;
   min-height: calc(100vh - 110px);
-  background-color: var(--brown-bg);
+  background-color: var(--primary-surface);
   display: flex;
 }
 
@@ -19,18 +19,16 @@
 }
 
 .navigate {
-  border: 2px solid var(--white);
   margin: 8px 20px;
   padding: 12px 20px;
-  color: var(--white);
+  color: var(--text);
   text-decoration: none;
   border-radius: 8px;
   display: flex;
   align-items: center;
 
   &:hover {
-    background-color: var(--sidebar-hover);
-    color: var(--black);
+    background-color: var(--primary-lighter);
   }
 
   &.close {
@@ -39,8 +37,8 @@
 }
 
 .navigate.active {
-  background-color: var(--sidebar-hover);
-  color: var(--black);
+  background-color: var(--primary-hover);
+  color: var(--primary);
 }
 
 .name {
@@ -56,7 +54,7 @@
 .divisionLine {
   height: 100%;
   width: 3px;
-  background-color: var(--division-line);
+  background-color: var(--primary-light);
   position: relative;
   z-index: 2;
 
@@ -71,8 +69,8 @@
 
   &:hover {
     cursor: ew-resize;
-    box-shadow: var(--blue-shadow) 0px 0px 8px;
-    background-color: var(--blue-shadow);
+    box-shadow: var(--primary) 0px 0px 8px;
+    background-color: var(--primary);
   }
 
   .iconWrapper {
@@ -82,9 +80,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--white);
+    background-color: var(--primary-background);
     border-radius: 50%;
-    box-shadow: var(--brown-shadow) 0 0 5px;
+    box-shadow: var(--primary) 0 0 5px;
     cursor: pointer;
     right: 0;
     top: 0;
@@ -92,16 +90,16 @@
     z-index: 3;
 
     &:hover {
-      background-color: var(--blue-shadow);
+      background-color: var(--primary);
     }
 
     &:hover .arrowIcon {
-      color: var(--white);
+      color: var(--primary-icon);
     }
   }
 
   .arrowIcon {
-    color: var(--black);
+    color: var(--secondary-icon);
     font-size: 16px;
   }
 }

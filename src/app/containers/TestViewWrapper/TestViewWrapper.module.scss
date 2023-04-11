@@ -1,19 +1,19 @@
 .container {
-  background-color: #161819;
-  width: 100%;
-  min-height: 100%;
+  background-color: var(--primary-background);
+  max-width: 1000px;
   padding: 20px;
+  margin: auto;
 }
 
 .examName {
-  color: var(--white);
-  font-size: 48px;
+  color: var(--text);
+  font-size: 2.6rem;
   margin-bottom: 38px;
 }
 
 .examItem {
   display: flex;
-  margin-bottom: 22px;
+  margin-bottom: 12px;
 }
 
 .nameItem {
@@ -36,11 +36,11 @@
 
 .highlight {
   font-size: 18px;
-  color: var(--exam-highlight);
+  color: var(--primary);
 }
 
 .highlightspace {
   font-size: 18px;
-  color: var(--exam-highlight);
+  color: var(--primary);
   margin-left: 5px;
 }

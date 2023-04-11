@@ -12,17 +12,17 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0px 0px 10px #4e4e4e;
+  box-shadow: 0px 0px 10px var(--primary);
   border-radius: 12px;
-  background-color: var(--white);
+  background-color: var(--primary-background);
   margin-top: 48px;
 }
 
 .button {
   width: 390px;
   height: 56px;
-  background-color: var(--white);
-  border: 1px solid var(--black);
+  background-color: var(--primary-background);
+  border: 1px solid var(--primary);
   border-radius: 5px;
   margin-bottom: 16px;
 }
@@ -34,11 +34,11 @@
 
   & > p {
     padding-right: 5px;
-    color: var(--dark-text);
+    color: var(--text);
   }
 
   & > a {
-    color: var(--link-blue-text);
+    color: var(--primary);
     text-decoration: none;
 
     &:hover {

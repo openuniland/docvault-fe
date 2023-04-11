@@ -10,6 +10,7 @@ import GolobalStyles from "styles/GlobalStyles";
 import configs from "configs";
 import muiTheme from "themes/muiTheme";
 import { SnackbarProvider } from "notistack";
+import { CssBaseline } from "@mui/material";
 
 const queryClient = new QueryClient();
 const clientId = configs.google.clientId;
@@ -26,6 +27,7 @@ export function App() {
           <meta name="description" content="Template App" />
         </Helmet>
         <ThemeProvider theme={muiTheme}>
+          <CssBaseline />
           <StyledEngineProvider injectFirst>
             <GolobalStyles>
               <GoogleOAuthProvider clientId={clientId}>
