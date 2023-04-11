@@ -1,6 +1,10 @@
 import { useQuery } from "react-query";
 
-import { getAllDocumentsBySubjectId, getDocument } from "services/document";
+import {
+  getAllDocumentsBySubjectId,
+  getDocument,
+  getDocumentsByOwner,
+} from "services/document";
 import { STALE_TIME } from "utils/constants";
 
 export const useGetAllDocumentsBySubjectId = (subjectId: string) =>
@@ -20,3 +24,8 @@ export const useGetDocument = (documentId: string) =>
       staleTime: STALE_TIME.ONE_HOUR,
     },
   );
+
+export const useGetDocumentsByOwner = () =>
+  useQuery(["get-document-by-owner"], () => getDocumentsByOwner(), {
+    staleTime: STALE_TIME.ONE_HOUR,
+  });

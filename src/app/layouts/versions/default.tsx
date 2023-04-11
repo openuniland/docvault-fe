@@ -11,7 +11,7 @@ import { TestListPage } from "app/pages/TestListPage";
 import { TestDetailPage } from "app/pages/TestDetailPage";
 import { AddTestPage } from "app/pages/AddTestPage";
 import { TestViewPage } from "app/pages/TestViewPage";
-
+import { ProfilePage } from "app/pages/ProfilePage";
 const Pages = {
   Guards: Guards,
   Document: withAppHeader(withSidebar(DocumentPage)),
@@ -23,6 +23,7 @@ const Pages = {
   TestPageDetail: withAppHeader(withSidebar(TestDetailPage)),
   AddTestPage: withAppHeader(withSidebar(AddTestPage)),
   TestViewPage: withAppHeader(withSidebar(TestViewPage)),
+  ProfilePage: withAppHeader(withSidebar(ProfilePage)),
 };
 
 const Layout = () => {
@@ -44,6 +45,7 @@ const Layout = () => {
       <Route path="/exams/:examId" element={<Pages.TestPageDetail />} />
       <Route path="/exams/new" element={<Pages.AddTestPage />} />
       <Route path="/exams/view/:examId" element={<Pages.TestViewPage />} />
+      <Route path="/profile" element={<Pages.ProfilePage />} />
     </Routes>
   );
 };

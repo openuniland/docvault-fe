@@ -5,6 +5,7 @@ import {
   ExamModel,
   ApproveTheExamPayload,
   RequestUpdateExam,
+  GetExamsByOwnerResponse,
 } from "types/ExamModel";
 
 import http from "utils/api/http";
@@ -55,6 +56,12 @@ export const updateExamByAdmin = async (
     `/administrator/exams/${examId}`,
     payload,
   );
+
+  return response?.data?.data;
+};
+
+export const getExamsByOwner = async (): Promise<GetExamsByOwnerResponse> => {
+  const response: AxiosResponse = await http.get(`/exams/owner`);
 
   return response?.data?.data;
 };

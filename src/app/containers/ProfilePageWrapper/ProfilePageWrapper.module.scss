@@ -1,0 +1,28 @@
+.container {
+  height: 100%;
+  background-color: var(--background-main);
+  padding: 0 20px 20px 20px;
+}
+
+.wrapperTitle {
+  padding: 12px 20px;
+  background-color: #1f8a70;
+}
+
+.titleName {
+  color: var(--white);
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.documentList {
+  margin: 16px -10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.examList {
+  margin: 16px -10px;
+  display: flex;
+  flex-wrap: wrap;
+}
