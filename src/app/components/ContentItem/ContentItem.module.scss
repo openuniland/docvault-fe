@@ -1,7 +1,6 @@
 .container {
-  border-radius: 8px;
-  background-color: #403449;
-  border: 1px solid var(--white);
+  border-radius: 12px;
+  background-color: var(--primary-container);
   width: 310px;
   height: 252px;
   margin: 10px;
@@ -23,7 +22,7 @@
   align-items: center;
   width: 100%;
   .starIcon {
-    color: #faff0b;
+    color: var(--primary);
   }
 }
 
@@ -42,7 +41,7 @@
   font-weight: 600;
   font-size: 20px;
   line-height: 24px;
-  color: var(--white);
+  color: var(--text);
   padding: 10px 0;
   text-align: center;
 }
@@ -51,7 +50,7 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 20px;
-  color: var(--white);
+  color: var(--text);
   text-align: center;
 }
 
@@ -59,5 +58,5 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
-  color: var(--white);
+  color: var(--text);
 }

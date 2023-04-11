@@ -1,7 +1,6 @@
 .container {
-  background-color: var(--background-main);
+  background-color: var(--primary-background);
   width: 100%;
-  min-height: 100%;
   padding: 0 20px 20px 20px;
   max-width: 1000px;
   margin: auto;
@@ -15,11 +14,11 @@
 }
 
 .helpIcon {
-  color: var(--white);
+  color: var(--text);
   cursor: pointer;
 
   &:hover {
-    color: yellow;
+    color: var(--warning);
   }
 }
 
@@ -27,7 +26,7 @@
   font-size: 36px;
   line-height: 46px;
   font-weight: 600;
-  color: var(--white);
+  color: var(--text);
 }
 
 .description {
@@ -36,7 +35,7 @@
 
 .description,
 .schoolYear {
-  color: var(--white);
+  color: var(--text);
 }
 
 .descWrapper {
@@ -44,7 +43,7 @@
 }
 
 .highlight {
-  color: #05ff00;
+  color: var(--primary);
   font-weight: 600;
   margin-left: 5px;
 }
@@ -53,7 +52,7 @@
 .highlight,
 .schoolYear,
 .description {
-  font-size: 18px;
+  font-size: 1.2rem;
   font-weight: 400;
 }
 
@@ -64,5 +63,5 @@
 .notification {
   padding: 4px 12px;
   margin-bottom: 8px;
-  background-color: #f3a638;
+  background-color: var(--warning);
 }

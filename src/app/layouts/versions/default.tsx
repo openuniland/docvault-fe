@@ -12,6 +12,8 @@ import { TestDetailPage } from "app/pages/TestDetailPage";
 import { AddTestPage } from "app/pages/AddTestPage";
 import { TestViewPage } from "app/pages/TestViewPage";
 import { ProfilePage } from "app/pages/ProfilePage";
+import { NotFoundPage } from "app/pages/NotFoundPage";
+
 const Pages = {
   Guards: Guards,
   Document: withAppHeader(withSidebar(DocumentPage)),
@@ -24,11 +26,13 @@ const Pages = {
   AddTestPage: withAppHeader(withSidebar(AddTestPage)),
   TestViewPage: withAppHeader(withSidebar(TestViewPage)),
   ProfilePage: withAppHeader(withSidebar(ProfilePage)),
+  NotFoundPage: withAppHeader(withSidebar(NotFoundPage)),
 };
 
 const Layout = () => {
   return (
     <Routes>
+      <Route path="*" element={<Pages.NotFoundPage />} />
       <Route path="/" element={<Pages.Guards />} />
       <Route path="/documents" element={<Pages.Document />} />
       <Route

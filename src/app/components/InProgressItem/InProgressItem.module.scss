@@ -1,14 +1,15 @@
 .container {
-  background-color: var(--in-progress-item-bg);
+  background-color: var(--primary-container);
   width: 297px;
   min-height: 177px;
   margin-right: 16px;
   margin-bottom: 16px;
   padding: 18px;
-  color: var(--white);
+  color: var(--text);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  border-radius: 12px;
 }
 
 .subjectName {
@@ -32,11 +33,14 @@
 .description {
   font-size: 12px;
   line-height: 15px;
-  color: var(--white-gray);
+  color: var(--text);
 }
 
 .continueBtn {
-  background-color: var(--main-green);
-  box-shadow: 0px 0px 8px var(--main-green);
+  background-color: var(--primary);
   margin-top: 10px;
+
+  &:hover {
+    box-shadow: 0px 0px 8px var(--primary);
+  }
 }
