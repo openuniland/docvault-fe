@@ -20,6 +20,7 @@ import {
 } from "utils/storage";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { systemActions } from "store/slice/systemReducer";
 
 const cx = classNames.bind(styles);
@@ -51,7 +52,21 @@ export const ActionHeader = () => {
   return (
     <div className={cx("container")}>
       <div className={cx("actionIcon")}>
-        <Switch checked={uiMode === "dark"} onChange={handleChangeUIMode} />
+        <Switch
+          classes={{
+            thumb: cx(
+              {
+                dark: uiMode === "dark",
+                light: uiMode === "light",
+              },
+              "thumb",
+            ),
+            switchBase: cx("switchBase"),
+            checked: cx("checked"),
+          }}
+          checked={uiMode === "dark"}
+          onChange={handleChangeUIMode}
+        />
         <IconButton className={cx("iconWrapper")}>
           <MailOutline className={cx("icon")} />
         </IconButton>

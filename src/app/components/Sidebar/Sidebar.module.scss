@@ -28,7 +28,7 @@
   align-items: center;
 
   &:hover {
-    background-color: var(--primary-lighter);
+    background-color: var(--primary-hover);
   }
 
   &.close {
@@ -37,7 +37,7 @@
 }
 
 .navigate.active {
-  background-color: var(--primary-hover);
+  background-color: var(--primary-light);
   color: var(--primary);
 }
 

@@ -3,6 +3,33 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+
+  .thumb {
+    width: 32px;
+    height: 32px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 22px;
+  }
+
+  .switchBase {
+    padding: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 5%;
+  }
+
+  .checked {
+    left: 40%;
+  }
+
+  .dark {
+    background-image: url("~/src/assets/images/night-mode.png");
+  }
+
+  .light {
+    background-image: url("~/src/assets/images/light-mode.png");
+  }
 }
 
 .iconWrapper {
