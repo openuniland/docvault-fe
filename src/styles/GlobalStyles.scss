@@ -6,12 +6,11 @@
   --font-family: "roboto", "IBM Plex Sans", sans-serif;
 
   --primary: #00ab55;
-  --primary-light: #68f19136;
+  --primary-light: rgba(118, 245, 156, 0.2);
   --primary-icon: #fff;
   --primary-container: #f2f6fc;
   --primary-surface: #f7f9fc;
-  --primary-hover: rgba(0, 171, 85, 0.078);
-  --primary-lighter: rgba(145, 158, 171, 0.078);
+  --primary-hover: rgba(145, 158, 171, 0.08);
   --primary-lightest: rgba(145, 158, 171, 0.039);
   --primary-darker: rgba(0, 171, 85, 0.2);
   --primary-darkest: rgba(0, 171, 85, 0.4);
@@ -20,6 +19,14 @@
   --banner-background: #faebd7;
 
   --warning: #f3a638;
+  --warning-light: "";
+  --warning-pale: "";
+  --warning-pastel: "";
+  --warning-medium: #fff700;
+  --warning-deep: "";
+  --warning-dark: "";
+
+  --error-deep: #ff0000;
 
   // Light
   // Pale
@@ -32,7 +39,22 @@
 }
 
 [data-theme="dark"] {
-  --primary-background: #161819;
+  --primary: #00ab55;
+  --primary-light: rgba(77, 78, 78, 0.2);
+  --primary-icon: #fff;
+  --primary-container: #161b22;
+  --primary-surface: #161b22;
+  --primary-hover: rgba(145, 158, 171, 0.08);
+  --primary-lightest: rgba(145, 158, 171, 0.039);
+  --primary-darker: rgba(0, 171, 85, 0.2);
+  --primary-darkest: rgba(0, 171, 85, 0.4);
+  --primary-background: #010409;
+  --text: #ecf5ed;
+  --banner-background: #faebd7;
+
+  --warning: #f3a638;
+
+  --secondary-icon: #444746;
 }
 
 * {

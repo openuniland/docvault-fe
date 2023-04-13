@@ -6,6 +6,8 @@
 .question {
   padding: 20px;
   margin: 20px 0;
+  background-color: var(--primary-surface);
+  color: var(--text);
 }
 
 .itemHeader {
@@ -15,8 +17,8 @@
   .index {
     width: 32px;
     height: 32px;
-    background-color: #d0dddd;
-    color: #000;
+    background-color: var(--primary-background);
+    color: var(--text);
     font-size: 1.2rem;
   }
 }

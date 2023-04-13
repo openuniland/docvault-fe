@@ -4,13 +4,12 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { BrowserRouter } from "react-router-dom";
-import { StyledEngineProvider, ThemeProvider } from "@mui/material/styles";
+import { StyledEngineProvider } from "@mui/material/styles";
 
 import GolobalStyles from "styles/GlobalStyles";
 import configs from "configs";
-import muiTheme from "themes/muiTheme";
+import { IThemeProvider } from "themes/IThemeProvider";
 import { SnackbarProvider } from "notistack";
-import { CssBaseline } from "@mui/material";
 
 const queryClient = new QueryClient();
 const clientId = configs.google.clientId;
@@ -26,8 +25,7 @@ export function App() {
         >
           <meta name="description" content="Template App" />
         </Helmet>
-        <ThemeProvider theme={muiTheme}>
-          <CssBaseline />
+        <IThemeProvider>
           <StyledEngineProvider injectFirst>
             <GolobalStyles>
               <GoogleOAuthProvider clientId={clientId}>
@@ -44,7 +42,7 @@ export function App() {
               </GoogleOAuthProvider>
             </GolobalStyles>
           </StyledEngineProvider>
-        </ThemeProvider>
+        </IThemeProvider>
       </BrowserRouter>
     </QueryClientProvider>
   );

@@ -6,8 +6,7 @@ import { useCreateDocument } from "mutations/document";
 import { CreateDocumentModelForm } from "types/DocumentModel";
 import { useCallback } from "react";
 import { enqueueSnackbar } from "notistack";
-import { Box, Breadcrumbs, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { BreadcrumbsCustomization } from "app/components/BreadcrumbsCustomization";
 
 const cx = classNames.bind(styles);
 
@@ -35,14 +34,11 @@ export const AddDocumentWrapper = () => {
   );
   return (
     <>
-      <Box className={cx("boxHeader")}>
-        <Breadcrumbs aria-label="breadcrumb" separator="/" color="white">
-          <Link className={cx("link")} to="/documents">
-            Documents
-          </Link>
-          <Typography className={cx("current")}>New Document</Typography>
-        </Breadcrumbs>
-      </Box>
+      <BreadcrumbsCustomization
+        className={cx("breadcrumbs")}
+        current="New Document"
+        breadcrumbsList={[{ linkTo: "/documents", text: "Documents" }]}
+      />
 
       <DocumentForm onCreateNewDocument={handleCreateNewDocument} />
     </>
