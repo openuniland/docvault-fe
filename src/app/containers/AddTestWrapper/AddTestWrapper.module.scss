@@ -1,7 +1,6 @@
 .container {
-  background-color: #161819;
+  background-color: var(--primary-background);
   width: 100%;
-  min-height: 100%;
   padding: 20px;
 }
 
@@ -13,8 +12,8 @@
 
   .note {
     font-size: 1rem;
-    background-color: #fff700;
-    color: #ff0000;
+    background-color: var(--warning-medium);
+    color: var(--error-deep);
     padding: 6px 12px;
   }
 
@@ -31,10 +30,11 @@
 
   p {
     margin-right: 5px;
+    color: var(--text);
   }
 
   .generate {
-    color: rgb(0, 171, 85);
+    color: var(--primary);
     cursor: pointer;
     margin-left: 5px;
 

@@ -1,18 +1,18 @@
 .container {
   border-radius: 6px;
-  background-color: #161819;
-  border: 1px solid var(--white);
+  background-color: var(--primary-container);
+  border: 1px solid var(--text);
   width: 270px;
   height: 48px;
   margin: 10px;
 
   &:hover {
-    box-shadow: pink 0 0 10px;
+    box-shadow: var(--primary) 0 0 10px;
   }
 }
 
 .link {
-  color: var(--white);
+  color: var(--text);
   display: flex;
   align-items: center;
   height: 100%;

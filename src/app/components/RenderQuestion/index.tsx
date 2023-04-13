@@ -19,9 +19,14 @@ const cx = classNames.bind(styles);
 interface Props {
   questions?: NewQuestionPayload[];
   onDelete?: (index: number) => void;
+  showDeleteButton: boolean;
 }
 const RenderQuestion = (props: Props) => {
-  const { questions = [], onDelete = () => {} } = props;
+  const {
+    questions = [],
+    onDelete = () => {},
+    showDeleteButton = true,
+  } = props;
 
   const handleDelete = useCallback(
     (index: number) => () => {
@@ -46,12 +51,14 @@ const RenderQuestion = (props: Props) => {
                   })}
                 />
               </div>
-              <IconButton
-                className={cx("iconDeleteWrapper")}
-                onClick={handleDelete(index)}
-              >
-                <HighlightOffIcon className={cx("deleteIcon")} />
-              </IconButton>
+              {showDeleteButton && (
+                <IconButton
+                  className={cx("iconDeleteWrapper")}
+                  onClick={handleDelete(index)}
+                >
+                  <HighlightOffIcon className={cx("deleteIcon")} />
+                </IconButton>
+              )}
             </div>
           </div>
 

@@ -10,6 +10,9 @@ import { TestPage } from "app/pages/TestPage";
 import { TestListPage } from "app/pages/TestListPage";
 import { TestDetailPage } from "app/pages/TestDetailPage";
 import { AddTestPage } from "app/pages/AddTestPage";
+import { TestViewPage } from "app/pages/TestViewPage";
+import { ProfilePage } from "app/pages/ProfilePage";
+import { NotFoundPage } from "app/pages/NotFoundPage";
 
 const Pages = {
   Guards: Guards,
@@ -21,11 +24,15 @@ const Pages = {
   TestList: withAppHeader(withSidebar(TestListPage)),
   TestPageDetail: withAppHeader(withSidebar(TestDetailPage)),
   AddTestPage: withAppHeader(withSidebar(AddTestPage)),
+  TestViewPage: withAppHeader(withSidebar(TestViewPage)),
+  ProfilePage: withAppHeader(withSidebar(ProfilePage)),
+  NotFoundPage: withAppHeader(withSidebar(NotFoundPage)),
 };
 
 const Layout = () => {
   return (
     <Routes>
+      <Route path="*" element={<Pages.NotFoundPage />} />
       <Route path="/" element={<Pages.Guards />} />
       <Route path="/documents" element={<Pages.Document />} />
       <Route
@@ -41,6 +48,8 @@ const Layout = () => {
       <Route path="/exams/subject/:subjectId" element={<Pages.TestList />} />
       <Route path="/exams/:examId" element={<Pages.TestPageDetail />} />
       <Route path="/exams/new" element={<Pages.AddTestPage />} />
+      <Route path="/exams/view/:examId" element={<Pages.TestViewPage />} />
+      <Route path="/profile" element={<Pages.ProfilePage />} />
     </Routes>
   );
 };

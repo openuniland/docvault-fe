@@ -1,18 +1,18 @@
 .searchInput {
   flex: 1;
-  background-color: #38383a;
+  background-color: var(--primary-light);
   border: none;
   outline: none;
   padding-left: 24px;
   font-weight: 600;
   font-size: 14px;
   line-height: 17px;
-  color: #ccc;
+  color: var(--text);
 }
 
 .searchBtn {
   border-radius: 0px;
   width: 66px;
   height: 50px;
-  border-color: #202229;
+  background-color: var(--primary);
 }

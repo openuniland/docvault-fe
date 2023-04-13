@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { Avatar } from "@mui/material";
+import { Avatar, IconButton, Switch } from "@mui/material";
 import {
   Settings,
   Explore,
@@ -9,31 +9,70 @@ import {
   Notifications,
 } from "@mui/icons-material";
 import Tippy from "@tippyjs/react/headless";
+import { useDispatch } from "react-redux";
 
-import { ButtonCustomization } from "../ButtonCustomization";
 import styles from "./ActionHeader.module.scss";
-import { getTokens, removeItemFromStorage } from "utils/storage";
-import { useCallback } from "react";
+import {
+  getTokens,
+  getUIMode,
+  removeItemFromStorage,
+  setUIMode,
+} from "utils/storage";
+import { useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { systemActions } from "store/slice/systemReducer";
 
 const cx = classNames.bind(styles);
 
 export const ActionHeader = () => {
+  const dispath = useDispatch();
   const { userInfo } = getTokens();
+  const navigate = useNavigate();
+  const [uiMode, setUiMode] = useState(() => {
+    const mode = getUIMode();
+    return mode || "light";
+  });
 
   const handleLogout = useCallback(() => {
     removeItemFromStorage("tokens");
     window.location.href = "/";
   }, []);
 
+  const handleChangeUIMode = useCallback(() => {
+    const mode = uiMode === "light" ? "dark" : "light";
+    setUiMode(mode);
+    dispath(systemActions.changeUIMode(mode));
+    setUIMode(mode);
+  }, [uiMode, dispath]);
+
+  const handleNavigateProfilePage = useCallback(() => {
+    navigate(`/profile`);
+  }, [navigate]);
   return (
     <div className={cx("container")}>
       <div className={cx("actionIcon")}>
-        <ButtonCustomization className={cx("messengerIcon")}>
-          <MailOutline />
-        </ButtonCustomization>
-        <ButtonCustomization className={cx("notificationsIcon")}>
-          <Notifications />
-        </ButtonCustomization>
+        <Switch
+          classes={{
+            thumb: cx(
+              {
+                dark: uiMode === "dark",
+                light: uiMode === "light",
+              },
+              "thumb",
+            ),
+            switchBase: cx("switchBase"),
+            checked: cx("checked"),
+          }}
+          checked={uiMode === "dark"}
+          onChange={handleChangeUIMode}
+        />
+        <IconButton className={cx("iconWrapper")}>
+          <MailOutline className={cx("icon")} />
+        </IconButton>
+        <IconButton className={cx("iconWrapper")}>
+          <Notifications className={cx("icon")} />
+        </IconButton>
       </div>
       <Tippy
         appendTo={document.body}
@@ -74,7 +113,11 @@ export const ActionHeader = () => {
         )}
       >
         <div className={cx("avatar")}>
-          <Avatar src={userInfo?.avatar} className={cx("avatarIcon")} />
+          <Avatar
+            src={userInfo?.avatar}
+            className={cx("avatarIcon")}
+            onDoubleClick={handleNavigateProfilePage}
+          />
         </div>
       </Tippy>
     </div>

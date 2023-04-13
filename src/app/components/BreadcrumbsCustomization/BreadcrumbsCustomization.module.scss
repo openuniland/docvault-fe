@@ -3,14 +3,16 @@
 }
 
 .link {
-  color: #bdbcbc;
+  color: var(--text);
+  opacity: 0.5;
   text-decoration: none;
 
   &:hover {
-    color: var(--white);
+    color: var(--text);
+    opacity: 1;
   }
 }
 .text,
 .breadcrumb {
-  color: var(--white);
+  color: var(--text);
 }

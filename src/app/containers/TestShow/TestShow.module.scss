@@ -1,7 +1,6 @@
 .container {
-  background-color: var(--background-main);
+  background-color: var(--primary-background);
   width: 100%;
-  min-height: 100%;
   padding: 0 20px 20px 20px;
   max-width: 1000px;
   margin: auto;
@@ -27,7 +26,7 @@
   font-size: 36px;
   line-height: 46px;
   font-weight: 600;
-  color: var(--white);
+  color: var(--text);
 }
 
 .description {
@@ -39,13 +38,14 @@
 }
 
 .titleContent {
-  color: var(--white);
+  color: var(--text);
   font-size: 28px;
   margin-bottom: 15px;
 }
 
 .descWrapper {
   display: flex;
+  color: var(--text);
 }
 
 .titleName {
@@ -54,13 +54,13 @@
 
 .highlight {
   font-size: 18px;
-  color: #14ff00;
+  color: var(--primary);
   margin: 0 5px;
 }
 
 .attention {
   font-size: 18px;
-  color: #ffbfbf;
+  color: var(--text);
   margin: 15px 0;
 }
 
@@ -73,10 +73,20 @@
 .btn {
   padding: 10px;
   width: 270px;
-  height: 100px;
+  height: 60px;
   box-shadow: 0px 0px 10px #32c766;
   border-radius: 2px;
   background: #32c766;
   font-size: 22px;
-  color: var(--black);
+  color: var(--text);
+}
+
+.link {
+  text-decoration: none;
+}
+
+.notification {
+  padding: 4px 12px;
+  margin-bottom: 8px;
+  background-color: var(--warning);
 }

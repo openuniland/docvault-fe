@@ -1,12 +1,8 @@
 .container {
   height: 110px;
   width: 100%;
-  background-color: #161819;
-  border-bottom: 3px solid #242529;
-}
-
-p {
-  color: aliceblue;
+  background-color: var(--primary-surface);
+  border-bottom: 3px solid var(--primary-light);
 }
 
 .grid-item {
@@ -21,7 +17,7 @@ p {
   justify-content: center;
   max-width: 345px;
   height: 100%;
-  background-color: #242529;
+  background-color: var(--primary-surface);
 }
 
 .logoWrapper {
@@ -34,7 +30,7 @@ p {
 
 .logo {
   height: 60px;
-  color: var(--white);
+  color: var(--text);
 }
 
 .search {
