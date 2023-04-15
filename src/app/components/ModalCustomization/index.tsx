@@ -14,7 +14,7 @@ import styles from "./ModalCustomization.module.scss";
 const cx = classNames.bind(styles);
 
 interface Props {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   open: boolean;
   handleAgree?: () => void;
   handleCancel?: () => void;
@@ -61,11 +61,15 @@ export const ModalCustomization = (props: Props) => {
       >
         {title && <DialogTitle id="alert-dialog-title">{title}</DialogTitle>}
 
-        <DialogContent>
-          {contentText && <DialogContentText>{contentText}</DialogContentText>}
+        {children && (
+          <DialogContent>
+            {contentText && (
+              <DialogContentText>{contentText}</DialogContentText>
+            )}
 
-          {children}
-        </DialogContent>
+            {children}
+          </DialogContent>
+        )}
 
         {actionDefault && (
           <DialogActions>

@@ -68,8 +68,10 @@ export const LoginFrame = () => {
       <ModalCustomization
         open={openPropup}
         handleAgree={handleClosePropup}
+        handleCancel={handleClosePropup}
         actionDefault
         title="Notification"
+        textAgreeBtn="OK"
       >
         Does not belong to our organization
       </ModalCustomization>
