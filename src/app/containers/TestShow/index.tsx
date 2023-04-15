@@ -18,20 +18,20 @@ export const TestShow = () => {
   const { examId } = useParams();
   const { data: exam } = useGetExamById(examId as string);
 
-  const [openPropup, setOpenPropup] = useState(false);
+  const [openPropup, setOpenPopup] = useState(false);
   const [examDuration, setExamDuration] = useState<string>("0");
   const [durationError, setDurationError] = useState<string>("");
 
-  const { mutateAsync, isLoading } = useCreateUserExam();
+  const { mutateAsync, isLoading, data } = useCreateUserExam();
 
   const handleClosePopup = useCallback(() => {
-    setOpenPropup(false);
+    setOpenPopup(false);
     setExamDuration("0");
     setDurationError("");
   }, [openPropup]);
 
   const handleOpenPopup = useCallback(() => {
-    setOpenPropup(true);
+    setOpenPopup(true);
   }, [openPropup]);
 
   const handleChangeExamDuration = useCallback(
@@ -54,6 +54,7 @@ export const TestShow = () => {
         duration: Number(examDuration) * 60000,
         exam_id: exam?._id!,
       });
+
       setExamDuration("0");
       handleClosePopup();
       setDurationError("");
@@ -141,6 +142,7 @@ export const TestShow = () => {
         loading={isLoading}
         textAgreeBtn="Start"
         colorBtn="success"
+        userExamId={data?._id} // error , lay duoc id cua user exam de su dung
       >
         <TextField
           autoFocus

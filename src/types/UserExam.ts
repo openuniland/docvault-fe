@@ -10,6 +10,7 @@ export interface UserExamPayload {
 export interface UserExam {
   _id: string;
   author: User;
+  original_exam: string;
   subject: Subject;
   title: string;
   questions: Question[];

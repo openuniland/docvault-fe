@@ -10,6 +10,7 @@ import {
 import classNames from "classnames/bind";
 
 import styles from "./ModalCustomization.module.scss";
+import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -24,6 +25,7 @@ interface Props {
   contentText?: string;
   loading?: boolean;
   textAgreeBtn?: string;
+  userExamId?: string;
   colorBtn?:
     | "success"
     | "inherit"
@@ -46,6 +48,7 @@ export const ModalCustomization = (props: Props) => {
     contentText,
     loading,
     textAgreeBtn,
+    userExamId,
     colorBtn,
   } = props;
   return (
@@ -78,15 +81,20 @@ export const ModalCustomization = (props: Props) => {
               Cancel
             </Button>
             {textAgreeBtn && (
-              <LoadingButton
-                size="medium"
-                onClick={handleAgree}
-                loading={loading}
-                variant="contained"
-                color={colorBtn}
+              <Link
+                to={userExamId ? `/exams/do-exam/${userExamId}` : "/"}
+                className={cx("link-btn")}
               >
-                {textAgreeBtn}
-              </LoadingButton>
+                <LoadingButton
+                  size="medium"
+                  onClick={handleAgree}
+                  loading={loading}
+                  variant="contained"
+                  color={colorBtn}
+                >
+                  {textAgreeBtn}
+                </LoadingButton>
+              </Link>
             )}
           </DialogActions>
         )}

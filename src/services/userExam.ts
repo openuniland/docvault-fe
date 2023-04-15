@@ -16,3 +16,9 @@ export const createUserExam = async (
   const response: AxiosResponse = await http.post(`/user-exams`, payload);
   return response?.data?.data;
 };
+export const getUserExamByOwner = async (
+  userExamId: string,
+): Promise<UserExam> => {
+  const response: AxiosResponse = await http.get(`/user-exam/${userExamId}`);
+  return response?.data?.data;
+};
