@@ -1,9 +1,8 @@
 import classNames from "classnames/bind";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { Tooltip, Typography, TextField } from "@mui/material";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { useCallback, useState } from "react";
-import { Link } from "react-router-dom";
 
 import styles from "./TestShow.module.scss";
 import { useGetExamById } from "queries/exam";
@@ -50,10 +49,12 @@ export const TestShow = () => {
         setDurationError("Thời gian làm bài cần lớn hơn 0 !!!");
         return;
       }
-      await mutateAsync({
+      const res = await mutateAsync({
         duration: Number(examDuration) * 60000,
         exam_id: exam?._id!,
       });
+
+      console.log("data", res);
 
       setExamDuration("0");
       handleClosePopup();

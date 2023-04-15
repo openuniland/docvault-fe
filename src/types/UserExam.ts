@@ -25,3 +25,7 @@ export interface CreateUserExamPayload {
   duration: number; // in miliseconds
   exam_id: string;
 }
+
+export interface UserExamResponse {
+  _id: string;
+}
