@@ -1,9 +1,8 @@
 import classNames from "classnames/bind";
-import { useParams } from "react-router-dom";
 import { Tooltip, Typography, TextField } from "@mui/material";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { useCallback, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import styles from "./TestShow.module.scss";
 import { useGetExamById } from "queries/exam";
