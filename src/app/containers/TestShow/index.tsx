@@ -11,6 +11,7 @@ import { BreadcrumbsCustomization } from "app/components/BreadcrumbsCustomizatio
 import { ButtonCustomization } from "app/components/ButtonCustomization";
 import { useCreateUserExam } from "mutations/userExam";
 import { ModalCustomization } from "app/components/ModalCustomization";
+import { RankingDenied } from "app/components/RankingDenied";
 
 const cx = classNames.bind(styles);
 
@@ -61,6 +62,10 @@ export const TestShow = () => {
       setDurationError("Có lỗi xảy ra vui lòng liên hệ bộ phận phát triển");
     }
   }, [examDuration, durationError]);
+
+  if (exam?.notice) {
+    return <RankingDenied notice={exam?.notice} />;
+  }
 
   return (
     <div className={cx("container")}>

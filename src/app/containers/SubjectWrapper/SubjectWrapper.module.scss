@@ -20,6 +20,8 @@
 .icon {
   font-size: 27px;
   cursor: pointer;
+  margin-right: 8px;
+  color: var(--primary);
 }
 
 .subjectsList {
@@ -27,4 +29,11 @@
   flex-wrap: wrap;
   margin: 0 auto;
   padding: 0 10px;
+}
+
+.btn {
+  border: 1px solid var(--primary);
+  min-width: 110px;
+  width: fit-content;
+  color: var(--primary);
 }

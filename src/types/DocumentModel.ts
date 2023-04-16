@@ -1,3 +1,4 @@
+import { Notice } from "./Common";
 import { Subject } from "./Subject";
 import { User } from "./User";
 
@@ -19,6 +20,7 @@ export interface DocumentModel {
   is_approved: string;
   content: DocumentModelContent[];
   created_at: string;
+  notice: Notice;
 }
 
 export interface GetAllDocumentsBySubjectIdResponse {

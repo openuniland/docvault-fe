@@ -8,13 +8,18 @@ import { useGetDocument } from "queries/document";
 
 import styles from "./DocumentShow.module.scss";
 import { RenderContentIem } from "app/components/RenderContentIem";
+import { RankingDenied } from "app/components/RankingDenied";
 
 const cx = classNames.bind(styles);
 
 export const DocumentShow = () => {
   const { documentId } = useParams();
-
   const { data: document } = useGetDocument(documentId as string);
+
+  if (document?.notice) {
+    return <RankingDenied notice={document?.notice} />;
+  }
+
   return (
     <div className={cx("container")}>
       <div className={cx("header")}>

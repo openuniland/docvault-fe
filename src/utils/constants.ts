@@ -13,3 +13,31 @@ export const schoolYear = [
   "2024-2025",
   "2025-2026",
 ];
+
+export const RANK = [
+  {
+    name: "GURU",
+    score: 40,
+    level: 4,
+  },
+  {
+    name: "PASSIONATE",
+    score: 30,
+    level: 3,
+  },
+  {
+    name: "DEDICATED",
+    score: 20,
+    level: 2,
+  },
+  {
+    name: "ENTHUSIAST",
+    score: 10,
+    level: 1,
+  },
+  {
+    name: "NOVICE",
+    score: 0,
+    level: 0,
+  },
+];
