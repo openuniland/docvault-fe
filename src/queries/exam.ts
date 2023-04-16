@@ -19,7 +19,7 @@ export const useGetAllExamsBySubjectId = (subjectId: string) =>
 
 export const useGetExamById = (examId: string) =>
   useQuery(["get-exam-by-id", examId], () => getExamById(examId), {
-    staleTime: STALE_TIME.ONE_HOUR,
+    staleTime: Infinity,
   });
 
 export const useGetDraftExam = () =>

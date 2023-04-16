@@ -1,9 +1,8 @@
 import classNames from "classnames/bind";
-import { useParams } from "react-router-dom";
 import { Tooltip, Typography, TextField } from "@mui/material";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { useCallback, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import styles from "./TestShow.module.scss";
 import { useGetExamById } from "queries/exam";
@@ -11,6 +10,7 @@ import { BreadcrumbsCustomization } from "app/components/BreadcrumbsCustomizatio
 import { ButtonCustomization } from "app/components/ButtonCustomization";
 import { useCreateUserExam } from "mutations/userExam";
 import { ModalCustomization } from "app/components/ModalCustomization";
+import { RankingDenied } from "app/components/RankingDenied";
 
 const cx = classNames.bind(styles);
 
@@ -61,6 +61,10 @@ export const TestShow = () => {
       setDurationError("Có lỗi xảy ra vui lòng liên hệ bộ phận phát triển");
     }
   }, [examDuration, durationError]);
+
+  if (exam?.notice) {
+    return <RankingDenied notice={exam?.notice} />;
+  }
 
   return (
     <div className={cx("container")}>

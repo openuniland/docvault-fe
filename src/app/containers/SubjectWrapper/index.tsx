@@ -8,6 +8,7 @@ import { useGetAllSubjects } from "queries/subject";
 import { SubjectItem } from "app/components/SubjectItem";
 import { ModalCustomization } from "app/components/ModalCustomization";
 import { useCreateSubject } from "mutations/subject";
+import { ButtonCustomization } from "app/components/ButtonCustomization";
 
 const cx = classNames.bind(styles);
 
@@ -15,6 +16,7 @@ interface Props {
   prefix: string;
   title: string;
 }
+
 export const SubjectWrapper = (props: Props) => {
   const { prefix, title } = props;
 
@@ -22,7 +24,11 @@ export const SubjectWrapper = (props: Props) => {
   const [subjectName, setSubjectName] = useState<string>("");
   const [subjectError, setSubjectError] = useState<string>("");
 
-  const { data: subjects } = useGetAllSubjects();
+  const {
+    data: subjects,
+    refetch,
+    isFetching: isLoadingGetAllSubjects,
+  } = useGetAllSubjects();
   const { mutateAsync, isLoading } = useCreateSubject();
 
   const handleClosePropup = useCallback(() => {
@@ -62,6 +68,10 @@ export const SubjectWrapper = (props: Props) => {
     }
   }, [subjectName]);
 
+  const handleRefreshSubject = useCallback(() => {
+    refetch();
+  }, [refetch]);
+
   return (
     <div className={cx("container")}>
       <div className={cx("header")}>
@@ -69,7 +79,16 @@ export const SubjectWrapper = (props: Props) => {
           {title}
         </Typography>
 
-        <AddCircleIcon className={cx("icon")} onClick={handleOpenPropup} />
+        <div>
+          <AddCircleIcon className={cx("icon")} onClick={handleOpenPropup} />
+          <ButtonCustomization
+            isLoading={isLoadingGetAllSubjects}
+            className={cx("btn")}
+            onClick={handleRefreshSubject}
+          >
+            Làm mới
+          </ButtonCustomization>
+        </div>
       </div>
 
       <div className={cx("subjectsList")}>

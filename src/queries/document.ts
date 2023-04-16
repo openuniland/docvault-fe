@@ -21,7 +21,7 @@ export const useGetDocument = (documentId: string) =>
     ["get-document-by-documentId", documentId],
     () => getDocument(documentId),
     {
-      staleTime: STALE_TIME.ONE_HOUR,
+      staleTime: Infinity,
     },
   );
 

@@ -1,6 +1,7 @@
 import { User } from "./User";
 import { Question } from "./Question";
 import { Subject } from "./Subject";
+import { Notice } from "./Common";
 
 export interface ExamModel {
   _id: string;
@@ -14,6 +15,7 @@ export interface ExamModel {
   is_deleted: boolean;
   is_approved: boolean;
   created_at: string;
+  notice: Notice;
 }
 
 export interface GetAllExamsBySubjectIdResponse {
