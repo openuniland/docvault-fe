@@ -63,6 +63,14 @@ export const RankingDenied = (props: Props) => {
             {notice?.your_rank}
           </Typography>
         </div>
+        <Typography className={cx("name")} component="p">
+          {notice &&
+            `Điểm cống hiến hiện tại của bạn là ${
+              notice?.your_dedication_score
+            }, bạn cần thêm ${
+              notice?.minimum_required_score - notice?.your_dedication_score
+            } điểm để đạt đủ RANK của bài này.`}
+        </Typography>
       </Box>
 
       <Box>
