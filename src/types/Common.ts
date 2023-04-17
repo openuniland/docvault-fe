@@ -3,5 +3,6 @@ export interface Notice {
   message: string;
   minimum_required_rank: string;
   your_rank: string;
-  dedication_score: number;
+  your_dedication_score: number;
+  minimum_required_score: number;
 }

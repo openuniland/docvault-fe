@@ -6,6 +6,7 @@ import {
   getDraftExam,
   getExamsByOwner,
 } from "services/exam";
+import { URLparams } from "types";
 import { STALE_TIME } from "utils/constants";
 
 export const useGetAllExamsBySubjectId = (subjectId: string) =>
@@ -27,7 +28,11 @@ export const useGetDraftExam = () =>
     staleTime: STALE_TIME.ONE_HOUR,
   });
 
-export const useGetExamsByOwner = () =>
-  useQuery(["get-exams-by-owner"], () => getExamsByOwner(), {
-    staleTime: STALE_TIME.ONE_HOUR,
-  });
+export const useGetExamsByOwner = (urlParams: URLparams) =>
+  useQuery(
+    ["get-exams-by-owner", urlParams?.currentPage, urlParams?.pageSize],
+    () => getExamsByOwner(urlParams),
+    {
+      staleTime: STALE_TIME.ONE_HOUR,
+    },
+  );

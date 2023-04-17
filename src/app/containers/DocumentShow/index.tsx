@@ -9,12 +9,17 @@ import { useGetDocument } from "queries/document";
 import styles from "./DocumentShow.module.scss";
 import { RenderContentIem } from "app/components/RenderContentIem";
 import { RankingDenied } from "app/components/RankingDenied";
+import { Loading } from "app/components/Loading";
 
 const cx = classNames.bind(styles);
 
 export const DocumentShow = () => {
   const { documentId } = useParams();
-  const { data: document } = useGetDocument(documentId as string);
+  const { data: document, isLoading } = useGetDocument(documentId as string);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   if (document?.notice) {
     return <RankingDenied notice={document?.notice} />;
@@ -32,7 +37,7 @@ export const DocumentShow = () => {
           <HelpOutlineIcon className={cx("helpIcon")} />
         </Tooltip>
       </div>
-      {!document?.is_approved && (
+      {document && !document?.is_approved && (
         <div className={cx("notification")}>
           <Typography className={cx("notiText")} component="p">
             Đang chờ phê duyệt

@@ -11,12 +11,15 @@ import { ButtonCustomization } from "app/components/ButtonCustomization";
 import { useCreateUserExam } from "mutations/userExam";
 import { ModalCustomization } from "app/components/ModalCustomization";
 import { RankingDenied } from "app/components/RankingDenied";
+import { Loading } from "app/components/Loading";
 
 const cx = classNames.bind(styles);
 
 export const TestShow = () => {
   const { examId } = useParams();
-  const { data: exam } = useGetExamById(examId as string);
+  const { data: exam, isLoading: isLoadingGetExam } = useGetExamById(
+    examId as string,
+  );
 
   const [openPropup, setOpenPropup] = useState(false);
   const [examDuration, setExamDuration] = useState<string>("0");
@@ -62,6 +65,10 @@ export const TestShow = () => {
     }
   }, [examDuration, durationError]);
 
+  if (isLoadingGetExam) {
+    return <Loading />;
+  }
+
   if (exam?.notice) {
     return <RankingDenied notice={exam?.notice} />;
   }
@@ -78,7 +85,7 @@ export const TestShow = () => {
           <HelpOutlineIcon className={cx("helpIcon")} />
         </Tooltip>
       </div>
-      {!exam?.is_approved && (
+      {exam && !exam?.is_approved && (
         <div className={cx("notification")}>
           <Typography className={cx("notiText")} component="p">
             Đang chờ phê duyệt
