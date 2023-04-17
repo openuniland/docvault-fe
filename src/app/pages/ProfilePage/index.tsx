@@ -5,7 +5,7 @@ export const ProfilePage = () => {
   return (
     <>
       <Helmet>
-        <title>Revise | Login</title>
+        <title>Revise | Profile</title>
       </Helmet>
       <ProfilePageWrapper />
     </>
