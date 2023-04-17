@@ -5,10 +5,11 @@ import {
   ExamModel,
   ApproveTheExamPayload,
   RequestUpdateExam,
-  GetExamsByOwnerResponse,
 } from "types/ExamModel";
+import { DataWithMeta, URLparams } from "types";
 
 import http from "utils/api/http";
+import { DEFAULT_PAGINATION } from "utils/constants";
 
 export const getAllExamsBySubjectId = async (
   subjectId: string,
@@ -60,8 +61,15 @@ export const updateExamByAdmin = async (
   return response?.data?.data;
 };
 
-export const getExamsByOwner = async (): Promise<GetExamsByOwnerResponse> => {
-  const response: AxiosResponse = await http.get(`/exams/owner`);
+export const getExamsByOwner = async (
+  urlParams: URLparams,
+): Promise<DataWithMeta<ExamModel[]>> => {
+  const response: AxiosResponse = await http.get(`/exams/owner`, {
+    params: {
+      currentPage: urlParams?.currentPage || DEFAULT_PAGINATION.currentPage,
+      pageSize: urlParams?.pageSize || DEFAULT_PAGINATION.pageSize,
+    },
+  });
 
-  return response?.data?.data;
+  return response?.data;
 };
