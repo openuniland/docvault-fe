@@ -5,6 +5,7 @@ import {
   getDocument,
   getDocumentsByOwner,
 } from "services/document";
+import { URLparams } from "types";
 import { STALE_TIME } from "utils/constants";
 
 export const useGetAllDocumentsBySubjectId = (subjectId: string) =>
@@ -25,7 +26,11 @@ export const useGetDocument = (documentId: string) =>
     },
   );
 
-export const useGetDocumentsByOwner = () =>
-  useQuery(["get-document-by-owner"], () => getDocumentsByOwner(), {
-    staleTime: STALE_TIME.ONE_HOUR,
-  });
+export const useGetDocumentsByOwner = (urlParams: URLparams) =>
+  useQuery(
+    ["get-document-by-owner", urlParams?.currentPage, urlParams?.pageSize],
+    () => getDocumentsByOwner(urlParams),
+    {
+      staleTime: STALE_TIME.ONE_HOUR,
+    },
+  );

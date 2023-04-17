@@ -84,7 +84,9 @@ export const ActionHeader = () => {
             <div className={cx("poper")}>
               <div className={cx("profile")}>
                 <Avatar src={userInfo?.avatar} className={cx("avatarIcon")} />
-                <div className={cx("name")}>{userInfo?.name}</div>
+                <div className={cx("name")} onClick={handleNavigateProfilePage}>
+                  {userInfo?.name}
+                </div>
                 <div className={cx("email")}>{userInfo?.email}</div>
               </div>
               <div className={cx("setting")}>
@@ -113,11 +115,7 @@ export const ActionHeader = () => {
         )}
       >
         <div className={cx("avatar")}>
-          <Avatar
-            src={userInfo?.avatar}
-            className={cx("avatarIcon")}
-            onDoubleClick={handleNavigateProfilePage}
-          />
+          <Avatar src={userInfo?.avatar} className={cx("avatarIcon")} />
         </div>
       </Tippy>
     </div>

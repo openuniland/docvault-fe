@@ -88,6 +88,10 @@
 .name {
   font-size: 20px;
   margin-top: 9px;
+  &:hover {
+    cursor: pointer;
+    background-color: var(--primary-light);
+  }
 }
 
 .email {

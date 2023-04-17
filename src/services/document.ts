@@ -4,10 +4,11 @@ import {
   DocumentModel,
   CreateTheDocumentPayload,
   GetAllDocumentsBySubjectIdResponse,
-  GetDocumentsByOwnerResponse,
 } from "types/DocumentModel";
+import { DataWithMeta, URLparams } from "types";
 
 import http from "utils/api/http";
+import { DEFAULT_PAGINATION } from "utils/constants";
 
 export const getAllDocumentsBySubjectId = async (
   subjectId: string,
@@ -38,9 +39,15 @@ export const getDocument = async (
   return response?.data?.data;
 };
 
-export const getDocumentsByOwner =
-  async (): Promise<GetDocumentsByOwnerResponse> => {
-    const response: AxiosResponse = await http.get(`/documents/owner`);
+export const getDocumentsByOwner = async (
+  urlParams: URLparams,
+): Promise<DataWithMeta<DocumentModel[]>> => {
+  const response: AxiosResponse = await http.get(`/documents/owner`, {
+    params: {
+      currentPage: urlParams?.currentPage || DEFAULT_PAGINATION.currentPage,
+      pageSize: urlParams?.pageSize || DEFAULT_PAGINATION.pageSize,
+    },
+  });
 
-    return response?.data?.data;
-  };
+  return response?.data;
+};

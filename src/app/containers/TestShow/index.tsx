@@ -78,7 +78,7 @@ export const TestShow = () => {
           <HelpOutlineIcon className={cx("helpIcon")} />
         </Tooltip>
       </div>
-      {!exam?.is_approved && (
+      {exam && !exam?.is_approved && (
         <div className={cx("notification")}>
           <Typography className={cx("notiText")} component="p">
             Đang chờ phê duyệt

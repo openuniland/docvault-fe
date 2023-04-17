@@ -41,3 +41,8 @@ export const RANK = [
     level: 0,
   },
 ];
+
+export const DEFAULT_PAGINATION = {
+  currentPage: 0,
+  pageSize: 5,
+};
