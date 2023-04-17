@@ -7,13 +7,13 @@ import { BreadcrumbsCustomization } from "app/components/BreadcrumbsCustomizatio
 import { ContentItem } from "app/components/ContentItem";
 import { Loading } from "app/components/Loading";
 import { useGetDocumentsByOwner } from "queries/document";
+import { DEFAULT_PAGINATION } from "utils/constants";
+
 import { useGetExamsByOwner } from "queries/exam";
 import {
   useGetUserExamsCompletedByOwner,
   useGetUserExamsNotCompletedByOwner,
 } from "queries/userExam";
-
-import { DEFAULT_PAGINATION } from "utils/constants";
 
 const cx = classNames.bind(styles);
 
