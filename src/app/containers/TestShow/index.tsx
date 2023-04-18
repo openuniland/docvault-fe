@@ -70,7 +70,6 @@ export const TestShow = () => {
       setDurationError("Có lỗi xảy ra vui lòng liên hệ bộ phận phát triển");
     }
   }, [examDuration, durationError]);
-  console.log(userExamId);
 
   if (isLoadingGetExam) {
     return <Loading />;

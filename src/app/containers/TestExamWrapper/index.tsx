@@ -133,11 +133,7 @@ export const TestExamWrapper = () => {
       );
       setScore(response.data.data.score);
       setUserExamStatus(response.data.data.is_completed);
-
-      // navigate(`/exam`);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   const handleExit = () => {
     navigate(`/exams`);
