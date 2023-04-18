@@ -117,7 +117,6 @@ export const ProfilePageWrapper = () => {
         {pageCountExam >= 2 && (
           <div className={cx("paging")}>
             <Pagination
-              className={cx("paging")}
               count={pageCountExam}
               variant="outlined"
               shape="rounded"
