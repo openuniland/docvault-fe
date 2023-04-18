@@ -48,6 +48,7 @@ export const ModalCustomization = (props: Props) => {
     textAgreeBtn,
     colorBtn,
   } = props;
+
   return (
     <div className={cx("container")}>
       <Dialog

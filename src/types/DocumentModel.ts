@@ -28,6 +28,10 @@ export interface GetAllDocumentsBySubjectIdResponse {
   subject: Subject;
 }
 
+export interface GetDocumentsByOwnerResponse {
+  documents: DocumentModel[];
+}
+
 export interface DocumentPayload {
   title: string;
   description: string;

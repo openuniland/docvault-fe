@@ -1,8 +1,8 @@
 import classNames from "classnames/bind";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { Tooltip, Typography, TextField } from "@mui/material";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { useCallback, useState } from "react";
-import { Link, useParams } from "react-router-dom";
 
 import styles from "./TestShow.module.scss";
 import { useGetExamById } from "queries/exam";
@@ -16,6 +16,7 @@ import { Loading } from "app/components/Loading";
 const cx = classNames.bind(styles);
 
 export const TestShow = () => {
+  const navigate = useNavigate();
   const { examId } = useParams();
   const { data: exam, isLoading: isLoadingGetExam } = useGetExamById(
     examId as string,
@@ -26,6 +27,7 @@ export const TestShow = () => {
   const [durationError, setDurationError] = useState<string>("");
 
   const { mutateAsync, isLoading } = useCreateUserExam();
+  let userExamId: string = "";
 
   const handleClosePopup = useCallback(() => {
     setOpenPropup(false);
@@ -53,10 +55,14 @@ export const TestShow = () => {
         setDurationError("Thời gian làm bài cần lớn hơn 0 !!!");
         return;
       }
-      await mutateAsync({
+      const res = await mutateAsync({
         duration: Number(examDuration) * 60000,
         exam_id: exam?._id!,
       });
+
+      userExamId = res._id;
+
+      navigate(`/exams/do-exam/${userExamId}`);
       setExamDuration("0");
       handleClosePopup();
       setDurationError("");
@@ -64,6 +70,7 @@ export const TestShow = () => {
       setDurationError("Có lỗi xảy ra vui lòng liên hệ bộ phận phát triển");
     }
   }, [examDuration, durationError]);
+  console.log(userExamId);
 
   if (isLoadingGetExam) {
     return <Loading />;

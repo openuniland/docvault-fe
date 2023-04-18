@@ -1,0 +1,64 @@
+.container {
+  background-color: var(--primary-background);
+  max-width: 1000px;
+  padding: 20px;
+  margin: auto;
+}
+
+.examName {
+  color: var(--text);
+  font-size: 2.6rem;
+  margin-bottom: 38px;
+}
+
+.examItem {
+  display: flex;
+  color: var(--text);
+}
+
+.nameItem {
+  font-size: 18px;
+}
+
+.space {
+  margin-left: 5px;
+}
+
+.highlight {
+  font-size: 18px;
+  color: var(--primary);
+}
+
+.highlightspace {
+  font-size: 18px;
+  color: var(--primary);
+  margin-left: 5px;
+}
+.exam-subinfo-wrapper {
+  display: flex;
+  column-gap: 20px;
+  flex-direction: row;
+  align-items: center;
+}
+.exam-info-wrapper {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  align-items: center;
+  padding: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #c9c9c9;
+}
+.exam-container {
+  display: flex;
+  column-gap: 8px;
+  position: relative;
+}
+.question-manage {
+  position: sticky;
+  top: 0;
+  max-height: 600px;
+}

@@ -1,10 +1,12 @@
 import {
   Box,
   FormControlLabel,
+  FormLabel,
   IconButton,
   Paper,
   Radio,
   RadioGroup,
+  FormControl,
 } from "@mui/material";
 import classNames from "classnames/bind";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
@@ -20,12 +22,18 @@ interface Props {
   questions?: NewQuestionPayload[];
   onDelete?: (index: number) => void;
   showDeleteButton: boolean;
+  handleChange?: (position: number, value: string) => void;
+  answersOfUser?: string[];
+  examStatus?: boolean;
 }
 const RenderQuestion = (props: Props) => {
   const {
     questions = [],
     onDelete = () => {},
     showDeleteButton = true,
+    handleChange,
+    answersOfUser = [],
+    examStatus,
   } = props;
 
   const handleDelete = useCallback(
@@ -62,23 +70,34 @@ const RenderQuestion = (props: Props) => {
             </div>
           </div>
 
-          <h3 className={cx("title")}>{item.content}</h3>
-          {item.image && (
-            <div className={cx("imgWrapper")}>
-              <img src={item.image} alt="" />
-            </div>
-          )}
-
-          <RadioGroup value={item.correct_answer?.id}>
-            {item.answers?.map(answer => (
-              <FormControlLabel
-                key={answer?.id}
-                value={answer.id}
-                control={<Radio />}
-                label={answer?.content}
-              />
-            ))}
-          </RadioGroup>
+          <FormControl>
+            <FormLabel>
+              <h3 className={cx("title")}>{item.content}</h3>
+              {item.image && (
+                <div className={cx("imgWrapper")}>
+                  <img src={item.image} alt="" />
+                </div>
+              )}
+            </FormLabel>
+            <RadioGroup
+              defaultValue={answersOfUser ? answersOfUser[index] : ""}
+              onChange={event =>
+                handleChange
+                  ? handleChange(index, event.target.value)
+                  : undefined
+              }
+            >
+              {item.answers?.map(answer => (
+                <FormControlLabel
+                  key={answer?.id}
+                  value={answer.id}
+                  control={<Radio />}
+                  label={answer?.content}
+                  disabled={examStatus}
+                />
+              ))}
+            </RadioGroup>
+          </FormControl>
         </Paper>
       ))}
     </Box>

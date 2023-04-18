@@ -16,7 +16,7 @@ export const createNewQuestion = async (
 };
 
 export const getQuestionsByExamId = async (
-  examId: string,
+  examId?: string,
 ): Promise<GetAllQuestionsByExamIdResponse> => {
   const response: AxiosResponse = await http.get(`/questions/exam/${examId}`);
 
