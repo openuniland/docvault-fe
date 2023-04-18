@@ -59,7 +59,7 @@ export const DocumentControl = () => {
       </div>
 
       <div className={cx("documentList")}>
-        {documentsBySubject?.data?.documents?.map((doc: any) => (
+        {documentsBySubject?.data?.documents?.map(doc => (
           <ContentItem
             key={doc?._id}
             createdAt={doc?.created_at}
