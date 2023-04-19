@@ -20,15 +20,18 @@ export const InProgress = () => {
     <div className={cx("container")}>
       <div className={cx("title")}>{t("home.inProgress.title")}</div>
       <div className={cx("examList")}>
-        {userExams?.map(userExam => (
-          <InProgressItem
-            key={userExam._id}
-            subjectName={userExam?.subject?.subject_name}
-            title={userExam.title}
-            userAnswer={userExam.user_answer_id}
-            totalQuestion={userExam.questions.length}
-          />
-        ))}
+        {userExams
+          ?.filter(userExam => !userExam.is_completed)
+          .map(userExam => (
+            <InProgressItem
+              key={userExam._id}
+              subjectName={userExam?.subject?.subject_name}
+              title={userExam.title}
+              userAnswer={userExam.user_answer_id}
+              totalQuestion={userExam.questions.length}
+              userExamId={userExam._id}
+            />
+          ))}
       </div>
     </div>
   );

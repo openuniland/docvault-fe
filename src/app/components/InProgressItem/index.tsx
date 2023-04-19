@@ -6,6 +6,7 @@ import { useCallback, useMemo } from "react";
 import { ButtonCustomization } from "../ButtonCustomization";
 import styles from "./InProgressItem.module.scss";
 import { UserAnswer } from "types/UserAnswer";
+import { useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -14,12 +15,20 @@ interface Props {
   title?: string;
   totalQuestion?: number;
   userAnswer?: UserAnswer;
+  userExamId?: string;
 }
 
 export const InProgressItem = (props: Props) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
-  const { subjectName = "", title, totalQuestion = 0, userAnswer } = props;
+  const {
+    subjectName = "",
+    title,
+    totalQuestion = 0,
+    userAnswer,
+    userExamId,
+  } = props;
 
   const completedQuestion = useMemo(() => {
     return userAnswer?.answers_id?.filter(answer => answer !== "") || [];
@@ -32,7 +41,7 @@ export const InProgressItem = (props: Props) => {
   }, [totalQuestion, completedQuestion]);
 
   const handleContinue = useCallback(() => {
-    // TODO: handle continue
+    navigate(`/exams/do-exam/${userExamId}`);
   }, []);
 
   return (
