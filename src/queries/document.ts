@@ -8,10 +8,18 @@ import {
 import { URLparams } from "types";
 import { STALE_TIME } from "utils/constants";
 
-export const useGetAllDocumentsBySubjectId = (subjectId: string) =>
+export const useGetAllDocumentsBySubjectId = (
+  subjectId: string,
+  urlParams: URLparams,
+) =>
   useQuery(
-    ["get-document-by-subjectId", subjectId],
-    () => getAllDocumentsBySubjectId(subjectId),
+    [
+      "get-document-by-subjectId",
+      subjectId,
+      urlParams?.currentPage,
+      urlParams?.pageSize,
+    ],
+    () => getAllDocumentsBySubjectId(subjectId, urlParams),
     {
       staleTime: STALE_TIME.ONE_HOUR,
     },

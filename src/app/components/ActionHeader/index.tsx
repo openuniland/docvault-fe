@@ -115,11 +115,7 @@ export const ActionHeader = () => {
         )}
       >
         <div className={cx("avatar")}>
-          <Avatar
-            src={userInfo?.avatar}
-            className={cx("avatarIcon")}
-            onDoubleClick={handleNavigateProfilePage}
-          />
+          <Avatar src={userInfo?.avatar} className={cx("avatarIcon")} />
         </div>
       </Tippy>
     </div>

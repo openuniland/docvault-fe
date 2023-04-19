@@ -24,18 +24,19 @@ export const QuestionManage = (props: Props) => {
   return (
     <div className={cx("container")}>
       <div className={cx("question-position-wrapper")}>
-        {questions.map((item, index) => (
-          <div
-            key={index}
-            className={cx(
-              doneQuestions[index]
-                ? "position-done-question"
-                : "position-question",
-            )}
-          >
-            {index + 1}
-          </div>
-        ))}
+        {questions &&
+          questions?.map((item, index) => (
+            <div
+              key={index}
+              className={cx(
+                doneQuestions[index]
+                  ? "position-done-question"
+                  : "position-question",
+              )}
+            >
+              {index + 1}
+            </div>
+          ))}
       </div>
       <div className={cx("exam-info-wrapper")}>
         <div className={cx("examItem")}>

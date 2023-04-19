@@ -9,10 +9,18 @@ import {
 import { URLparams } from "types";
 import { STALE_TIME } from "utils/constants";
 
-export const useGetAllExamsBySubjectId = (subjectId: string) =>
+export const useGetAllExamsBySubjectId = (
+  subjectId: string,
+  urlParams: URLparams,
+) =>
   useQuery(
-    ["get-exam-by-subjectId", subjectId],
-    () => getAllExamsBySubjectId(subjectId),
+    [
+      "get-exam-by-subjectId",
+      subjectId,
+      urlParams?.currentPage,
+      urlParams?.pageSize,
+    ],
+    () => getAllExamsBySubjectId(subjectId, urlParams),
     {
       staleTime: STALE_TIME.ONE_HOUR,
     },

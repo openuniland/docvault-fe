@@ -15,22 +15,16 @@
   font-size: 20px;
 }
 
-.documentContent {
+.documentList {
+  margin: 16px 10px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
 }
 
 .examContent {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.documentList {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 10px 0px;
 }
 
 .examList {
@@ -40,5 +34,12 @@
 }
 
 .examWrapper {
-  margin-top: 10px;
+  margin-top: 30px;
+}
+
+.paging {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
 }

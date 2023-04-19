@@ -41,9 +41,6 @@ export const TestExamWrapper = () => {
       : [],
   );
 
-  const [lastUpdatedPosition, setLastUpdatedPosition] = useState<number | null>(
-    null,
-  );
   const countUserAnswerDone = (arr?: Array<string>) => {
     let count = 0;
     const array = arr ? arr : [];
@@ -83,45 +80,34 @@ export const TestExamWrapper = () => {
   const handleOpenPopup = useCallback(() => {
     setOpenPopupSubmit(true);
   }, [openPopupSubmit]);
+  console.log(arrUserAnswer);
 
-  const changeAnswer = async (position: number, value: string) => {
-    try {
-      if (arrUserAnswer) {
-        arrUserAnswer[position] = value;
-
-        setArrUserAnswer(arrUserAnswer);
+  const changeAnswer = useCallback(
+    async (position: number, value: string) => {
+      try {
+        if (arrUserAnswer) {
+          arrUserAnswer[position] = value;
+          setArrUserAnswer(arrUserAnswer);
+        }
+        setNumberAnswerDone(countUserAnswerDone(arrUserAnswer));
+        if (arrUserAnswer[position] !== "") {
+          mutateAsyncUpdateUserAnswer({
+            RequestUpdateUserAnswer: {
+              answer_id: arrUserAnswer[position],
+              user_exam_id: userExamByOwner?._id,
+              position: position,
+            },
+            user_answer_id: userExamByOwner?.user_answers[0]._id,
+          });
+        }
+      } catch (error) {
+        console.log(error);
       }
+    },
+    [arrUserAnswer],
+  );
 
-      setNumberAnswerDone(countUserAnswerDone(arrUserAnswer));
-
-      setLastUpdatedPosition(position);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    const updateAnswerId = arrUserAnswer
-      ? arrUserAnswer[lastUpdatedPosition || 0]
-      : "";
-
-    if (updateAnswerId !== "") {
-      mutateAsyncUpdateUserAnswer({
-        RequestUpdateUserAnswer: {
-          answer_id: updateAnswerId,
-          user_exam_id: userExamByOwner?._id,
-          position: lastUpdatedPosition || 0,
-        },
-        user_answer_id: userExamByOwner?.user_answers[0]._id,
-      });
-    }
-  }, [
-    arrUserAnswer,
-    lastUpdatedPosition,
-    userExamByOwner?.user_answers[0]._id,
-    mutateAsyncUpdateUserAnswer,
-  ]);
-
-  const handleSubmitExam = async () => {
+  const handleSubmitExam = useCallback(async () => {
     try {
       await mutateAsyncSubmitTheExam({
         user_exam_id: userExamId,
@@ -134,10 +120,10 @@ export const TestExamWrapper = () => {
       setScore(response.data.data.score);
       setUserExamStatus(response.data.data.is_completed);
     } catch (error) {}
-  };
-  const handleExit = () => {
+  }, []);
+  const handleExit = useCallback(() => {
     navigate(`/exams`);
-  };
+  }, []);
 
   return (
     <div className={cx("container")}>

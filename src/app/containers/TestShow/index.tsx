@@ -27,7 +27,6 @@ export const TestShow = () => {
   const [durationError, setDurationError] = useState<string>("");
 
   const { mutateAsync, isLoading } = useCreateUserExam();
-  let userExamId: string = "";
 
   const handleClosePopup = useCallback(() => {
     setOpenPropup(false);
@@ -60,9 +59,7 @@ export const TestShow = () => {
         exam_id: exam?._id!,
       });
 
-      userExamId = res._id;
-
-      navigate(`/exams/do-exam/${userExamId}`);
+      navigate(`/exams/do-exam/${res._id}`);
       setExamDuration("0");
       handleClosePopup();
       setDurationError("");
