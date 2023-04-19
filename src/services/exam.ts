@@ -13,10 +13,19 @@ import { DEFAULT_PAGINATION } from "utils/constants";
 
 export const getAllExamsBySubjectId = async (
   subjectId: string,
-): Promise<GetAllExamsBySubjectIdResponse> => {
-  const response: AxiosResponse = await http.get(`/exams/subject/${subjectId}`);
+  urlParams: URLparams,
+): Promise<DataWithMeta<GetAllExamsBySubjectIdResponse>> => {
+  const response: AxiosResponse = await http.get(
+    `/exams/subject/${subjectId}`,
+    {
+      params: {
+        currentPage: urlParams?.currentPage || DEFAULT_PAGINATION.currentPage,
+        pageSize: urlParams?.pageSize || DEFAULT_PAGINATION.pageSize,
+      },
+    },
+  );
 
-  return response?.data?.data;
+  return response?.data;
 };
 
 export const getExamById = async (examId: string): Promise<ExamModel> => {

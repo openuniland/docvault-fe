@@ -3,7 +3,7 @@ import { AxiosResponse } from "axios";
 import {
   DocumentModel,
   CreateTheDocumentPayload,
-  GetAllDocumentsBySubjectIdResponse,
+  GetDocumentBySubjectIdResponse,
 } from "types/DocumentModel";
 import { DataWithMeta, URLparams } from "types";
 
@@ -12,12 +12,19 @@ import { DEFAULT_PAGINATION } from "utils/constants";
 
 export const getAllDocumentsBySubjectId = async (
   subjectId: string,
-): Promise<GetAllDocumentsBySubjectIdResponse> => {
+  urlParams: URLparams,
+): Promise<DataWithMeta<GetDocumentBySubjectIdResponse>> => {
   const response: AxiosResponse = await http.get(
     `/documents/subject/${subjectId}`,
+    {
+      params: {
+        currentPage: urlParams?.currentPage || DEFAULT_PAGINATION.currentPage,
+        pageSize: urlParams?.pageSize || DEFAULT_PAGINATION.pageSize,
+      },
+    },
   );
 
-  return response?.data?.data;
+  return response?.data;
 };
 
 export const createDocument = async (

@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { Typography, Pagination } from "@mui/material";
+import { Typography, Pagination, LinearProgress } from "@mui/material";
 import { useState, useCallback, useMemo } from "react";
 
 import styles from "./ProfilePageWrapper.module.scss";
@@ -16,12 +16,14 @@ export const ProfilePageWrapper = () => {
   const [currentDocumentPage, setcurrentDocumentPage] = useState(1);
   const [currentExamPage, setcurrentExamPage] = useState(1);
 
-  const { data: documentsByOwner } = useGetDocumentsByOwner({
-    currentPage: currentDocumentPage - 1,
-  });
-  const { data: examsByOwner } = useGetExamsByOwner({
-    currentPage: currentExamPage - 1,
-  });
+  const { data: documentsByOwner, isLoading: isLoadingGetDocuments } =
+    useGetDocumentsByOwner({
+      currentPage: currentDocumentPage - 1,
+    });
+  const { data: examsByOwner, isLoading: isLoadingGetExams } =
+    useGetExamsByOwner({
+      currentPage: currentExamPage - 1,
+    });
 
   const handlePagingDocument = useCallback(
     (_: React.ChangeEvent<unknown>, value: number) => {
@@ -53,6 +55,8 @@ export const ProfilePageWrapper = () => {
 
   return (
     <div className={cx("container")}>
+      {isLoadingGetDocuments && isLoadingGetExams && <LinearProgress />}
+
       <BreadcrumbsCustomization
         className={cx("breadcrumb")}
         current="profile"
@@ -65,27 +69,30 @@ export const ProfilePageWrapper = () => {
             Tài liệu của bạn
           </Typography>
         </div>
-        <div className={cx("documentContent")}>
-          <div className={cx("documentList")}>
-            {documentsByOwner?.data?.map(document => (
-              <ContentItem
-                key={document?._id}
-                createdAt={document?.created_at}
-                description={`Đề thi thử kì ${document?.semester} năm học ${document?.school_year} `}
-                prefix="documents"
-                id={document?._id}
-                title={document?.title}
-              />
-            ))}
-          </div>
-          <Pagination
-            count={pageCountDocument}
-            variant="outlined"
-            shape="rounded"
-            page={currentDocumentPage}
-            onChange={handlePagingDocument}
-          />
+
+        <div className={cx("documentList")}>
+          {documentsByOwner?.data?.map(document => (
+            <ContentItem
+              key={document?._id}
+              createdAt={document?.created_at}
+              description={`Đề thi thử kì ${document?.semester} năm học ${document?.school_year} `}
+              prefix="documents"
+              id={document?._id}
+              title={document?.title}
+            />
+          ))}
         </div>
+        {pageCountDocument >= 2 && (
+          <div className={cx("paging")}>
+            <Pagination
+              count={pageCountDocument}
+              variant="outlined"
+              shape="rounded"
+              page={currentDocumentPage}
+              onChange={handlePagingDocument}
+            />
+          </div>
+        )}
       </div>
 
       <div className={cx("examWrapper")}>
@@ -94,27 +101,30 @@ export const ProfilePageWrapper = () => {
             Bài kiểm tra của bạn
           </Typography>
         </div>
-        <div className={cx("examContent")}>
-          <div className={cx("examList")}>
-            {examsByOwner?.data?.map(exam => (
-              <ContentItem
-                key={exam?._id}
-                createdAt={exam?.created_at}
-                description={`Đề thi thử kì ${exam?.semester} năm học ${exam?.school_year} `}
-                prefix="exams"
-                id={exam?._id}
-                title={exam?.title}
-              />
-            ))}
-          </div>
-          <Pagination
-            count={pageCountExam}
-            variant="outlined"
-            shape="rounded"
-            page={currentExamPage}
-            onChange={handlePagingExam}
-          />
+
+        <div className={cx("examList")}>
+          {examsByOwner?.data?.map(exam => (
+            <ContentItem
+              key={exam?._id}
+              createdAt={exam?.created_at}
+              description={`Đề thi thử kì ${exam?.semester} năm học ${exam?.school_year} `}
+              prefix="exams"
+              id={exam?._id}
+              title={exam?.title}
+            />
+          ))}
         </div>
+        {pageCountExam >= 2 && (
+          <div className={cx("paging")}>
+            <Pagination
+              count={pageCountExam}
+              variant="outlined"
+              shape="rounded"
+              page={currentExamPage}
+              onChange={handlePagingExam}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
