@@ -1,10 +1,10 @@
 import { useQuery } from "react-query";
 
-import { getUserExams, getUserExamByOwner } from "services/userExam";
+import { getUserExamsInprogress, getUserExamByOwner } from "services/userExam";
 import { STALE_TIME } from "utils/constants";
 
-export const useGetUserExams = () =>
-  useQuery(["get-user-exams"], () => getUserExams(), {
+export const useGetUserExamsInprogress = () =>
+  useQuery(["get-user-exams"], () => getUserExamsInprogress(), {
     staleTime: STALE_TIME.ONE_HOUR,
   });
 export const useGetUserExamByOwner = (userExamId: string) =>

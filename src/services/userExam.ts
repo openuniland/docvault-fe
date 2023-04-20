@@ -1,15 +1,14 @@
 import { AxiosResponse } from "axios";
 import {
-  UserExam,
-  CreateUserExamPayload,
   UserExamResponse,
+  CreateUserExamPayload,
   SubmitExamResponse,
   SubmitExamPayload,
 } from "types/UserExam";
 
 import http from "utils/api/http";
 
-export const getUserExams = async (): Promise<UserExam[]> => {
+export const getUserExamsInprogress = async (): Promise<UserExamResponse[]> => {
   const response: AxiosResponse = await http.get(
     `/user-exams?is_completed=${false}`,
   );

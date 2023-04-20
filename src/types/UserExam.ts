@@ -38,6 +38,7 @@ export interface UserExamResponse {
   title: string;
   questions: Question[];
   user_answers: UserAnswer[];
+  author_exam: User;
   duration: number; // in miliseconds
   score: number;
   semester: number;

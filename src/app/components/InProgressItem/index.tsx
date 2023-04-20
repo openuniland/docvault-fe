@@ -1,12 +1,13 @@
 import classNames from "classnames/bind";
 import { LinearProgress } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { ButtonCustomization } from "../ButtonCustomization";
 import styles from "./InProgressItem.module.scss";
 import { UserAnswer } from "types/UserAnswer";
 import { useNavigate } from "react-router-dom";
+import { ModalCustomization } from "../ModalCustomization";
 
 const cx = classNames.bind(styles);
 
@@ -30,6 +31,8 @@ export const InProgressItem = (props: Props) => {
     userExamId,
   } = props;
 
+  const [openPopup, setOpenPopup] = useState(false);
+
   const completedQuestion = useMemo(() => {
     return userAnswer?.answers_id?.filter(answer => answer !== "") || [];
   }, [userAnswer]);
@@ -41,6 +44,12 @@ export const InProgressItem = (props: Props) => {
   }, [totalQuestion, completedQuestion]);
 
   const handleContinue = useCallback(() => {
+    setOpenPopup(true);
+  }, [openPopup]);
+  const handleClosePopup = useCallback(() => {
+    setOpenPopup(false);
+  }, [openPopup]);
+  const handleSubmitContinue = useCallback(() => {
     navigate(`/exams/do-exam/${userExamId}`);
   }, []);
 
@@ -62,6 +71,17 @@ export const InProgressItem = (props: Props) => {
       >
         {t("button.continue")}
       </ButtonCustomization>
+      <ModalCustomization
+        open={openPopup}
+        handleCancel={handleClosePopup}
+        handleAgree={handleSubmitContinue}
+        actionDefault
+        title="Bạn có chắc chắn muốn làm tiếp bài thi không?"
+        textAgreeBtn="Submit"
+        colorBtn="success"
+      >
+        <div></div>
+      </ModalCustomization>
     </div>
   );
 };

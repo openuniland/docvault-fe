@@ -6,7 +6,7 @@ import http from "utils/api/http";
 
 import styles from "./TestExamWrapper.module.scss";
 import { BreadcrumbsCustomization } from "app/components/BreadcrumbsCustomization";
-import { useGetQuestionsByExamId } from "queries/question";
+// import { useGetQuestionsByExamId } from "queries/question";
 import RenderQuestion from "app/components/RenderQuestion";
 import { useGetUserExamByOwner } from "queries/userExam";
 import { useState, useEffect, useCallback } from "react";
@@ -24,9 +24,7 @@ export const TestExamWrapper = () => {
 
   const { userExamId } = useParams();
   const { data: userExamByOwner } = useGetUserExamByOwner(userExamId as string);
-
-  const examId = userExamByOwner?.original_exam;
-  const { data: questionsByExamId } = useGetQuestionsByExamId(examId as string);
+  const questionsByExamId = userExamByOwner?.questions;
 
   const { mutateAsync: mutateAsyncSubmitTheExam } = useSubmitTheExam();
 
@@ -80,7 +78,87 @@ export const TestExamWrapper = () => {
   const handleOpenPopup = useCallback(() => {
     setOpenPopupSubmit(true);
   }, [openPopupSubmit]);
-  console.log(arrUserAnswer);
+
+  const handleSubmitExam = useCallback(async () => {
+    try {
+      await mutateAsyncSubmitTheExam({
+        user_exam_id: userExamId,
+      });
+      handleClosePopup();
+
+      const response: AxiosResponse = await http.get(
+        `/user-exams/${userExamId}`,
+      );
+      setScore(response.data.data.score);
+      setUserExamStatus(response.data.data.is_completed);
+    } catch (error) {}
+  }, []);
+
+  const [openTimeIsUp, setOpenTimeIsUp] = useState(false);
+  const handleCloseTimeIsUp = useCallback(() => {
+    setOpenTimeIsUp(false);
+  }, [openTimeIsUp]);
+
+  const handleOpenTimeIsUp = useCallback(() => {
+    setOpenTimeIsUp(true);
+    setUserExamStatus(true);
+  }, [openTimeIsUp]);
+
+  const [times, setTimes] = useState({
+    hours: 0,
+    minutes: 0,
+    seconds: Math.round(
+      (userExamByOwner?.duration! -
+        (new Date().getTime() -
+          new Date(userExamByOwner?.created_at).getTime())) /
+        1000,
+    ),
+  });
+  useEffect(() => {
+    if (
+      userExamByOwner?.duration &&
+      !isNaN(userExamByOwner.duration) &&
+      userExamByOwner?.created_at
+    ) {
+      setTimes(time => ({
+        ...time,
+        seconds: Math.round(
+          (userExamByOwner.duration -
+            (new Date().getTime() -
+              new Date(userExamByOwner.created_at).getTime())) /
+            1000,
+        ),
+      }));
+    }
+  }, [userExamByOwner]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimes(time => {
+        const totalSeconds =
+          time.hours * 3600 + time.minutes * 60 + time.seconds - 1;
+        if (totalSeconds >= 0) {
+          const hours = Math.floor(totalSeconds / 3600);
+          const minutes = Math.floor((totalSeconds % 3600) / 60);
+          const seconds = totalSeconds % 60;
+          return { hours, minutes, seconds };
+        } else {
+          clearInterval(interval);
+          return { hours: 0, minutes: 0, seconds: 0 };
+        }
+      });
+    }, 1000);
+    if (times.hours == 0 && times.minutes == 0 && times.seconds == 0) {
+      clearInterval(interval);
+      handleOpenTimeIsUp();
+      handleSubmitExam();
+      console.log("heet thoi gian");
+    }
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [times]);
 
   const changeAnswer = useCallback(
     async (position: number, value: string) => {
@@ -107,20 +185,6 @@ export const TestExamWrapper = () => {
     [arrUserAnswer],
   );
 
-  const handleSubmitExam = useCallback(async () => {
-    try {
-      await mutateAsyncSubmitTheExam({
-        user_exam_id: userExamId,
-      });
-      handleClosePopup();
-
-      const response: AxiosResponse = await http.get(
-        `/user-exams/${userExamId}`,
-      );
-      setScore(response.data.data.score);
-      setUserExamStatus(response.data.data.is_completed);
-    } catch (error) {}
-  }, []);
   const handleExit = useCallback(() => {
     navigate(`/exams`);
   }, []);
@@ -133,7 +197,7 @@ export const TestExamWrapper = () => {
         breadcrumbsList={[{ linkTo: "/exams", text: "Các môn học" }]}
       />
       <Typography className={cx("examName")} component="h1">
-        {questionsByExamId?.exam?.title}
+        {userExamByOwner?.title}
       </Typography>
       <div className={cx("exam-container")}>
         <div className={cx("exam-wrapper")}>
@@ -148,7 +212,7 @@ export const TestExamWrapper = () => {
                   {numberAnswerDone}/
                 </Typography>
                 <Typography className={cx("highlight")} component="strong">
-                  {questionsByExamId?.questions?.length}
+                  {questionsByExamId?.length}
                 </Typography>
               </div>
 
@@ -170,10 +234,11 @@ export const TestExamWrapper = () => {
                 </Typography>
 
                 <Typography className={cx("highlight")} component="strong">
-                  {userExamByOwner?.duration! / 60000}
-                </Typography>
-                <Typography className={cx("highlightspace")} component="strong">
-                  phút
+                  {`${times.hours.toString().padStart(2, "0")}:${times.minutes
+                    .toString()
+                    .padStart(2, "0")}:${times.seconds
+                    .toString()
+                    .padStart(2, "0")}`}
                 </Typography>
               </div>
               {score >= 0 && (
@@ -212,7 +277,7 @@ export const TestExamWrapper = () => {
           </div>
 
           <RenderQuestion
-            questions={questionsByExamId?.questions}
+            questions={questionsByExamId}
             showDeleteButton={false}
             handleChange={changeAnswer}
             answersOfUser={arrUserAnswer}
@@ -221,14 +286,14 @@ export const TestExamWrapper = () => {
         </div>
         <div className={cx("question-manage")}>
           <QuestionManage
-            questions={questionsByExamId?.questions}
+            questions={questionsByExamId}
             doneQuestions={arrUserAnswer}
             author={
-              questionsByExamId?.exam.author.fullname ||
-              questionsByExamId?.exam.author.nickname
+              userExamByOwner?.author_exam?.fullname ||
+              userExamByOwner?.author_exam?.nickname
             }
-            subject={questionsByExamId?.exam.subject.subject_name}
-            school_year={questionsByExamId?.exam.school_year}
+            subject={userExamByOwner?.subject.subject_name}
+            school_year={userExamByOwner?.school_year}
           />
         </div>
       </div>
@@ -244,6 +309,21 @@ export const TestExamWrapper = () => {
       >
         <div></div>
       </ModalCustomization>
+
+      {
+        <ModalCustomization
+          open={openTimeIsUp}
+          handleCancel={handleCloseTimeIsUp}
+          handleAgree={handleCloseTimeIsUp}
+          actionDefault
+          title="Bạn đã hết thời gian làm bài"
+          contentText="Ấn xác nhận để nhận kết quả"
+          textAgreeBtn="Submit"
+          colorBtn="success"
+        >
+          <div></div>
+        </ModalCustomization>
+      }
     </div>
   );
 };

@@ -36,13 +36,13 @@
 }
 .exam-subinfo-wrapper {
   display: flex;
-  column-gap: 20px;
+  column-gap: 10px;
   flex-direction: row;
   align-items: center;
 }
 .exam-info-wrapper {
   display: flex;
-  justify-content: space-between;
+  column-gap: 20px;
   border: 1px solid #ccc;
   border-radius: 4px;
   align-items: center;
