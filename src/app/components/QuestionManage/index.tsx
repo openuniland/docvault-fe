@@ -20,7 +20,7 @@ export const QuestionManage = (props: Props) => {
     author,
     subject,
     school_year,
-    // questionsRef = [],
+    questionsRef = [],
   } = props;
   console.log(doneQuestions);
 
@@ -36,11 +36,11 @@ export const QuestionManage = (props: Props) => {
                   ? "position-done-question"
                   : "position-question",
               )}
-              // onClick={() => {
-              //   questionsRef.current[index].scrollIntoView({
-              //     behavior: "smooth",
-              //   });
-              // }}
+              onClick={() => {
+                questionsRef.current[index].scrollIntoView({
+                  behavior: "smooth",
+                });
+              }}
             >
               {index + 1}
             </div>

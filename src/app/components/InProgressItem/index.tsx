@@ -77,7 +77,7 @@ export const InProgressItem = (props: Props) => {
         handleAgree={handleSubmitContinue}
         actionDefault
         title="Bạn có chắc chắn muốn làm tiếp bài thi không?"
-        textAgreeBtn="Submit"
+        textAgreeBtn="Continue"
         colorBtn="success"
       >
         <div></div>

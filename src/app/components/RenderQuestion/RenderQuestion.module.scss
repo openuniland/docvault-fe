@@ -5,7 +5,7 @@
 
 .question {
   padding: 20px;
-  margin: 20px 0;
+  margin: 40px 0 20px 0;
   background-color: var(--primary-surface);
   color: var(--text);
 }
@@ -13,11 +13,12 @@
 .itemHeader {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 6px;
 
   .index {
-    width: 32px;
-    height: 32px;
-    background-color: var(--primary-background);
+    width: 26px;
+    height: 26px;
+    background-color: var(--primary);
     color: var(--text);
     font-size: 1.2rem;
   }
@@ -50,22 +51,22 @@
 }
 
 .iconDeleteWrapper {
-  color: #ff0000;
+  color: var(--error-deep);
 }
 
 .title {
   font-size: 1.4rem;
-  color: #000;
+  color: var(--text);
 }
 
 .high {
-  color: #00d21b;
+  color: var(--primary);
 }
 
 .medium {
-  color: #ffc000;
+  color: var(--warning);
 }
 
 .low {
-  color: #acacac;
+  color: var(--secondary-icon);
 }

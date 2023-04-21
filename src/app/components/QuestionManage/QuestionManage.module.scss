@@ -5,6 +5,7 @@
   row-gap: 10px;
 }
 .question-position-wrapper {
+  color: #000;
   border: 1px solid #ccc;
   display: flex;
   flex-wrap: wrap;
@@ -12,6 +13,7 @@
   row-gap: 5px;
   padding: 6px;
   border-radius: 4px;
+  background-color: var(--banner-background);
   & div:hover {
     cursor: pointer;
   }
@@ -34,12 +36,12 @@
 }
 .examItem {
   display: flex;
-  color: var(--text);
   max-width: 100%;
 }
 
 .nameItem {
   font-size: 14px;
+  color: #000;
 }
 .highlight {
   font-size: 14px;
@@ -52,4 +54,5 @@
   flex-direction: column;
   border-radius: 4px;
   row-gap: 6px;
+  background-color: var(--banner-background);
 }

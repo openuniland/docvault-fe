@@ -8,11 +8,12 @@ import styles from "./TestExamWrapper.module.scss";
 import { BreadcrumbsCustomization } from "app/components/BreadcrumbsCustomization";
 import RenderQuestion from "app/components/RenderQuestion";
 import { useGetUserExamByOwner } from "queries/userExam";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { QuestionManage } from "app/components/QuestionManage";
 import { useUpdateUserAnswer } from "mutations/userAnswer";
 import { ModalCustomization } from "app/components/ModalCustomization";
 import { useSubmitTheExam } from "mutations/userExam";
+import { TimerExam } from "app/components/TimerExam";
 
 const cx = classNames.bind(styles);
 
@@ -31,19 +32,8 @@ export const TestExamWrapper = () => {
   const [userExamStatus, setUserExamStatus] = useState(false);
   const [openPopupSubmit, setOpenPopupSubmit] = useState(false);
   const [openTimeIsUp, setOpenTimeIsUp] = useState(false);
-  const [times, setTimes] = useState({
-    hours: 0,
-    minutes: 0,
-    seconds: Math.round(
-      (userExamByOwner?.duration! -
-        (new Date().getTime() -
-          new Date(userExamByOwner?.created_at).getTime())) /
-        1000,
-    ),
-  });
 
-  // const questionRefs = questionsByExamId?.map(() => useRef());
-  // const questionRefs = useRef(Array);
+  const questionRefs = useRef(Array);
 
   const [arrUserAnswer, setArrUserAnswer] = useState(
     userExamByOwner &&
@@ -84,6 +74,7 @@ export const TestExamWrapper = () => {
     }
     setUserExamStatus(userExamByOwner?.is_completed!);
   }, [userExamByOwner]);
+
   const changeAnswer = useCallback(
     async (position: number, value: string) => {
       try {
@@ -108,6 +99,7 @@ export const TestExamWrapper = () => {
     },
     [arrUserAnswer],
   );
+
   const handleClosePopup = useCallback(() => {
     setOpenPopupSubmit(false);
   }, [openPopupSubmit]);
@@ -140,52 +132,7 @@ export const TestExamWrapper = () => {
     setUserExamStatus(true);
   }, [openTimeIsUp]);
 
-  useEffect(() => {
-    if (
-      userExamByOwner?.duration &&
-      !isNaN(userExamByOwner.duration) &&
-      userExamByOwner?.created_at
-    ) {
-      setTimes(time => ({
-        ...time,
-        seconds: Math.round(
-          (userExamByOwner.duration -
-            (new Date().getTime() -
-              new Date(userExamByOwner.created_at).getTime())) /
-            1000,
-        ),
-      }));
-    }
-  }, [userExamByOwner]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTimes(time => {
-        const totalSeconds =
-          time.hours * 3600 + time.minutes * 60 + time.seconds - 1;
-        if (totalSeconds >= 0) {
-          const hours = Math.floor(totalSeconds / 3600);
-          const minutes = Math.floor((totalSeconds % 3600) / 60);
-          const seconds = totalSeconds % 60;
-          return { hours, minutes, seconds };
-        } else {
-          clearInterval(interval);
-          return { hours: 0, minutes: 0, seconds: 0 };
-        }
-      });
-    }, 1000);
-    if (times.hours == 0 && times.minutes == 0 && times.seconds == 0) {
-      clearInterval(interval);
-      handleOpenTimeIsUp();
-      handleSubmitExam();
-    }
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [times]);
-
-  // console.log(arrUserAnswer);
+  console.log("re-render");
 
   const handleExit = useCallback(() => {
     navigate(`/exams`);
@@ -236,11 +183,11 @@ export const TestExamWrapper = () => {
                 </Typography>
 
                 <Typography className={cx("highlight")} component="strong">
-                  {`${times.hours.toString().padStart(2, "0")}:${times.minutes
-                    .toString()
-                    .padStart(2, "0")}:${times.seconds
-                    .toString()
-                    .padStart(2, "0")}`}
+                  <TimerExam
+                    userExam={userExamByOwner}
+                    handleOpenTimeIsUp={handleOpenTimeIsUp}
+                    handleSubmitExam={handleSubmitExam}
+                  />
                 </Typography>
               </div>
               {score >= 0 && (
@@ -284,7 +231,7 @@ export const TestExamWrapper = () => {
             handleChange={changeAnswer}
             answersOfUser={arrUserAnswer}
             examStatus={userExamStatus}
-            // questionsRef={questionRefs}
+            questionsRef={questionRefs}
           />
         </div>
         <div className={cx("question-manage")}>
@@ -297,7 +244,7 @@ export const TestExamWrapper = () => {
             }
             subject={userExamByOwner?.subject.subject_name}
             school_year={userExamByOwner?.school_year}
-            // questionsRef={questionRefs}
+            questionsRef={questionRefs}
           />
         </div>
       </div>
