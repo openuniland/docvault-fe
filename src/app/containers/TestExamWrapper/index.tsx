@@ -57,6 +57,7 @@ export const TestExamWrapper = () => {
   const [numberAnswerDone, setNumberAnswerDone] = useState(
     countUserAnswerDone(arrUserAnswer),
   );
+
   useEffect(() => {
     if (
       userExamByOwner?.user_answers &&
@@ -131,8 +132,6 @@ export const TestExamWrapper = () => {
     setOpenTimeIsUp(true);
     setUserExamStatus(true);
   }, [openTimeIsUp]);
-
-  console.log("re-render");
 
   const handleExit = useCallback(() => {
     navigate(`/exams`);

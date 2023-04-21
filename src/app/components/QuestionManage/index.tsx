@@ -22,7 +22,6 @@ export const QuestionManage = (props: Props) => {
     school_year,
     questionsRef = [],
   } = props;
-  console.log(doneQuestions);
 
   return (
     <div className={cx("container")}>

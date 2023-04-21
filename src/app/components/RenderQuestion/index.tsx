@@ -32,12 +32,12 @@ const RenderQuestion = (props: Props) => {
     questions = [],
     onDelete = () => {},
     showDeleteButton = true,
-    handleChange,
+    handleChange = () => {},
     answersOfUser = [],
     examStatus,
     questionsRef,
   } = props;
-  console.log(answersOfUser);
+
   const handleDelete = useCallback(
     (index: number) => () => {
       onDelete(index);
