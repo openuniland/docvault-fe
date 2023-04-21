@@ -30,11 +30,12 @@
 .textWrapper {
   font-size: 14px;
   font-weight: 400;
-  display: flex;
+  padding: 0 60px;
+  text-align: center;
 
-  & > p {
-    padding-right: 5px;
+  & > span {
     color: var(--text);
+    padding-right: 3px;
   }
 
   & > a {
@@ -44,5 +45,10 @@
     &:hover {
       text-decoration: underline;
     }
+  }
+
+  .and {
+    padding: 0;
+    margin: 0 3px;
   }
 }

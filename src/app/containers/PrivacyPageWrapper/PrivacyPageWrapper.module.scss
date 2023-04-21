@@ -1,0 +1,106 @@
+.bg {
+  background-color: var(--primary-surface);
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+.sidebar {
+  width: 340px;
+  position: fixed;
+}
+
+.contentSidebar {
+  height: 100%;
+  border-right: 3px solid var(--primary-light);
+  top: 20px;
+}
+
+.logo {
+  height: 30px;
+  width: 40px;
+  margin-bottom: 8px;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  max-width: 330px;
+}
+
+.backHomeBtn {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  min-height: 60px;
+}
+
+.linkBackHome {
+  text-decoration: none;
+  color: var(--primary);
+}
+
+.privacyBtn {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  min-height: 60px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.text {
+  font-size: 18px;
+  margin: 0 8px;
+}
+
+.backHomeBtn:hover,
+.listPrivacy > li:hover {
+  background-color: var(--primary-light);
+}
+
+.listPrivacy {
+  li {
+    list-style: none;
+    min-height: 60px;
+    max-width: 350px;
+    padding: 15px 0px;
+    padding-left: 40px;
+  }
+
+  li > a {
+    text-decoration: none;
+    font-size: 18px;
+    color: var(--text);
+  }
+}
+
+.content {
+  padding: 40px 0px;
+  padding-left: 35px;
+  margin-left: 340px;
+}
+
+.frameTitle {
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.frameContent {
+  color: var(--text);
+  margin: 10px 0px;
+}
+
+.titleContent {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.desTitle {
+  margin-left: 30px;
+}

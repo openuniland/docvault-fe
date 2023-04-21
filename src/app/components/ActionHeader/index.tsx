@@ -1,12 +1,12 @@
 import classNames from "classnames/bind";
 import { Avatar, IconButton, Switch } from "@mui/material";
 import {
-  Settings,
   Explore,
   Info,
   Logout,
   MailOutline,
   Notifications,
+  Settings,
 } from "@mui/icons-material";
 import Tippy from "@tippyjs/react/headless";
 import { useDispatch } from "react-redux";
@@ -49,6 +49,14 @@ export const ActionHeader = () => {
   const handleNavigateProfilePage = useCallback(() => {
     navigate(`/profile`);
   }, [navigate]);
+
+  const handleNavigatePrivacyPage = useCallback(() => {
+    navigate(`/privacy-policy`);
+  }, [navigate]);
+
+  const handleNavigateTermsOfUserPage = useCallback(() => {
+    navigate(`/terms-of-user`);
+  }, [navigate]);
   return (
     <div className={cx("container")}>
       <div className={cx("actionIcon")}>
@@ -83,7 +91,11 @@ export const ActionHeader = () => {
           <div className={cx("poperAvatar")} tabIndex={-1} {...attrs}>
             <div className={cx("poper")}>
               <div className={cx("profile")}>
-                <Avatar src={userInfo?.avatar} className={cx("avatarIcon")} />
+                <Avatar
+                  src={userInfo?.avatar}
+                  className={cx("avatarIcon")}
+                  onClick={handleNavigateProfilePage}
+                />
                 <div className={cx("name")} onClick={handleNavigateProfilePage}>
                   {userInfo?.name}
                 </div>
@@ -96,7 +108,7 @@ export const ActionHeader = () => {
                 </div>
                 <div className={cx("frame")}>
                   <Explore className={cx("icon")} />
-                  <p>Phản hồi</p>
+                  <p>Phản hồi & đóng góp ý kiến</p>
                 </div>
                 <div className={cx("frame")}>
                   <Info className={cx("icon")} />
@@ -109,7 +121,21 @@ export const ActionHeader = () => {
               <p>Đăng xuất</p>
             </div>
             <div className={cx("description")}>
-              Privacy · Terms · Revise © 2023
+              <span
+                className={cx("descItem")}
+                onClick={handleNavigatePrivacyPage}
+              >
+                Privacy
+              </span>
+              <span className={cx("descItem")}>-</span>
+              <span
+                className={cx("descItem")}
+                onClick={handleNavigateTermsOfUserPage}
+              >
+                Terms
+              </span>
+              <span className={cx("descItem")}>-</span>
+              <span className={cx("descItem")}>Revise © 2023</span>
             </div>
           </div>
         )}
