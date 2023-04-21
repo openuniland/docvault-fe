@@ -13,6 +13,8 @@ import { AddTestPage } from "app/pages/AddTestPage";
 import { TestViewPage } from "app/pages/TestViewPage";
 import { ProfilePage } from "app/pages/ProfilePage";
 import { NotFoundPage } from "app/pages/NotFoundPage";
+import { PrivacyPage } from "app/pages/PrivacyPage";
+import { TermsOfUsersPage } from "app/pages/TermsOfUserPage";
 
 const Pages = {
   Guards: Guards,
@@ -27,6 +29,8 @@ const Pages = {
   TestViewPage: withAppHeader(withSidebar(TestViewPage)),
   ProfilePage: withAppHeader(withSidebar(ProfilePage)),
   NotFoundPage: withAppHeader(withSidebar(NotFoundPage)),
+  PrivacyPage: PrivacyPage,
+  TermsOfUsersPage: TermsOfUsersPage,
 };
 
 const Layout = () => {
@@ -50,6 +54,8 @@ const Layout = () => {
       <Route path="/exams/new" element={<Pages.AddTestPage />} />
       <Route path="/exams/view/:examId" element={<Pages.TestViewPage />} />
       <Route path="/profile" element={<Pages.ProfilePage />} />
+      <Route path="/privacy-policy" element={<Pages.PrivacyPage />} />
+      <Route path="/terms-of-user" element={<Pages.TermsOfUsersPage />} />
     </Routes>
   );
 };

@@ -60,8 +60,10 @@ export const LoginFrame = () => {
           <GoogleIcon />
         </ButtonCustomization>
         <div className={cx("textWrapper")}>
-          <p>{t("login.termsAndCondition.text")}</p>
-          <Link to={"/"}>{t("login.termsAndCondition.link")}</Link>
+          <span>{t("login.termsAndCondition.text")}</span>
+          <Link to={"/terms-of-user"}>Điều khoản người dùng</Link>
+          <span className={cx("and")}>và</span>
+          <Link to={"/privacy-policy"}>Chính sách bảo mật</Link>
         </div>
       </div>
 
