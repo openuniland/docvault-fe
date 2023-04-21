@@ -1,0 +1,101 @@
+.container {
+  width: 100%;
+  display: flex;
+  background-color: var(--primary-surface);
+  padding: 0 200px;
+  padding-top: 20px;
+}
+.sidebar {
+  min-width: 340px;
+  position: relative;
+}
+
+.contentSidebar {
+  position: fixed;
+  height: 100%;
+  border-right: 3px solid var(--primary-light);
+  top: 20px;
+}
+
+.logo {
+  height: 30px;
+  width: 40px;
+  margin-bottom: 8px;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: 600;
+  max-width: 330px;
+}
+
+.backHomeBtn {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  min-height: 60px;
+}
+
+.linkBackHome {
+  text-decoration: none;
+  color: #000;
+}
+
+.privacyBtn {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  min-height: 60px;
+}
+
+.text {
+  font-size: 18px;
+  margin: 0 8px;
+}
+
+.backHomeBtn:hover,
+.privacyBtn:hover,
+.listPrivacy > li:hover {
+  background-color: var(--primary-light);
+}
+
+.listPrivacy {
+  li {
+    list-style: none;
+    min-height: 60px;
+    max-width: 350px;
+    padding: 15px 0px;
+    padding-left: 40px;
+  }
+
+  li > a {
+    text-decoration: none;
+    font-size: 18px;
+    color: var(--black);
+  }
+}
+
+.content {
+  padding: 40px 0px;
+  padding-left: 35px;
+  overflow: scroll;
+}
+
+.frameTitle {
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.frameContent {
+  color: #465a69;
+  margin: 10px 0px;
+}
+
+.titleContent {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.desTitle {
+  margin-left: 30px;
+}

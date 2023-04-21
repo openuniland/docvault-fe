@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import { useParams } from "react-router-dom";
-import { Typography } from "@mui/material";
+import { Typography, LinearProgress } from "@mui/material";
 
 import styles from "./TestViewWrapper.module.scss";
 import { BreadcrumbsCustomization } from "app/components/BreadcrumbsCustomization";
@@ -11,10 +11,13 @@ const cx = classNames.bind(styles);
 
 export const TestViewWrapper = () => {
   const { examId } = useParams();
-  const { data: questionsByExamId } = useGetQuestionsByExamId(examId as string);
+  const { data: questionsByExamId, isLoading } = useGetQuestionsByExamId(
+    examId as string,
+  );
 
   return (
     <div className={cx("container")}>
+      {isLoading && <LinearProgress />}
       <BreadcrumbsCustomization
         className={cx("breadcrumbs")}
         current="Chi tiết"

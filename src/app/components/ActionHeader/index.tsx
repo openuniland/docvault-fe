@@ -1,7 +1,8 @@
 import classNames from "classnames/bind";
 import { Avatar, IconButton, Switch } from "@mui/material";
 import {
-  Settings,
+  // eslint-disable-next-line @typescript-eslint/no-redeclare
+  Lock,
   Explore,
   Info,
   Logout,
@@ -49,6 +50,14 @@ export const ActionHeader = () => {
   const handleNavigateProfilePage = useCallback(() => {
     navigate(`/profile`);
   }, [navigate]);
+
+  const handleNavigatePrivacyPage = useCallback(() => {
+    navigate(`/privacy-policy`);
+  }, [navigate]);
+
+  const handleNavigateTermsOfUserPage = useCallback(() => {
+    navigate(`/terms-of-user`);
+  }, [navigate]);
   return (
     <div className={cx("container")}>
       <div className={cx("actionIcon")}>
@@ -90,17 +99,23 @@ export const ActionHeader = () => {
                 <div className={cx("email")}>{userInfo?.email}</div>
               </div>
               <div className={cx("setting")}>
-                <div className={cx("frame")}>
-                  <Settings className={cx("icon")} />
-                  <p>Cài đặt</p>
+                <div
+                  className={cx("frame")}
+                  onClick={handleNavigatePrivacyPage}
+                >
+                  <Lock className={cx("icon")} />
+                  <p>Bảo mật & quyền riêng tư</p>
                 </div>
                 <div className={cx("frame")}>
                   <Explore className={cx("icon")} />
-                  <p>Phản hồi</p>
+                  <p>Phản hồi & đóng góp ý kiến</p>
                 </div>
-                <div className={cx("frame")}>
+                <div
+                  className={cx("frame")}
+                  onClick={handleNavigateTermsOfUserPage}
+                >
                   <Info className={cx("icon")} />
-                  <p>Thông tin</p>
+                  <p>Thông tin & điều khoản sử dụng</p>
                 </div>
               </div>
             </div>
