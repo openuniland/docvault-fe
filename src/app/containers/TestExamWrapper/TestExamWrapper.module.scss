@@ -42,7 +42,7 @@
 }
 .exam-info-wrapper {
   display: flex;
-  column-gap: 20px;
+  justify-content: space-between;
   border: 1px solid #ccc;
   border-radius: 4px;
   align-items: center;
@@ -51,6 +51,9 @@
   top: 0;
   z-index: 1;
   background-color: #c9c9c9;
+  & div:last-child {
+    margin-left: 10px;
+  }
 }
 .exam-container {
   display: flex;

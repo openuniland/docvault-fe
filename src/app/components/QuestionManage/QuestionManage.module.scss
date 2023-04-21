@@ -12,6 +12,9 @@
   row-gap: 5px;
   padding: 6px;
   border-radius: 4px;
+  & div:hover {
+    cursor: pointer;
+  }
 }
 .position-done-question {
   width: 30px;

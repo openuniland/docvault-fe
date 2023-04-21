@@ -6,7 +6,6 @@ import http from "utils/api/http";
 
 import styles from "./TestExamWrapper.module.scss";
 import { BreadcrumbsCustomization } from "app/components/BreadcrumbsCustomization";
-// import { useGetQuestionsByExamId } from "queries/question";
 import RenderQuestion from "app/components/RenderQuestion";
 import { useGetUserExamByOwner } from "queries/userExam";
 import { useState, useEffect, useCallback } from "react";
@@ -30,6 +29,21 @@ export const TestExamWrapper = () => {
 
   const [score, setScore] = useState(-1);
   const [userExamStatus, setUserExamStatus] = useState(false);
+  const [openPopupSubmit, setOpenPopupSubmit] = useState(false);
+  const [openTimeIsUp, setOpenTimeIsUp] = useState(false);
+  const [times, setTimes] = useState({
+    hours: 0,
+    minutes: 0,
+    seconds: Math.round(
+      (userExamByOwner?.duration! -
+        (new Date().getTime() -
+          new Date(userExamByOwner?.created_at).getTime())) /
+        1000,
+    ),
+  });
+
+  // const questionRefs = questionsByExamId?.map(() => useRef());
+  // const questionRefs = useRef(Array);
 
   const [arrUserAnswer, setArrUserAnswer] = useState(
     userExamByOwner &&
@@ -70,7 +84,30 @@ export const TestExamWrapper = () => {
     }
     setUserExamStatus(userExamByOwner?.is_completed!);
   }, [userExamByOwner]);
-  const [openPopupSubmit, setOpenPopupSubmit] = useState(false);
+  const changeAnswer = useCallback(
+    async (position: number, value: string) => {
+      try {
+        if (arrUserAnswer) {
+          arrUserAnswer[position] = value;
+          setArrUserAnswer(arrUserAnswer);
+        }
+        setNumberAnswerDone(countUserAnswerDone(arrUserAnswer));
+        if (arrUserAnswer[position] !== "") {
+          mutateAsyncUpdateUserAnswer({
+            RequestUpdateUserAnswer: {
+              answer_id: arrUserAnswer[position],
+              user_exam_id: userExamByOwner?._id,
+              position: position,
+            },
+            user_answer_id: userExamByOwner?.user_answers[0]._id,
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [arrUserAnswer],
+  );
   const handleClosePopup = useCallback(() => {
     setOpenPopupSubmit(false);
   }, [openPopupSubmit]);
@@ -94,7 +131,6 @@ export const TestExamWrapper = () => {
     } catch (error) {}
   }, []);
 
-  const [openTimeIsUp, setOpenTimeIsUp] = useState(false);
   const handleCloseTimeIsUp = useCallback(() => {
     setOpenTimeIsUp(false);
   }, [openTimeIsUp]);
@@ -104,16 +140,6 @@ export const TestExamWrapper = () => {
     setUserExamStatus(true);
   }, [openTimeIsUp]);
 
-  const [times, setTimes] = useState({
-    hours: 0,
-    minutes: 0,
-    seconds: Math.round(
-      (userExamByOwner?.duration! -
-        (new Date().getTime() -
-          new Date(userExamByOwner?.created_at).getTime())) /
-        1000,
-    ),
-  });
   useEffect(() => {
     if (
       userExamByOwner?.duration &&
@@ -152,7 +178,6 @@ export const TestExamWrapper = () => {
       clearInterval(interval);
       handleOpenTimeIsUp();
       handleSubmitExam();
-      console.log("heet thoi gian");
     }
 
     return () => {
@@ -160,30 +185,7 @@ export const TestExamWrapper = () => {
     };
   }, [times]);
 
-  const changeAnswer = useCallback(
-    async (position: number, value: string) => {
-      try {
-        if (arrUserAnswer) {
-          arrUserAnswer[position] = value;
-          setArrUserAnswer(arrUserAnswer);
-        }
-        setNumberAnswerDone(countUserAnswerDone(arrUserAnswer));
-        if (arrUserAnswer[position] !== "") {
-          mutateAsyncUpdateUserAnswer({
-            RequestUpdateUserAnswer: {
-              answer_id: arrUserAnswer[position],
-              user_exam_id: userExamByOwner?._id,
-              position: position,
-            },
-            user_answer_id: userExamByOwner?.user_answers[0]._id,
-          });
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    [arrUserAnswer],
-  );
+  // console.log(arrUserAnswer);
 
   const handleExit = useCallback(() => {
     navigate(`/exams`);
@@ -282,6 +284,7 @@ export const TestExamWrapper = () => {
             handleChange={changeAnswer}
             answersOfUser={arrUserAnswer}
             examStatus={userExamStatus}
+            // questionsRef={questionRefs}
           />
         </div>
         <div className={cx("question-manage")}>
@@ -294,6 +297,7 @@ export const TestExamWrapper = () => {
             }
             subject={userExamByOwner?.subject.subject_name}
             school_year={userExamByOwner?.school_year}
+            // questionsRef={questionRefs}
           />
         </div>
       </div>

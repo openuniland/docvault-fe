@@ -1,4 +1,4 @@
-import { Question } from "./Question";
+import { NewQuestionPayload } from "./Question";
 import { Subject } from "./Subject";
 import { User } from "./User";
 import { UserAnswer } from "./UserAnswer";
@@ -13,7 +13,7 @@ export interface UserExam {
   original_exam: string;
   subject: Subject;
   title: string;
-  questions: Question[];
+  questions: NewQuestionPayload[];
   user_answer_id: UserAnswer;
   duration: number; // in miliseconds
   score: number;
@@ -36,7 +36,7 @@ export interface UserExamResponse {
   original_exam: string;
   subject: Subject;
   title: string;
-  questions: Question[];
+  questions: NewQuestionPayload[];
   user_answers: UserAnswer[];
   author_exam: User;
   duration: number; // in miliseconds

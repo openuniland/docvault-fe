@@ -25,6 +25,7 @@ interface Props {
   handleChange?: (position: number, value: string) => void;
   answersOfUser?: string[];
   examStatus?: boolean;
+  questionsRef?: any;
 }
 const RenderQuestion = (props: Props) => {
   const {
@@ -34,8 +35,9 @@ const RenderQuestion = (props: Props) => {
     handleChange,
     answersOfUser = [],
     examStatus,
+    // questionsRef,
   } = props;
-
+  console.log(answersOfUser);
   const handleDelete = useCallback(
     (index: number) => () => {
       onDelete(index);
@@ -45,7 +47,12 @@ const RenderQuestion = (props: Props) => {
   return (
     <Box className={cx("container")}>
       {questions.map((item, index) => (
-        <Paper elevation={3} key={index} className={cx("question")}>
+        <Paper
+          // ref={questionsRef ? el => (questionsRef.current[index] = el) : null}
+          elevation={3}
+          key={index}
+          className={cx("question")}
+        >
           <div className={cx("itemHeader")}>
             <IconButton className={cx("index")}>{index + 1}</IconButton>
             <div className={cx("itemHeaderAction")}>
@@ -80,7 +87,7 @@ const RenderQuestion = (props: Props) => {
               )}
             </FormLabel>
             <RadioGroup
-              defaultValue={answersOfUser ? answersOfUser[index] : ""}
+              value={answersOfUser ? answersOfUser[index] : ""}
               onChange={event =>
                 handleChange
                   ? handleChange(index, event.target.value)

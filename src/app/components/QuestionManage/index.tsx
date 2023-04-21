@@ -11,6 +11,7 @@ interface Props {
   author?: string;
   subject?: string;
   school_year?: string;
+  questionsRef?: any;
 }
 export const QuestionManage = (props: Props) => {
   const {
@@ -19,7 +20,9 @@ export const QuestionManage = (props: Props) => {
     author,
     subject,
     school_year,
+    // questionsRef = [],
   } = props;
+  console.log(doneQuestions);
 
   return (
     <div className={cx("container")}>
@@ -33,6 +36,11 @@ export const QuestionManage = (props: Props) => {
                   ? "position-done-question"
                   : "position-question",
               )}
+              // onClick={() => {
+              //   questionsRef.current[index].scrollIntoView({
+              //     behavior: "smooth",
+              //   });
+              // }}
             >
               {index + 1}
             </div>
