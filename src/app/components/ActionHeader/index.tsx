@@ -1,13 +1,12 @@
 import classNames from "classnames/bind";
 import { Avatar, IconButton, Switch } from "@mui/material";
 import {
-  // eslint-disable-next-line @typescript-eslint/no-redeclare
-  Lock,
   Explore,
   Info,
   Logout,
   MailOutline,
   Notifications,
+  Settings,
 } from "@mui/icons-material";
 import Tippy from "@tippyjs/react/headless";
 import { useDispatch } from "react-redux";
@@ -92,30 +91,28 @@ export const ActionHeader = () => {
           <div className={cx("poperAvatar")} tabIndex={-1} {...attrs}>
             <div className={cx("poper")}>
               <div className={cx("profile")}>
-                <Avatar src={userInfo?.avatar} className={cx("avatarIcon")} />
+                <Avatar
+                  src={userInfo?.avatar}
+                  className={cx("avatarIcon")}
+                  onClick={handleNavigateProfilePage}
+                />
                 <div className={cx("name")} onClick={handleNavigateProfilePage}>
                   {userInfo?.name}
                 </div>
                 <div className={cx("email")}>{userInfo?.email}</div>
               </div>
               <div className={cx("setting")}>
-                <div
-                  className={cx("frame")}
-                  onClick={handleNavigatePrivacyPage}
-                >
-                  <Lock className={cx("icon")} />
-                  <p>Bảo mật & quyền riêng tư</p>
+                <div className={cx("frame")}>
+                  <Settings className={cx("icon")} />
+                  <p>Cài đặt</p>
                 </div>
                 <div className={cx("frame")}>
                   <Explore className={cx("icon")} />
                   <p>Phản hồi & đóng góp ý kiến</p>
                 </div>
-                <div
-                  className={cx("frame")}
-                  onClick={handleNavigateTermsOfUserPage}
-                >
+                <div className={cx("frame")}>
                   <Info className={cx("icon")} />
-                  <p>Thông tin & điều khoản sử dụng</p>
+                  <p>Thông tin</p>
                 </div>
               </div>
             </div>
@@ -124,7 +121,21 @@ export const ActionHeader = () => {
               <p>Đăng xuất</p>
             </div>
             <div className={cx("description")}>
-              Privacy · Terms · Revise © 2023
+              <span
+                className={cx("descItem")}
+                onClick={handleNavigatePrivacyPage}
+              >
+                Privacy
+              </span>
+              <span className={cx("descItem")}>-</span>
+              <span
+                className={cx("descItem")}
+                onClick={handleNavigateTermsOfUserPage}
+              >
+                Terms
+              </span>
+              <span className={cx("descItem")}>-</span>
+              <span className={cx("descItem")}>Revise © 2023</span>
             </div>
           </div>
         )}

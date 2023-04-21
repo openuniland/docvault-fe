@@ -54,6 +54,11 @@
 .avatarIcon {
   border: 2px solid var(--primary);
   background-color: var(--primary-light);
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 0 5px 5px var(--primary);
+  }
 }
 
 .poperAvatar {
@@ -127,6 +132,15 @@
 
 .description {
   font-size: 12px;
+}
+
+.descItem {
+  cursor: pointer;
+  margin-right: 5px;
+
+  &:hover {
+    color: var(--primary);
+  }
 }
 
 .frame:hover,

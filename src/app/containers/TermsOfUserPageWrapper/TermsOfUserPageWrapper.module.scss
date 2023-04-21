@@ -1,17 +1,20 @@
+.bg {
+  background-color: var(--primary-surface);
+}
+
 .container {
   width: 100%;
   display: flex;
-  background-color: var(--primary-surface);
-  padding: 0 200px;
-  padding-top: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
 }
 .sidebar {
-  min-width: 340px;
-  position: relative;
+  width: 340px;
+  position: fixed;
 }
 
 .contentSidebar {
-  position: fixed;
   height: 100%;
   border-right: 3px solid var(--primary-light);
   top: 20px;
@@ -38,7 +41,7 @@
 
 .linkBackHome {
   text-decoration: none;
-  color: #000;
+  color: var(--primary);
 }
 
 .privacyBtn {
@@ -57,7 +60,6 @@
 }
 
 .backHomeBtn:hover,
-.privacyBtn:hover,
 .listPrivacy > li:hover {
   background-color: var(--primary-light);
 }
@@ -74,14 +76,14 @@
   li > a {
     text-decoration: none;
     font-size: 18px;
-    color: var(--black);
+    color: var(--text);
   }
 }
 
 .content {
   padding: 40px 0px;
   padding-left: 35px;
-  overflow: scroll;
+  margin-left: 340px;
 }
 
 .frameTitle {
@@ -90,7 +92,7 @@
 }
 
 .frameContent {
-  color: #465a69;
+  color: var(--text);
   margin: 10px 0px;
 }
 
