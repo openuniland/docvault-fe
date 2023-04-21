@@ -32,81 +32,92 @@ const RenderQuestion = (props: Props) => {
     questions = [],
     onDelete = () => {},
     showDeleteButton = true,
-    handleChange,
+    handleChange = () => {},
     answersOfUser = [],
     examStatus,
     // questionsRef,
   } = props;
-  console.log(answersOfUser);
+
   const handleDelete = useCallback(
     (index: number) => () => {
       onDelete(index);
     },
     [onDelete],
   );
+
+  const handleChangeAnswer = useCallback(
+    (index: number) => (event: any) => {
+      handleChange(index, event?.target?.value);
+      console.log(index, event?.target?.value);
+    },
+    [handleChange],
+  );
+
   return (
     <Box className={cx("container")}>
-      {questions.map((item, index) => (
-        <Paper
-          // ref={questionsRef ? el => (questionsRef.current[index] = el) : null}
-          elevation={3}
-          key={index}
-          className={cx("question")}
-        >
-          <div className={cx("itemHeader")}>
-            <IconButton className={cx("index")}>{index + 1}</IconButton>
-            <div className={cx("itemHeaderAction")}>
-              <div className={cx("accuracyWrapper")}>
-                <p className={cx("accuracyText")}>Độ chính xác</p>
-                <CheckCircleIcon
-                  className={cx({
-                    high: item.accuracy === "high",
-                    medium: item.accuracy === "medium",
-                    low: item.accuracy === "low",
-                  })}
-                />
-              </div>
-              {showDeleteButton && (
-                <IconButton
-                  className={cx("iconDeleteWrapper")}
-                  onClick={handleDelete(index)}
-                >
-                  <HighlightOffIcon className={cx("deleteIcon")} />
-                </IconButton>
-              )}
-            </div>
-          </div>
-
-          <FormControl>
-            <FormLabel>
-              <h3 className={cx("title")}>{item.content}</h3>
-              {item.image && (
-                <div className={cx("imgWrapper")}>
-                  <img src={item.image} alt="" />
+      {answersOfUser?.length > 0 &&
+        questions?.length > 0 &&
+        questions?.map((item, index) => (
+          <Paper
+            // ref={questionsRef ? el => (questionsRef.current[index] = el) : null}
+            elevation={3}
+            key={item?._id}
+            className={cx("question")}
+          >
+            <div className={cx("itemHeader")}>
+              <IconButton className={cx("index")}>{index + 1}</IconButton>
+              <div className={cx("itemHeaderAction")}>
+                <div className={cx("accuracyWrapper")}>
+                  <p className={cx("accuracyText")}>Độ chính xác</p>
+                  <CheckCircleIcon
+                    className={cx({
+                      high: item.accuracy === "high",
+                      medium: item.accuracy === "medium",
+                      low: item.accuracy === "low",
+                    })}
+                  />
                 </div>
-              )}
-            </FormLabel>
-            <RadioGroup
-              value={answersOfUser ? answersOfUser[index] : ""}
-              onChange={event =>
-                handleChange
-                  ? handleChange(index, event.target.value)
-                  : undefined
-              }
-            >
-              {item.answers?.map(answer => (
-                <FormControlLabel
-                  key={answer?.id}
-                  value={answer.id}
-                  control={<Radio />}
-                  label={answer?.content}
-                  disabled={examStatus}
-                />
-              ))}
-            </RadioGroup>
-          </FormControl>
-        </Paper>
-      ))}
+                {showDeleteButton && (
+                  <IconButton
+                    className={cx("iconDeleteWrapper")}
+                    onClick={handleDelete(index)}
+                  >
+                    <HighlightOffIcon className={cx("deleteIcon")} />
+                  </IconButton>
+                )}
+              </div>
+            </div>
+
+            <FormControl>
+              <FormLabel>
+                <h3 className={cx("title")}>{item.content}</h3>
+                {item.image && (
+                  <div className={cx("imgWrapper")}>
+                    <img src={item.image} alt="" />
+                  </div>
+                )}
+              </FormLabel>
+              <RadioGroup
+                defaultValue={answersOfUser[index]}
+                onChange={handleChangeAnswer(index)}
+              >
+                {item?.answers?.map(answer => {
+                  return (
+                    <>
+                      <FormControlLabel
+                        key={answer?.id}
+                        value={answer.id}
+                        control={<Radio />}
+                        label={answer?.content}
+                        disabled={examStatus}
+                      />
+                    </>
+                  );
+                })}
+              </RadioGroup>
+            </FormControl>
+          </Paper>
+        ))}
     </Box>
   );
 };

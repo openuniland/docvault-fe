@@ -25,6 +25,7 @@ export interface NewQuestionPayload {
   accuracy: string;
   is_essay: boolean;
   is_approved: boolean;
+  _id: string;
 }
 
 export interface GetAllQuestionsByExamIdResponse {

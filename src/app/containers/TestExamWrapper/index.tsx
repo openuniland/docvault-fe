@@ -67,6 +67,7 @@ export const TestExamWrapper = () => {
   const [numberAnswerDone, setNumberAnswerDone] = useState(
     countUserAnswerDone(arrUserAnswer),
   );
+
   useEffect(() => {
     if (
       userExamByOwner?.user_answers &&
@@ -84,6 +85,7 @@ export const TestExamWrapper = () => {
     }
     setUserExamStatus(userExamByOwner?.is_completed!);
   }, [userExamByOwner]);
+
   const changeAnswer = useCallback(
     async (position: number, value: string) => {
       try {
@@ -108,6 +110,7 @@ export const TestExamWrapper = () => {
     },
     [arrUserAnswer],
   );
+
   const handleClosePopup = useCallback(() => {
     setOpenPopupSubmit(false);
   }, [openPopupSubmit]);
@@ -135,10 +138,10 @@ export const TestExamWrapper = () => {
     setOpenTimeIsUp(false);
   }, [openTimeIsUp]);
 
-  const handleOpenTimeIsUp = useCallback(() => {
-    setOpenTimeIsUp(true);
-    setUserExamStatus(true);
-  }, [openTimeIsUp]);
+  // const handleOpenTimeIsUp = useCallback(() => {
+  //   setOpenTimeIsUp(true);
+  //   setUserExamStatus(true);
+  // }, [openTimeIsUp]);
 
   useEffect(() => {
     if (
@@ -158,32 +161,32 @@ export const TestExamWrapper = () => {
     }
   }, [userExamByOwner]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTimes(time => {
-        const totalSeconds =
-          time.hours * 3600 + time.minutes * 60 + time.seconds - 1;
-        if (totalSeconds >= 0) {
-          const hours = Math.floor(totalSeconds / 3600);
-          const minutes = Math.floor((totalSeconds % 3600) / 60);
-          const seconds = totalSeconds % 60;
-          return { hours, minutes, seconds };
-        } else {
-          clearInterval(interval);
-          return { hours: 0, minutes: 0, seconds: 0 };
-        }
-      });
-    }, 1000);
-    if (times.hours == 0 && times.minutes == 0 && times.seconds == 0) {
-      clearInterval(interval);
-      handleOpenTimeIsUp();
-      handleSubmitExam();
-    }
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setTimes(time => {
+  //       const totalSeconds =
+  //         time.hours * 3600 + time.minutes * 60 + time.seconds - 1;
+  //       if (totalSeconds >= 0) {
+  //         const hours = Math.floor(totalSeconds / 3600);
+  //         const minutes = Math.floor((totalSeconds % 3600) / 60);
+  //         const seconds = totalSeconds % 60;
+  //         return { hours, minutes, seconds };
+  //       } else {
+  //         clearInterval(interval);
+  //         return { hours: 0, minutes: 0, seconds: 0 };
+  //       }
+  //     });
+  //   }, 1000);
+  //   if (times.hours == 0 && times.minutes == 0 && times.seconds == 0) {
+  //     clearInterval(interval);
+  //     handleOpenTimeIsUp();
+  //     handleSubmitExam();
+  //   }
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, [times]);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, [times]);
 
   // console.log(arrUserAnswer);
 
@@ -236,9 +239,11 @@ export const TestExamWrapper = () => {
                 </Typography>
 
                 <Typography className={cx("highlight")} component="strong">
-                  {`${times.hours.toString().padStart(2, "0")}:${times.minutes
+                  {`${times?.hours
+                    ?.toString()
+                    .padStart(2, "0")}:${times?.minutes
                     .toString()
-                    .padStart(2, "0")}:${times.seconds
+                    .padStart(2, "0")}:${times?.seconds
                     .toString()
                     .padStart(2, "0")}`}
                 </Typography>
