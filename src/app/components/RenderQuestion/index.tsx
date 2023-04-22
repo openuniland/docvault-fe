@@ -26,6 +26,7 @@ interface Props {
   answersOfUser?: string[];
   examStatus?: boolean;
   questionsRef?: any;
+  examView?: boolean;
 }
 const RenderQuestion = (props: Props) => {
   const {
@@ -36,6 +37,7 @@ const RenderQuestion = (props: Props) => {
     answersOfUser = [],
     examStatus,
     questionsRef,
+    examView,
   } = props;
 
   const handleDelete = useCallback(
@@ -56,8 +58,7 @@ const RenderQuestion = (props: Props) => {
   );
   return (
     <Box className={cx("container")}>
-      {answersOfUser?.length > 0 &&
-        questions?.length > 0 &&
+      {questions?.length > 0 &&
         questions.map((item, index) => (
           <Paper
             ref={questionsRef ? el => (questionsRef.current[index] = el) : null}
@@ -89,31 +90,33 @@ const RenderQuestion = (props: Props) => {
               </div>
             </div>
 
-            <FormControl>
-              <FormLabel>
-                <h3 className={cx("title")}>{item.content}</h3>
-                {item.image && (
-                  <div className={cx("imgWrapper")}>
-                    <img src={item.image} alt="" />
-                  </div>
-                )}
-              </FormLabel>
+            {(answersOfUser?.length > 0 || examView) && (
+              <FormControl>
+                <FormLabel>
+                  <h3 className={cx("title")}>{item.content}</h3>
+                  {item.image && (
+                    <div className={cx("imgWrapper")}>
+                      <img src={item.image} alt="" />
+                    </div>
+                  )}
+                </FormLabel>
 
-              <RadioGroup
-                defaultValue={answersOfUser ? answersOfUser[index] : ""}
-                onChange={handleChangeAnswer(index)}
-              >
-                {item.answers?.map(answer => (
-                  <FormControlLabel
-                    key={answer?.id}
-                    value={answer.id}
-                    control={<Radio />}
-                    label={answer?.content}
-                    disabled={examStatus}
-                  />
-                ))}
-              </RadioGroup>
-            </FormControl>
+                <RadioGroup
+                  defaultValue={answersOfUser ? answersOfUser[index] : ""}
+                  onChange={handleChangeAnswer(index)}
+                >
+                  {item.answers?.map(answer => (
+                    <FormControlLabel
+                      key={answer?.id}
+                      value={answer.id}
+                      control={<Radio />}
+                      label={answer?.content}
+                      disabled={examStatus}
+                    />
+                  ))}
+                </RadioGroup>
+              </FormControl>
+            )}
           </Paper>
         ))}
     </Box>

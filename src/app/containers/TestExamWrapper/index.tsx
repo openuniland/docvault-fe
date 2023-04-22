@@ -231,6 +231,7 @@ export const TestExamWrapper = () => {
             answersOfUser={arrUserAnswer}
             examStatus={userExamStatus}
             questionsRef={questionRefs}
+            examView={false}
           />
         </div>
         <div className={cx("question-manage")}>
