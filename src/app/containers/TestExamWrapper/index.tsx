@@ -14,6 +14,7 @@ import { useUpdateUserAnswer } from "mutations/userAnswer";
 import { ModalCustomization } from "app/components/ModalCustomization";
 import { useSubmitTheExam } from "mutations/userExam";
 import { TimerExam } from "app/components/TimerExam";
+// import { BackEndError } from "types/Error";
 
 const cx = classNames.bind(styles);
 
@@ -29,9 +30,12 @@ export const TestExamWrapper = () => {
   const { mutateAsync: mutateAsyncSubmitTheExam } = useSubmitTheExam();
 
   const [score, setScore] = useState(-1);
-  const [userExamStatus, setUserExamStatus] = useState(false);
+  const [userExamStatus, setUserExamStatus] = useState(
+    userExamByOwner?.is_completed,
+  );
   const [openPopupSubmit, setOpenPopupSubmit] = useState(false);
   const [openTimeIsUp, setOpenTimeIsUp] = useState(false);
+  const [openPopupExamComplete, setOpenPopupExamComplete] = useState(false);
 
   const questionRefs = useRef(Array);
 
@@ -76,31 +80,6 @@ export const TestExamWrapper = () => {
     setUserExamStatus(userExamByOwner?.is_completed!);
   }, [userExamByOwner]);
 
-  const changeAnswer = useCallback(
-    async (position: number, value: string) => {
-      try {
-        if (arrUserAnswer) {
-          arrUserAnswer[position] = value;
-          setArrUserAnswer(arrUserAnswer);
-        }
-        setNumberAnswerDone(countUserAnswerDone(arrUserAnswer));
-        if (arrUserAnswer[position] !== "") {
-          mutateAsyncUpdateUserAnswer({
-            RequestUpdateUserAnswer: {
-              answer_id: arrUserAnswer[position],
-              user_exam_id: userExamByOwner?._id,
-              position: position,
-            },
-            user_answer_id: userExamByOwner?.user_answers[0]._id,
-          });
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    [arrUserAnswer],
-  );
-
   const handleClosePopup = useCallback(() => {
     setOpenPopupSubmit(false);
   }, [openPopupSubmit]);
@@ -108,6 +87,14 @@ export const TestExamWrapper = () => {
   const handleOpenPopup = useCallback(() => {
     setOpenPopupSubmit(true);
   }, [openPopupSubmit]);
+
+  const handleClosePopupExamComplete = useCallback(() => {
+    setOpenPopupExamComplete(false);
+  }, [openPopupExamComplete]);
+
+  const handleOpenPopupExamComplete = useCallback(() => {
+    setOpenPopupExamComplete(true);
+  }, [openPopupExamComplete]);
 
   const handleSubmitExam = useCallback(async () => {
     try {
@@ -123,6 +110,38 @@ export const TestExamWrapper = () => {
       setUserExamStatus(response.data.data.is_completed);
     } catch (error) {}
   }, []);
+
+  const changeAnswer = useCallback(
+    async (position: number, value: string) => {
+      try {
+        if (arrUserAnswer) {
+          arrUserAnswer[position] = value;
+          setArrUserAnswer(arrUserAnswer);
+        }
+        setNumberAnswerDone(countUserAnswerDone(arrUserAnswer));
+        if (arrUserAnswer[position] !== "") {
+          try {
+            await mutateAsyncUpdateUserAnswer({
+              RequestUpdateUserAnswer: {
+                answer_id: arrUserAnswer[position],
+                user_exam_id: userExamByOwner?._id,
+                position: position,
+              },
+              user_answer_id: userExamByOwner?.user_answers[0]._id,
+            });
+          } catch (error: any | unknown) {
+            if (error?.errors.errorCode === "USER_EXAM_IS_COMPLETED") {
+              handleOpenPopupExamComplete();
+              handleSubmitExam();
+            }
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [arrUserAnswer],
+  );
 
   const handleCloseTimeIsUp = useCallback(() => {
     setOpenTimeIsUp(false);
@@ -270,6 +289,20 @@ export const TestExamWrapper = () => {
           title="Bạn đã hết thời gian làm bài"
           contentText="Ấn xác nhận để nhận kết quả"
           textAgreeBtn="Submit"
+          colorBtn="success"
+        >
+          <div></div>
+        </ModalCustomization>
+      }
+      {
+        <ModalCustomization
+          open={openPopupExamComplete}
+          handleCancel={handleClosePopupExamComplete}
+          handleAgree={handleClosePopupExamComplete}
+          actionDefault
+          title="Bạn đã hết thời gian làm bài hoặc bài thi đã được hoàn thành trước đó!"
+          contentText="Không thể tiếp tục làm bài"
+          textAgreeBtn="OK"
           colorBtn="success"
         >
           <div></div>
