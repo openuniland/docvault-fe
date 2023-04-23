@@ -1,6 +1,7 @@
 import { Question } from "./Question";
 import { Subject } from "./Subject";
 import { User } from "./User";
+import { ExamModel } from "./ExamModel";
 import { UserAnswer } from "./UserAnswer";
 
 export interface UserExamPayload {
@@ -10,15 +11,18 @@ export interface UserExamPayload {
 export interface UserExam {
   _id: string;
   author: User;
-  subject: Subject;
+  original_exam: ExamModel;
   title: string;
   questions: Question[];
-  user_answer_id: UserAnswer;
-  duration: number; // in miliseconds
+  subject: Subject;
+  is_deleted: boolean;
   score: number;
+  user_answer_id: UserAnswer;
+  duration: number;
   semester: number;
   school_year: string;
   is_completed: boolean;
+  created_at: string;
 }
 export interface CreateUserExamPayload {
   duration: number; // in miliseconds
