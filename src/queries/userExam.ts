@@ -29,7 +29,7 @@ export const useGetUserExamsCompletedByOwner = (urlParams: URLparams) =>
 export const useGetUserExamsNotCompletedByOwner = (urlParams: URLparams) =>
   useQuery(
     [
-      "get-user-exams-completed-by-owner",
+      "get-user-exams-not-completed-by-owner",
       urlParams?.currentPage,
       urlParams?.pageSize,
     ],
