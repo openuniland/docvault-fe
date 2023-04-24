@@ -1,8 +1,6 @@
 import classNames from "classnames/bind";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button, Typography } from "@mui/material";
-import { AxiosResponse } from "axios";
-import http from "utils/api/http";
 
 import styles from "./TestExamWrapper.module.scss";
 import { BreadcrumbsCustomization } from "app/components/BreadcrumbsCustomization";
@@ -98,16 +96,13 @@ export const TestExamWrapper = () => {
 
   const handleSubmitExam = useCallback(async () => {
     try {
-      await mutateAsyncSubmitTheExam({
+      const res = await mutateAsyncSubmitTheExam({
         user_exam_id: userExamId,
       });
       handleClosePopup();
 
-      const response: AxiosResponse = await http.get(
-        `/user-exams/${userExamId}`,
-      );
-      setScore(response.data.data.score);
-      setUserExamStatus(response.data.data.is_completed);
+      setScore(res?.score);
+      setUserExamStatus(res?.is_completed);
     } catch (error) {}
   }, []);
 
@@ -205,6 +200,7 @@ export const TestExamWrapper = () => {
                     userExam={userExamByOwner}
                     handleOpenTimeIsUp={handleOpenTimeIsUp}
                     handleSubmitExam={handleSubmitExam}
+                    userExamStatus={userExamStatus}
                   />
                 </Typography>
               </div>

@@ -47,7 +47,9 @@ export interface UserExamResponse {
   created_at?: any;
 }
 export interface SubmitExamResponse {
-  message?: string;
+  user_exam_id: string;
+  score: number;
+  is_completed: boolean;
 }
 export interface SubmitExamPayload {
   user_exam_id?: string;

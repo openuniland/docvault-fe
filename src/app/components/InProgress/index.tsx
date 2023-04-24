@@ -4,14 +4,18 @@ import { useTranslation } from "react-i18next";
 
 import { InProgressItem } from "app/components/InProgressItem";
 import styles from "./InProgress.module.scss";
+import { useEffect } from "react";
 
 const cx = classNames.bind(styles);
 
 export const InProgress = () => {
   const { t } = useTranslation();
 
-  const { data: userExams } = useGetUserExamsInprogress();
+  const { data: userExams, refetch } = useGetUserExamsInprogress();
 
+  useEffect(() => {
+    refetch();
+  }, []);
   if (userExams && userExams?.length <= 0) {
     return <></>;
   }

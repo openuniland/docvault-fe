@@ -10,6 +10,7 @@ interface Props {
   userExam?: UserExamResponse;
   handleOpenTimeIsUp?: () => void;
   handleSubmitExam?: () => void;
+  userExamStatus?: boolean;
 }
 
 export const TimerExam = (props: Props) => {
@@ -17,6 +18,7 @@ export const TimerExam = (props: Props) => {
     userExam,
     handleOpenTimeIsUp = () => {},
     handleSubmitExam = () => {},
+    userExamStatus,
   } = props;
 
   const [times, setTimes] = useState({
@@ -52,7 +54,7 @@ export const TimerExam = (props: Props) => {
         const totalSeconds =
           time.hours * 3600 + time.minutes * 60 + time.seconds - 1;
 
-        if (totalSeconds >= 0) {
+        if (totalSeconds >= 0 && userExamStatus === false) {
           const hours = Math.floor(totalSeconds / 3600);
           const minutes = Math.floor((totalSeconds % 3600) / 60);
           const seconds = totalSeconds % 60;
@@ -63,7 +65,12 @@ export const TimerExam = (props: Props) => {
       });
     }, 1000);
 
-    if (times.hours == 0 && times.minutes == 0 && times.seconds == 0) {
+    if (
+      times.hours == 0 &&
+      times.minutes == 0 &&
+      times.seconds == 0 &&
+      userExamStatus === false
+    ) {
       clearInterval(interval);
       handleOpenTimeIsUp();
       handleSubmitExam();
@@ -72,7 +79,7 @@ export const TimerExam = (props: Props) => {
     return () => {
       clearInterval(interval);
     };
-  }, [times]);
+  }, [times, userExamStatus]);
 
   return (
     <div className={cx("container")}>
