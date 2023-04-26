@@ -31,3 +31,11 @@
   font-weight: 600;
   font-size: 1.4rem;
 }
+
+.loading {
+  min-height: 400px;
+  background-color: var(--primary-background);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

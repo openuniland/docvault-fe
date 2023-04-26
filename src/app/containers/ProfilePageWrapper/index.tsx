@@ -1,18 +1,11 @@
 import classNames from "classnames/bind";
-import {
-  Typography,
-  Pagination,
-  LinearProgress,
-  Tabs,
-  Tab,
-  Box,
-} from "@mui/material";
-
+import { Typography, Pagination, Tabs, Tab, Box } from "@mui/material";
 import React, { useState, useCallback, useMemo } from "react";
 
 import styles from "./ProfilePageWrapper.module.scss";
 import { BreadcrumbsCustomization } from "app/components/BreadcrumbsCustomization";
 import { ContentItem } from "app/components/ContentItem";
+import { Loading } from "app/components/Loading";
 import { useGetDocumentsByOwner } from "queries/document";
 import { useGetExamsByOwner } from "queries/exam";
 import {
@@ -25,15 +18,17 @@ import { DEFAULT_PAGINATION } from "utils/constants";
 const cx = classNames.bind(styles);
 
 interface TabPanelProps {
+  className?: string;
   children?: React.ReactNode;
   index: number;
   value: number;
 }
 
 const TabPanel = (props: TabPanelProps) => {
-  const { children, value, index, ...other } = props;
+  const { children, value, index, className, ...other } = props;
   return (
     <div
+      className={className}
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
@@ -155,10 +150,6 @@ export const ProfilePageWrapper = () => {
 
   return (
     <div className={cx("container")}>
-      {isLoadingGetDocuments &&
-        isLoadingGetExams &&
-        isLoadingGetUserExamsNotCompleted &&
-        isLoadingGetUserExamsCompleted && <LinearProgress />}
       <BreadcrumbsCustomization
         className={cx("breadcrumb")}
         current="profile"
@@ -180,18 +171,22 @@ export const ProfilePageWrapper = () => {
         </Box>
 
         <TabPanel value={valueTab} index={0}>
-          <div className={cx("documentList")}>
-            {documentsByOwner?.data?.map(document => (
-              <ContentItem
-                key={document?._id}
-                createdAt={document?.created_at}
-                description={document?.description}
-                prefix="documents"
-                id={document?._id}
-                title={document?.title}
-              />
-            ))}
-          </div>
+          {isLoadingGetDocuments ? (
+            <Loading className={cx("loading")} />
+          ) : (
+            <div className={cx("documentList")}>
+              {documentsByOwner?.data?.map(document => (
+                <ContentItem
+                  key={document?._id}
+                  createdAt={document?.created_at}
+                  description={document?.description}
+                  prefix="documents"
+                  id={document?._id}
+                  title={document?.title}
+                />
+              ))}
+            </div>
+          )}
           {documentsByOwner?.data?.length === 0 && (
             <Typography className={cx("nofiDocumentList")} color="text.primary">
               Danh sách tài liệu do bạn tạo hiện đang trống
@@ -211,18 +206,22 @@ export const ProfilePageWrapper = () => {
         </TabPanel>
 
         <TabPanel value={valueTab} index={1}>
-          <div className={cx("examList")}>
-            {examsByOwner?.data?.map(exam => (
-              <ContentItem
-                key={exam?._id}
-                createdAt={exam?.created_at}
-                description={`Đề thi thử kì ${exam?.semester} năm học ${exam?.school_year} `}
-                prefix="exams"
-                id={exam?._id}
-                title={exam?.title}
-              />
-            ))}
-          </div>
+          {isLoadingGetExams ? (
+            <Loading className={cx("loading")} />
+          ) : (
+            <div className={cx("examList")}>
+              {examsByOwner?.data?.map(exam => (
+                <ContentItem
+                  key={exam?._id}
+                  createdAt={exam?.created_at}
+                  description={`Đề thi thử kì ${exam?.semester} năm học ${exam?.school_year} `}
+                  prefix="exams"
+                  id={exam?._id}
+                  title={exam?.title}
+                />
+              ))}
+            </div>
+          )}
           {examsByOwner?.data?.length === 0 && (
             <Typography className={cx("nofiExamsList")} color="text.primary">
               Danh sách bài kiểm tra do bạn tạo hiện đang trống
@@ -242,18 +241,22 @@ export const ProfilePageWrapper = () => {
         </TabPanel>
 
         <TabPanel value={valueTab} index={2}>
-          <div className={cx("userExamCompletedList")}>
-            {userExamsCompletedByOwner?.data?.map(userExam => (
-              <ContentItem
-                key={userExam?._id}
-                createdAt={userExam?.created_at}
-                description={`Đề thi thử kì ${userExam?.semester} năm học ${userExam?.school_year} `}
-                prefix="do-exam"
-                id={userExam?._id}
-                title={userExam?.title}
-              />
-            ))}
-          </div>
+          {isLoadingGetUserExamsCompleted ? (
+            <Loading className={cx("loading")} />
+          ) : (
+            <div className={cx("userExamCompletedList")}>
+              {userExamsCompletedByOwner?.data?.map(userExam => (
+                <ContentItem
+                  key={userExam?._id}
+                  createdAt={userExam?.created_at}
+                  description={`Đề thi thử kì ${userExam?.semester} năm học ${userExam?.school_year} `}
+                  prefix="do-exam"
+                  id={userExam?._id}
+                  title={userExam?.title}
+                />
+              ))}
+            </div>
+          )}
           {userExamsCompletedByOwner?.data?.length === 0 && (
             <Typography
               className={cx("nofiUserExamsCompletedList")}
@@ -276,18 +279,22 @@ export const ProfilePageWrapper = () => {
         </TabPanel>
 
         <TabPanel value={valueTab} index={3}>
-          <div className={cx("userExamNotCompletedList")}>
-            {userExamsNotCompletedByOwner?.data?.map(userExam => (
-              <ContentItem
-                key={userExam?._id}
-                createdAt={userExam?.created_at}
-                description={`Đề thi thử kì ${userExam?.semester} năm học ${userExam?.school_year} `}
-                prefix="do-exam"
-                id={userExam?._id}
-                title={userExam?.title}
-              />
-            ))}
-          </div>
+          {isLoadingGetUserExamsNotCompleted ? (
+            <Loading className={cx("loading")} />
+          ) : (
+            <div className={cx("userExamNotCompletedList")}>
+              {userExamsNotCompletedByOwner?.data?.map(userExam => (
+                <ContentItem
+                  key={userExam?._id}
+                  createdAt={userExam?.created_at}
+                  description={`Đề thi thử kì ${userExam?.semester} năm học ${userExam?.school_year} `}
+                  prefix="do-exam"
+                  id={userExam?._id}
+                  title={userExam?.title}
+                />
+              ))}
+            </div>
+          )}
           {userExamsNotCompletedByOwner?.data?.length === 0 && (
             <Typography
               className={cx("nofiUserExamsNotCompletedList")}
