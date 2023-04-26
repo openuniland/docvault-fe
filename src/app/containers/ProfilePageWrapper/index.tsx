@@ -1,8 +1,13 @@
 import classNames from "classnames/bind";
-import { Typography, Pagination, LinearProgress } from "@mui/material";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Box from "@mui/material/Box";
+import {
+  Typography,
+  Pagination,
+  LinearProgress,
+  Tabs,
+  Tab,
+  Box,
+} from "@mui/material";
+
 import React, { useState, useCallback, useMemo } from "react";
 
 import styles from "./ProfilePageWrapper.module.scss";
@@ -62,9 +67,12 @@ export const ProfilePageWrapper = () => {
 
   const [valueTab, setValueTab] = useState(0);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValueTab(newValue);
-  };
+  const handleChange = useCallback(
+    (e: React.SyntheticEvent, newValue: number) => {
+      setValueTab(newValue);
+    },
+    [valueTab],
+  );
 
   const { data: documentsByOwner, isLoading: isLoadingGetDocuments } =
     useGetDocumentsByOwner({
