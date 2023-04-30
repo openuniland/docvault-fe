@@ -2,11 +2,11 @@ import classNames from "classnames/bind";
 import { LinearProgress } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useCallback, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { ButtonCustomization } from "../ButtonCustomization";
 import styles from "./InProgressItem.module.scss";
 import { UserAnswer } from "types/UserAnswer";
-import { useNavigate } from "react-router-dom";
 import { ModalCustomization } from "../ModalCustomization";
 
 const cx = classNames.bind(styles);
@@ -46,12 +46,14 @@ export const InProgressItem = (props: Props) => {
   const handleContinue = useCallback(() => {
     setOpenPopup(true);
   }, [openPopup]);
+
   const handleClosePopup = useCallback(() => {
     setOpenPopup(false);
   }, [openPopup]);
+
   const handleSubmitContinue = useCallback(() => {
     navigate(`/exams/do-exam/${userExamId}`);
-  }, []);
+  }, [userExamId, navigate]);
 
   return (
     <div className={cx("container")}>
@@ -79,9 +81,7 @@ export const InProgressItem = (props: Props) => {
         title="Bạn có chắc chắn muốn làm tiếp bài thi không?"
         textAgreeBtn="Continue"
         colorBtn="success"
-      >
-        <div></div>
-      </ModalCustomization>
+      />
     </div>
   );
 };

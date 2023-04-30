@@ -25,7 +25,7 @@ export const InProgress = () => {
             key={userExam._id}
             subjectName={userExam?.subject?.subject_name}
             title={userExam.title}
-            userAnswer={userExam.user_answers[0]}
+            userAnswer={userExam.user_answers}
             totalQuestion={userExam.questions.length}
             userExamId={userExam._id}
           />

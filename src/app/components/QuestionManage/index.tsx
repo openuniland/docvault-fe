@@ -2,6 +2,7 @@ import styles from "./QuestionManage.module.scss";
 import { NewQuestionPayload } from "types/Question";
 import classNames from "classnames/bind";
 import { Typography } from "@mui/material";
+import { useCallback } from "react";
 
 const cx = classNames.bind(styles);
 
@@ -13,6 +14,7 @@ interface Props {
   school_year?: string;
   questionsRef?: any;
 }
+
 export const QuestionManage = (props: Props) => {
   const {
     questions = [],
@@ -23,23 +25,28 @@ export const QuestionManage = (props: Props) => {
     questionsRef = [],
   } = props;
 
+  const handleScroll = useCallback(
+    (index: number) => () => {
+      questionsRef.current[index]?.scrollIntoView({
+        behavior: "smooth",
+      });
+    },
+    [questionsRef],
+  );
+
   return (
     <div className={cx("container")}>
       <div className={cx("question-position-wrapper")}>
         {questions &&
           questions?.map((item, index) => (
             <div
-              key={index}
+              key={item?._id}
               className={cx(
                 doneQuestions[index]
                   ? "position-done-question"
                   : "position-question",
               )}
-              onClick={() => {
-                questionsRef.current[index].scrollIntoView({
-                  behavior: "smooth",
-                });
-              }}
+              onClick={handleScroll(index)}
             >
               {index + 1}
             </div>

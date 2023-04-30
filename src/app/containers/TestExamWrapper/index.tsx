@@ -1,84 +1,81 @@
 import classNames from "classnames/bind";
 import { useParams, useNavigate } from "react-router-dom";
-import { Button, Typography } from "@mui/material";
-import { AxiosResponse } from "axios";
-import http from "utils/api/http";
+import { Typography } from "@mui/material";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 
 import styles from "./TestExamWrapper.module.scss";
 import { BreadcrumbsCustomization } from "app/components/BreadcrumbsCustomization";
 import RenderQuestion from "app/components/RenderQuestion";
 import { useGetUserExamByOwner } from "queries/userExam";
-import { useState, useEffect, useCallback, useRef } from "react";
 import { QuestionManage } from "app/components/QuestionManage";
 import { useUpdateUserAnswer } from "mutations/userAnswer";
 import { ModalCustomization } from "app/components/ModalCustomization";
 import { useSubmitTheExam } from "mutations/userExam";
-import { TimerExam } from "app/components/TimerExam";
-// import { BackEndError } from "types/Error";
+import { CountdownTimer } from "app/components/CountdownTimer";
 
 const cx = classNames.bind(styles);
 
 export const TestExamWrapper = () => {
   const navigate = useNavigate();
+  const { userExamId } = useParams();
 
   const { mutateAsync: mutateAsyncUpdateUserAnswer } = useUpdateUserAnswer();
+  const { mutateAsync: mutateAsyncSubmitTheExam, isLoading: isLoadingSubmit } =
+    useSubmitTheExam();
 
-  const { userExamId } = useParams();
-  const { data: userExamByOwner } = useGetUserExamByOwner(userExamId as string);
-  const questionsByExamId = userExamByOwner?.questions;
+  const { data: userExamByOwner, refetch: refetchGetUserExamByOwner } =
+    useGetUserExamByOwner(userExamId as string);
 
-  const { mutateAsync: mutateAsyncSubmitTheExam } = useSubmitTheExam();
+  const questionsByExamId = useMemo(() => {
+    return userExamByOwner?.questions;
+  }, [userExamByOwner?.questions?.length]);
 
-  const [score, setScore] = useState(-1);
-  const [userExamStatus, setUserExamStatus] = useState(
-    userExamByOwner?.is_completed,
-  );
+  const endTime = useMemo(() => {
+    return (
+      new Date(userExamByOwner?.created_at).getTime() +
+      new Date(userExamByOwner?.duration as number).getTime()
+    );
+  }, [userExamByOwner?.created_at, userExamByOwner?.duration]);
+
+  const [score, setScore] = useState(0);
+  const [userExamStatus, setUserExamStatus] = useState(false);
+  const [answersList, setAnswersList] = useState<string[]>([]);
   const [openPopupSubmit, setOpenPopupSubmit] = useState(false);
-  const [openTimeIsUp, setOpenTimeIsUp] = useState(false);
-  const [openPopupExamComplete, setOpenPopupExamComplete] = useState(false);
+  const [numberOfAnswers, setNumberOfAnswers] = useState(0);
+  const [popupContent, setPopupContent] = useState({
+    title: "Bạn có chắc chắn muốn nộp bài thi không?",
+    contentText: "Bạn vẫn còn thời gian",
+    textAgreeBtn: "Submit",
+  });
+  const [expired, setExpired] = useState(false);
 
   const questionRefs = useRef(Array);
 
-  const [arrUserAnswer, setArrUserAnswer] = useState(
-    userExamByOwner &&
-      userExamByOwner?.user_answers[0] &&
-      userExamByOwner.user_answers[0].answers_id.length > 0
-      ? userExamByOwner.user_answers[0].answers_id
-      : [],
-  );
-
-  const countUserAnswerDone = (arr?: Array<string>) => {
-    let count = 0;
-    const array = arr ? arr : [];
-    for (const element of array) {
-      if (element !== "") {
-        count++;
-      }
-    }
+  const countUserAnswerDone = useCallback((arr: string[]) => {
+    const count = arr.filter(x => x === "").length;
     return count;
-  };
+  }, []);
 
-  const [numberAnswerDone, setNumberAnswerDone] = useState(
-    countUserAnswerDone(arrUserAnswer),
-  );
+  const totalOfAnswers = useMemo(() => {
+    return userExamByOwner?.user_answers?.answers_id.length || 0;
+  }, [userExamByOwner?.user_answers?.answers_id.length]);
 
   useEffect(() => {
     if (
       userExamByOwner?.user_answers &&
-      userExamByOwner.user_answers.length > 0
+      userExamByOwner?.user_answers?.answers_id?.length > 0
     ) {
-      setArrUserAnswer(userExamByOwner.user_answers[0].answers_id);
-      setNumberAnswerDone(
-        countUserAnswerDone(userExamByOwner.user_answers[0].answers_id),
+      setAnswersList(userExamByOwner.user_answers?.answers_id);
+
+      const count = countUserAnswerDone(
+        userExamByOwner.user_answers?.answers_id,
       );
+
+      setNumberOfAnswers(totalOfAnswers - count);
+      setUserExamStatus(userExamByOwner?.is_completed);
+      setScore(userExamByOwner?.score);
     }
-    if (userExamByOwner?.is_completed) {
-      setScore(userExamByOwner?.score!);
-    } else {
-      setScore(-1);
-    }
-    setUserExamStatus(userExamByOwner?.is_completed!);
-  }, [userExamByOwner]);
+  }, [userExamByOwner?.user_answers, totalOfAnswers]);
 
   const handleClosePopup = useCallback(() => {
     setOpenPopupSubmit(false);
@@ -88,73 +85,77 @@ export const TestExamWrapper = () => {
     setOpenPopupSubmit(true);
   }, [openPopupSubmit]);
 
-  const handleClosePopupExamComplete = useCallback(() => {
-    setOpenPopupExamComplete(false);
-  }, [openPopupExamComplete]);
-
-  const handleOpenPopupExamComplete = useCallback(() => {
-    setOpenPopupExamComplete(true);
-  }, [openPopupExamComplete]);
+  const handleNoticeIsCompleted = useCallback(() => {
+    setPopupContent({
+      title: "Bạn đã hoàn thành bài thi",
+      contentText: "Bạn không thể thay đổi câu trả lời, chỉ có thể xem.",
+      textAgreeBtn: "OK",
+    });
+    handleOpenPopup();
+  }, []);
 
   const handleSubmitExam = useCallback(async () => {
     try {
-      await mutateAsyncSubmitTheExam({
+      const res = await mutateAsyncSubmitTheExam({
         user_exam_id: userExamId,
       });
       handleClosePopup();
+      refetchGetUserExamByOwner();
 
-      const response: AxiosResponse = await http.get(
-        `/user-exams/${userExamId}`,
-      );
-      setScore(response.data.data.score);
-      setUserExamStatus(response.data.data.is_completed);
+      setScore(res.score);
+      setUserExamStatus(res?.is_completed);
     } catch (error) {}
   }, []);
 
   const changeAnswer = useCallback(
     async (position: number, value: string) => {
       try {
-        if (arrUserAnswer) {
-          arrUserAnswer[position] = value;
-          setArrUserAnswer(arrUserAnswer);
+        answersList[position] = value;
+
+        if (answersList[position] !== "") {
+          await mutateAsyncUpdateUserAnswer({
+            RequestUpdateUserAnswer: {
+              answer_id: answersList[position],
+              user_exam_id: userExamByOwner?._id,
+              position: position,
+            },
+            user_answer_id: userExamByOwner?.user_answers?._id,
+          });
+
+          const count = countUserAnswerDone(answersList);
+
+          setNumberOfAnswers(totalOfAnswers - count);
         }
-        setNumberAnswerDone(countUserAnswerDone(arrUserAnswer));
-        if (arrUserAnswer[position] !== "") {
-          try {
-            await mutateAsyncUpdateUserAnswer({
-              RequestUpdateUserAnswer: {
-                answer_id: arrUserAnswer[position],
-                user_exam_id: userExamByOwner?._id,
-                position: position,
-              },
-              user_answer_id: userExamByOwner?.user_answers[0]._id,
-            });
-          } catch (error: any | unknown) {
-            if (error?.errors.errorCode === "USER_EXAM_IS_COMPLETED") {
-              handleOpenPopupExamComplete();
-              handleSubmitExam();
-            }
-          }
-        }
-      } catch (error) {
+      } catch (error: any) {
         console.log(error);
+        if (
+          error?.errors?.errorCode === "USER_EXAM_IS_COMPLETED" ||
+          error?.errors?.errorCode === "TIME_IS_UP"
+        ) {
+          handleNoticeIsCompleted();
+        }
       }
     },
-    [arrUserAnswer],
+    [answersList],
   );
-
-  const handleCloseTimeIsUp = useCallback(() => {
-    setOpenTimeIsUp(false);
-  }, [openTimeIsUp]);
-
-  const handleOpenTimeIsUp = useCallback(() => {
-    setOpenTimeIsUp(true);
-    setUserExamStatus(true);
-  }, [openTimeIsUp]);
 
   const handleExit = useCallback(() => {
     navigate(`/exams`);
   }, []);
+
+  const deadline = useMemo(() => {
+    return userExamByOwner?.duration! / 60000;
+  }, [userExamByOwner?.duration]);
+
+  const handleExpired = useCallback(() => {
+    setExpired(true);
+  }, [expired]);
+
+  useEffect(() => {
+    if (expired && !userExamByOwner?.is_completed) {
+      handleNoticeIsCompleted();
+    }
+  }, [expired, userExamByOwner?.is_completed]);
 
   return (
     <div className={cx("container")}>
@@ -168,86 +169,23 @@ export const TestExamWrapper = () => {
       </Typography>
       <div className={cx("exam-container")}>
         <div className={cx("exam-wrapper")}>
-          <div className={cx("exam-info-wrapper")}>
-            <div className={cx("exam-subinfo-wrapper")}>
-              <div className={cx("examItem")}>
-                <Typography className={cx("nameItem")} component="p">
-                  Đã làm:
-                </Typography>
-
-                <Typography className={cx("highlight")} component="strong">
-                  {numberAnswerDone}/
-                </Typography>
-                <Typography className={cx("highlight")} component="strong">
-                  {questionsByExamId?.length}
-                </Typography>
-              </div>
-
-              <div className={cx("examItem")}>
-                <Typography className={cx("nameItem")} component="p">
-                  Thời gian:
-                </Typography>
-
-                <Typography className={cx("highlight")} component="strong">
-                  {userExamByOwner?.duration! / 60000}
-                </Typography>
-                <Typography className={cx("highlightspace")} component="strong">
-                  phút
-                </Typography>
-              </div>
-              <div className={cx("examItem")}>
-                <Typography className={cx("nameItem")} component="p">
-                  Thời gian còn lại:
-                </Typography>
-
-                <Typography className={cx("highlight")} component="strong">
-                  <TimerExam
-                    userExam={userExamByOwner}
-                    handleOpenTimeIsUp={handleOpenTimeIsUp}
-                    handleSubmitExam={handleSubmitExam}
-                  />
-                </Typography>
-              </div>
-              {score >= 0 && (
-                <div className={cx("examItem")}>
-                  <Typography className={cx("nameItem")} component="p">
-                    Điểm:
-                  </Typography>
-
-                  <Typography className={cx("highlight")} component="strong">
-                    {score}
-                  </Typography>
-                </div>
-              )}
-            </div>
-            <div>
-              {userExamStatus === false && (
-                <Button
-                  variant="contained"
-                  color="success"
-                  onClick={handleOpenPopup}
-                  disabled={userExamStatus}
-                >
-                  Nộp bài
-                </Button>
-              )}
-              {userExamStatus === true && (
-                <Button
-                  variant="contained"
-                  color="warning"
-                  onClick={handleExit}
-                >
-                  Thoát
-                </Button>
-              )}
-            </div>
-          </div>
+          <CountdownTimer
+            endTime={endTime}
+            deadline={deadline}
+            done={numberOfAnswers}
+            total={questionsByExamId?.length}
+            isDone={userExamStatus}
+            onExpired={handleExpired}
+            onExit={handleExit}
+            onSubmit={handleOpenPopup}
+            score={score}
+          />
 
           <RenderQuestion
             questions={questionsByExamId}
             showDeleteButton={false}
             handleChange={changeAnswer}
-            answersOfUser={arrUserAnswer}
+            answersOfUser={answersList}
             examStatus={userExamStatus}
             questionsRef={questionRefs}
             examView={false}
@@ -256,7 +194,7 @@ export const TestExamWrapper = () => {
         <div className={cx("question-manage")}>
           <QuestionManage
             questions={questionsByExamId}
-            doneQuestions={arrUserAnswer}
+            doneQuestions={answersList}
             author={
               userExamByOwner?.author_exam?.fullname ||
               userExamByOwner?.author_exam?.nickname
@@ -272,42 +210,12 @@ export const TestExamWrapper = () => {
         handleCancel={handleClosePopup}
         handleAgree={handleSubmitExam}
         actionDefault
-        title="Bạn có chắc chắn muốn nộp bài thi không?"
-        contentText="Bạn vẫn còn thời gian"
-        textAgreeBtn="Submit"
+        title={popupContent.title}
+        contentText={popupContent.contentText}
+        textAgreeBtn={popupContent.textAgreeBtn}
         colorBtn="success"
-      >
-        <div></div>
-      </ModalCustomization>
-
-      {
-        <ModalCustomization
-          open={openTimeIsUp}
-          handleCancel={handleCloseTimeIsUp}
-          handleAgree={handleCloseTimeIsUp}
-          actionDefault
-          title="Bạn đã hết thời gian làm bài"
-          contentText="Ấn xác nhận để nhận kết quả"
-          textAgreeBtn="Submit"
-          colorBtn="success"
-        >
-          <div></div>
-        </ModalCustomization>
-      }
-      {
-        <ModalCustomization
-          open={openPopupExamComplete}
-          handleCancel={handleClosePopupExamComplete}
-          handleAgree={handleClosePopupExamComplete}
-          actionDefault
-          title="Bạn đã hết thời gian làm bài hoặc bài thi đã được hoàn thành trước đó!"
-          contentText="Không thể tiếp tục làm bài"
-          textAgreeBtn="OK"
-          colorBtn="success"
-        >
-          <div></div>
-        </ModalCustomization>
-      }
+        loading={isLoadingSubmit}
+      />
     </div>
   );
 };

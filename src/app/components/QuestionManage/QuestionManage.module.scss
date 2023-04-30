@@ -4,20 +4,21 @@
   flex-direction: column;
   row-gap: 10px;
 }
+
 .question-position-wrapper {
-  color: #000;
-  border: 1px solid #ccc;
+  color: var(--text);
+  border: 1px solid var(--primary);
   display: flex;
   flex-wrap: wrap;
   column-gap: 5px;
   row-gap: 5px;
   padding: 6px;
   border-radius: 4px;
-  background-color: var(--banner-background);
   & div:hover {
     cursor: pointer;
   }
 }
+
 .position-done-question {
   width: 30px;
   height: 30px;
@@ -26,14 +27,16 @@
   line-height: 30px;
   border: 1px solid var(--primary);
 }
+
 .position-question {
   width: 30px;
   height: 30px;
-  border: 1px solid red;
+  border: 1px solid var(--error-deep);
   border-radius: 50%;
   text-align: center;
   line-height: 30px;
 }
+
 .examItem {
   display: flex;
   max-width: 100%;
@@ -41,18 +44,19 @@
 
 .nameItem {
   font-size: 14px;
-  color: #000;
+  color: var(--text);
 }
+
 .highlight {
   font-size: 14px;
   color: var(--primary);
 }
+
 .exam-info-wrapper {
-  border: 1px solid #ccc;
+  border: 1px solid var(--primary);
   padding: 6px;
   display: flex;
   flex-direction: column;
   border-radius: 4px;
   row-gap: 6px;
-  background-color: var(--banner-background);
 }

@@ -1,6 +1,6 @@
 .container {
   background-color: var(--primary-background);
-  max-width: 1000px;
+  max-width: 1200px;
   padding: 20px;
   margin: auto;
 }
@@ -11,51 +11,10 @@
   margin-bottom: 38px;
 }
 
-.examItem {
-  display: flex;
-  color: var(--text);
-}
-
-.nameItem {
-  font-size: 18px;
-  color: #000;
-}
-
 .space {
   margin-left: 5px;
 }
 
-.highlight {
-  font-size: 18px;
-  color: var(--primary);
-}
-
-.highlightspace {
-  font-size: 18px;
-  color: var(--primary);
-  margin-left: 5px;
-}
-.exam-subinfo-wrapper {
-  display: flex;
-  column-gap: 10px;
-  flex-direction: row;
-  align-items: center;
-}
-.exam-info-wrapper {
-  display: flex;
-  justify-content: space-between;
-  border: 1px solid var(--primary);
-  border-radius: 4px;
-  align-items: center;
-  padding: 12px;
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  background-color: var(--banner-background);
-  & div:last-child {
-    margin-left: 10px;
-  }
-}
 .exam-container {
   display: flex;
   column-gap: 8px;
@@ -65,4 +24,8 @@
   position: sticky;
   top: 0;
   max-height: 600px;
+}
+
+.exam-wrapper {
+  width: 100%;
 }
