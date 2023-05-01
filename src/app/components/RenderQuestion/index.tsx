@@ -46,16 +46,18 @@ const RenderQuestion = (props: Props) => {
     },
     [onDelete],
   );
+
   const handleChangeAnswer = useCallback(
     (index: number) => (event: any) => {
       if (handleChange) {
         return handleChange(index, event?.target.value);
-      } else {
-        return undefined;
       }
+
+      return undefined;
     },
     [handleChange],
   );
+
   return (
     <Box className={cx("container")}>
       {questions?.length > 0 &&
@@ -63,7 +65,7 @@ const RenderQuestion = (props: Props) => {
           <Paper
             ref={questionsRef ? el => (questionsRef.current[index] = el) : null}
             elevation={3}
-            key={index}
+            key={item?._id}
             className={cx("question")}
           >
             <div className={cx("itemHeader")}>

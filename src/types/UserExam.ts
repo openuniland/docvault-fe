@@ -29,15 +29,15 @@ export interface CreateUserExamPayload {
 
 export interface UserExamResponse {
   _id: string;
-}
-export interface UserExamResponse {
-  _id: string;
   author: User;
   original_exam: string;
   subject: Subject;
   title: string;
   questions: NewQuestionPayload[];
-  user_answers: UserAnswer[];
+  user_answers: {
+    answers_id: string[];
+    _id: string;
+  };
   author_exam: User;
   duration: number; // in miliseconds
   score: number;

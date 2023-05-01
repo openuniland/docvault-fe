@@ -10,9 +10,10 @@ import { STALE_TIME } from "utils/constants";
 import { URLparams } from "types";
 
 export const useGetUserExamsInprogress = () =>
-  useQuery(["get-user-exams"], () => getUserExamsInprogress(), {
+  useQuery(["get-user-exams-inprogress"], () => getUserExamsInprogress(), {
     staleTime: STALE_TIME.ONE_HOUR,
   });
+
 export const useGetUserExamByOwner = (userExamId: string) =>
   useQuery(
     ["get-user-exam-by-owner", userExamId],
