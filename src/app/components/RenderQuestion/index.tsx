@@ -27,6 +27,7 @@ interface Props {
   examStatus?: boolean;
   questionsRef?: any;
   examView?: boolean;
+  isShowCorrectAnswer?: boolean;
 }
 const RenderQuestion = (props: Props) => {
   const {
@@ -38,6 +39,7 @@ const RenderQuestion = (props: Props) => {
     examStatus,
     questionsRef,
     examView,
+    isShowCorrectAnswer,
   } = props;
 
   const handleDelete = useCallback(
@@ -98,13 +100,19 @@ const RenderQuestion = (props: Props) => {
                   <h3 className={cx("title")}>{item.content}</h3>
                   {item.image && (
                     <div className={cx("imgWrapper")}>
-                      <img src={item.image} alt="" />
+                      <img src={item.image} alt="error img" />
                     </div>
                   )}
                 </FormLabel>
 
                 <RadioGroup
-                  defaultValue={answersOfUser ? answersOfUser[index] : ""}
+                  defaultValue={
+                    isShowCorrectAnswer
+                      ? item.correct_answer?.id
+                      : answersOfUser
+                      ? answersOfUser[index]
+                      : ""
+                  }
                   onChange={handleChangeAnswer(index)}
                 >
                   {item.answers?.map(answer => (
@@ -113,7 +121,7 @@ const RenderQuestion = (props: Props) => {
                       value={answer.id}
                       control={<Radio />}
                       label={answer?.content}
-                      disabled={examStatus}
+                      disabled={examStatus || examView}
                     />
                   ))}
                 </RadioGroup>
