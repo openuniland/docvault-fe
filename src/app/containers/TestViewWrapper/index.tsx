@@ -1,11 +1,12 @@
 import classNames from "classnames/bind";
 import { useParams } from "react-router-dom";
-import { Typography, LinearProgress } from "@mui/material";
+import { Typography } from "@mui/material";
 
 import styles from "./TestViewWrapper.module.scss";
 import { BreadcrumbsCustomization } from "app/components/BreadcrumbsCustomization";
 import { useGetQuestionsByExamId } from "queries/question";
 import RenderQuestion from "app/components/RenderQuestion";
+import { Loading } from "app/components/Loading";
 
 const cx = classNames.bind(styles);
 
@@ -14,10 +15,11 @@ export const TestViewWrapper = () => {
   const { data: questionsByExamId, isLoading } = useGetQuestionsByExamId(
     examId as string,
   );
-
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <div className={cx("container")}>
-      {isLoading && <LinearProgress />}
       <BreadcrumbsCustomization
         className={cx("breadcrumbs")}
         current="Chi tiết"
