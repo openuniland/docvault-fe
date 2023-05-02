@@ -1,7 +1,7 @@
 import classNames from "classnames/bind";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useCallback, useState } from "react";
-import { TextField, Typography } from "@mui/material";
+import { TextField, Typography, LinearProgress } from "@mui/material";
 
 import styles from "./SubjectWrapper.module.scss";
 import { useGetAllSubjects } from "queries/subject";
@@ -28,6 +28,7 @@ export const SubjectWrapper = (props: Props) => {
     data: subjects,
     refetch,
     isFetching: isLoadingGetAllSubjects,
+    isLoading: isLoadingGetSubjects,
   } = useGetAllSubjects();
   const { mutateAsync, isLoading } = useCreateSubject();
 
@@ -74,6 +75,7 @@ export const SubjectWrapper = (props: Props) => {
 
   return (
     <div className={cx("container")}>
+      {isLoadingGetSubjects && <LinearProgress />}
       <div className={cx("header")}>
         <Typography className={cx("title")} variant="h4" component="h4">
           {title}

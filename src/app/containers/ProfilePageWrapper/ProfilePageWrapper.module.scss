@@ -1,44 +1,41 @@
 .container {
-  height: 100%;
   background-color: var(--primary-background);
   padding: 0 20px 20px 20px;
 }
 
-.wrapperTitle {
-  padding: 12px 20px;
-  background-color: var(--primary-light);
-}
-
-.titleName {
-  color: var(--text);
-  font-weight: 600;
-  font-size: 20px;
-}
-
-.documentContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.examContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.documentList {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 10px 0px;
-}
-
-.examList {
+.examList,
+.documentList,
+.userExamCompletedList,
+.userExamNotCompletedList {
   margin: 16px 10px;
   display: flex;
   flex-wrap: wrap;
 }
 
-.examWrapper {
-  margin-top: 10px;
+.paging {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.boxTab {
+  border-bottom: 3px solid var(--primary-light);
+}
+
+.nofiUserExamsCompletedList,
+.nofiUserExamsNotCompletedList,
+.nofiExamsList,
+.nofiDocumentList {
+  color: var(--text);
+  font-weight: 600;
+  font-size: 1.4rem;
+}
+
+.loading {
+  min-height: 400px;
+  background-color: var(--primary-background);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

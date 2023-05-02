@@ -48,6 +48,7 @@ export const ModalCustomization = (props: Props) => {
     textAgreeBtn,
     colorBtn,
   } = props;
+
   return (
     <div className={cx("container")}>
       <Dialog
@@ -60,17 +61,11 @@ export const ModalCustomization = (props: Props) => {
         aria-describedby="alert-dialog-description"
       >
         {title && <DialogTitle id="alert-dialog-title">{title}</DialogTitle>}
+        <DialogContent>
+          {contentText && <DialogContentText>{contentText}</DialogContentText>}
 
-        {children && (
-          <DialogContent>
-            {contentText && (
-              <DialogContentText>{contentText}</DialogContentText>
-            )}
-
-            {children}
-          </DialogContent>
-        )}
-
+          {children}
+        </DialogContent>
         {actionDefault && (
           <DialogActions>
             <Button

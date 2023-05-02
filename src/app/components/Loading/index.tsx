@@ -5,9 +5,14 @@ import { CircularProgress } from "@mui/material";
 
 const cx = classNames.bind(styles);
 
-export const Loading = () => {
+interface Props {
+  className?: string;
+}
+
+export const Loading = (props: Props) => {
+  const { className } = props;
   return (
-    <div className={cx("container")}>
+    <div className={cx("container", className)}>
       <CircularProgress />
     </div>
   );

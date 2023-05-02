@@ -1,17 +1,21 @@
 import classNames from "classnames/bind";
-import { useGetUserExams } from "queries/userExam";
+import { useGetUserExamsInprogress } from "queries/userExam";
 import { useTranslation } from "react-i18next";
 
 import { InProgressItem } from "app/components/InProgressItem";
 import styles from "./InProgress.module.scss";
+import { useEffect } from "react";
 
 const cx = classNames.bind(styles);
 
 export const InProgress = () => {
   const { t } = useTranslation();
 
-  const { data: userExams } = useGetUserExams();
+  const { data: userExams, refetch } = useGetUserExamsInprogress();
 
+  useEffect(() => {
+    refetch();
+  }, []);
   if (userExams && userExams?.length <= 0) {
     return <></>;
   }
@@ -25,8 +29,9 @@ export const InProgress = () => {
             key={userExam._id}
             subjectName={userExam?.subject?.subject_name}
             title={userExam.title}
-            userAnswer={userExam.user_answer_id}
+            userAnswer={userExam.user_answers}
             totalQuestion={userExam.questions.length}
+            userExamId={userExam._id}
           />
         ))}
       </div>

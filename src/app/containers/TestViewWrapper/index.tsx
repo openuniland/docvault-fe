@@ -6,13 +6,18 @@ import styles from "./TestViewWrapper.module.scss";
 import { BreadcrumbsCustomization } from "app/components/BreadcrumbsCustomization";
 import { useGetQuestionsByExamId } from "queries/question";
 import RenderQuestion from "app/components/RenderQuestion";
+import { Loading } from "app/components/Loading";
 
 const cx = classNames.bind(styles);
 
 export const TestViewWrapper = () => {
   const { examId } = useParams();
-  const { data: questionsByExamId } = useGetQuestionsByExamId(examId as string);
-
+  const { data: questionsByExamId, isLoading } = useGetQuestionsByExamId(
+    examId as string,
+  );
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <div className={cx("container")}>
       <BreadcrumbsCustomization
@@ -81,6 +86,7 @@ export const TestViewWrapper = () => {
       <RenderQuestion
         questions={questionsByExamId?.questions}
         showDeleteButton={false}
+        examView={true}
       />
     </div>
   );

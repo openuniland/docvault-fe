@@ -23,7 +23,7 @@ export interface DocumentModel {
   notice: Notice;
 }
 
-export interface GetAllDocumentsBySubjectIdResponse {
+export interface GetDocumentBySubjectIdResponse {
   documents: DocumentModel[];
   subject: Subject;
 }
