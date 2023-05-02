@@ -86,6 +86,7 @@ export const TestViewWrapper = () => {
       <RenderQuestion
         questions={questionsByExamId?.questions}
         showDeleteButton={false}
+        examView={true}
       />
     </div>
   );

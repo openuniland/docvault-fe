@@ -9,7 +9,9 @@ import {
   RadioGroup,
   Radio,
   FormControlLabel,
+  IconButton,
 } from "@mui/material";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Controller, useForm } from "react-hook-form";
 import { useState, useCallback, useEffect } from "react";
@@ -140,6 +142,20 @@ export const TestForm = (props: Props) => {
     setValueQuestion("answers", [...answers, a]);
     setValueQuestion("new_answers", "");
   }, [answers]);
+
+  const handleDeleteAnswer = useCallback(
+    (id: string) => {
+      if (id === correctAnswer) {
+        setCorrectAnswer("");
+      }
+
+      const newArrayAnswers = answers.filter(item => item.id !== id);
+
+      setAnswers(newArrayAnswers);
+      setValueQuestion("answers", newArrayAnswers);
+    },
+    [answers, correctAnswer],
+  );
 
   const handleChooseCorrectAnswer = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -388,12 +404,19 @@ export const TestForm = (props: Props) => {
               onChange={handleChooseCorrectAnswer}
             >
               {answers.map(answer => (
-                <FormControlLabel
-                  key={answer?.id}
-                  value={answer.id}
-                  control={<Radio />}
-                  label={answer?.content}
-                />
+                <div key={answer?.id}>
+                  <FormControlLabel
+                    value={answer.id}
+                    control={<Radio />}
+                    label={answer?.content}
+                  />
+                  <IconButton
+                    className={cx("iconDeleteWrapper")}
+                    onClick={() => handleDeleteAnswer(answer.id)}
+                  >
+                    <HighlightOffIcon className={cx("deleteIcon")} />
+                  </IconButton>
+                </div>
               ))}
             </RadioGroup>
             <FormControl className={cx("subFormItem")}>
@@ -409,7 +432,12 @@ export const TestForm = (props: Props) => {
         </Paper>
       </Box>
       <Box className={cx("render")}>
-        <RenderQuestion questions={questions} showDeleteButton />
+        <RenderQuestion
+          questions={questions}
+          showDeleteButton
+          examView
+          isShowCorrectAnswer={true}
+        />
       </Box>
     </div>
   );

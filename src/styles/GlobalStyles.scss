@@ -26,7 +26,14 @@
   --warning-deep: "";
   --warning-dark: "";
 
+  --error-light: #e4c0c0;
+  --error-pale: #cf7c7c;
+  --error-pastel: #c05656;
+  --error-medium: #c53c3c;
   --error-deep: #ff0000;
+  --error-dark: #530909;
+
+  --score-background: #ffd000;
 
   // Light
   // Pale
@@ -50,9 +57,11 @@
   --primary-darkest: rgba(0, 171, 85, 0.4);
   --primary-background: #010409;
   --text: #ecf5ed;
-  --banner-background: #faebd7;
+  --banner-background: #dfd1c0;
 
   --warning: #f3a638;
+
+  --score-background: #ffc600;
 
   --secondary-icon: #444746;
 }

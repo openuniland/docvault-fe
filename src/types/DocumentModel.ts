@@ -27,6 +27,11 @@ export interface GetDocumentBySubjectIdResponse {
   documents: DocumentModel[];
   subject: Subject;
 }
+
+export interface GetDocumentsByOwnerResponse {
+  documents: DocumentModel[];
+}
+
 export interface DocumentPayload {
   title: string;
   description: string;

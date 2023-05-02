@@ -23,6 +23,9 @@ export interface GetAllExamsBySubjectIdResponse {
   subject: Subject;
 }
 
+export interface GetExamsByOwnerResponse {
+  exams: ExamModel[];
+}
 export interface ApproveTheExamPayload {
   id: string;
   is_approved: boolean;

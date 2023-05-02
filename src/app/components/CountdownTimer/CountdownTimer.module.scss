@@ -1,0 +1,45 @@
+.container {
+  display: flex;
+  background-color: var(--banner-background);
+  height: 65px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 18px;
+  font-size: 1.2rem;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  border: 1px solid var(--primary);
+  border-radius: 4px;
+
+  .item {
+    display: flex;
+    color: #000;
+
+    .itemValue {
+      color: var(--primary);
+      font-weight: 400;
+      margin-left: 5px;
+    }
+
+    .text {
+      font-size: 1.2rem;
+    }
+  }
+}
+.score {
+  border: 1px solid var(--primary);
+  border-radius: 4px;
+  padding: 2px 8px;
+  background-color: var(--score-background);
+}
+.wrap--left {
+  display: flex;
+  column-gap: 30px;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.exitBtn {
+  background-color: var(--error-medium);
+}
