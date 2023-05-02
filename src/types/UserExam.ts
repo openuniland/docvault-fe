@@ -21,6 +21,7 @@ export interface UserExam {
   school_year: string;
   is_completed: boolean;
   created_at?: any;
+  description: string;
 }
 export interface CreateUserExamPayload {
   duration: number; // in miliseconds

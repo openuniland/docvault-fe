@@ -65,6 +65,7 @@ export const TestControl = () => {
             prefix="exams"
             id={exam?._id}
             title={exam?.title}
+            isExam
           />
         ))}
       </div>

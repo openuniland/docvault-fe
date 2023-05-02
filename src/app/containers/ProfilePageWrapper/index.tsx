@@ -213,10 +213,14 @@ export const ProfilePageWrapper = () => {
                 <ContentItem
                   key={exam?._id}
                   createdAt={exam?.created_at}
-                  description={`Đề thi thử kì ${exam?.semester} năm học ${exam?.school_year} `}
+                  description={
+                    exam?.description ||
+                    `Kỳ ${exam?.semester} năm học ${exam?.school_year} `
+                  }
                   prefix="exams"
                   id={exam?._id}
                   title={exam?.title}
+                  isExam
                 />
               ))}
             </div>
@@ -248,10 +252,11 @@ export const ProfilePageWrapper = () => {
                 <ContentItem
                   key={userExam?._id}
                   createdAt={userExam?.created_at}
-                  description={`Đề thi thử kì ${userExam?.semester} năm học ${userExam?.school_year} `}
-                  prefix="do-exam"
+                  description={`Kỳ ${userExam?.semester} năm học ${userExam?.school_year}`}
+                  prefix="exams/do-exam"
                   id={userExam?._id}
                   title={userExam?.title}
+                  isExam
                 />
               ))}
             </div>
@@ -286,10 +291,11 @@ export const ProfilePageWrapper = () => {
                 <ContentItem
                   key={userExam?._id}
                   createdAt={userExam?.created_at}
-                  description={`Đề thi thử kì ${userExam?.semester} năm học ${userExam?.school_year} `}
-                  prefix="do-exam"
+                  description={`Kỳ ${userExam?.semester} năm học ${userExam?.school_year}`}
+                  prefix="exams/do-exam"
                   id={userExam?._id}
                   title={userExam?.title}
+                  isExam
                 />
               ))}
             </div>
