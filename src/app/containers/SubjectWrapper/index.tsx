@@ -100,6 +100,7 @@ export const SubjectWrapper = (props: Props) => {
             subjectId={subject._id}
             key={subject._id}
             subjectName={subject.subject_name}
+            isExam={prefix === "exams/subject"}
           />
         ))}
       </div>
