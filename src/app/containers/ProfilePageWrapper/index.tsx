@@ -71,10 +71,12 @@ export const ProfilePageWrapper = () => {
   const { data: documentsByOwner, isLoading: isLoadingGetDocuments } =
     useGetDocumentsByOwner({
       currentPage: currentDocumentPage - 1,
+      pageSize: 8,
     });
   const { data: examsByOwner, isLoading: isLoadingGetExams } =
     useGetExamsByOwner({
       currentPage: currentExamPage - 1,
+      pageSize: 8,
     });
 
   const {
@@ -82,6 +84,7 @@ export const ProfilePageWrapper = () => {
     isLoading: isLoadingGetUserExamsNotCompleted,
   } = useGetUserExamsNotCompletedByOwner({
     currentPage: currentUserExamNotCompletedPage - 1,
+    pageSize: 8,
   });
 
   const {
@@ -89,6 +92,7 @@ export const ProfilePageWrapper = () => {
     isLoading: isLoadingGetUserExamsCompleted,
   } = useGetUserExamsCompletedByOwner({
     currentPage: currentUserExamCompletedPage - 1,
+    pageSize: 8,
   });
 
   const handlePagingDocument = useCallback(

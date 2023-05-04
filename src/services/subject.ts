@@ -5,7 +5,7 @@ import http from "utils/api/http";
 
 export const getAllSubjects = async (): Promise<Subject[]> => {
   const response: AxiosResponse = await http.get(
-    `/subjects?is_approved=true&pageSize=100`,
+    `/subjects?is_approved=true&pageSize=100&order=ASC&sort=subject_name`,
   );
 
   return response?.data?.data;
