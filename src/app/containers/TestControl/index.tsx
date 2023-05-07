@@ -53,6 +53,7 @@ export const TestControl = () => {
         <Typography className={cx("subjectName")} color="text.primary">
           Thêm bài kiểm tra mới
         </Typography>
+
         <AddCircleIcon className={cx("addIcon")} onClick={handleAddTestPage} />
       </div>
 
@@ -61,7 +62,11 @@ export const TestControl = () => {
           <ContentItem
             key={exam?._id}
             createdAt={exam?.created_at}
-            description={`Đề thi thử kì ${exam?.semester} năm học ${exam?.school_year} `}
+            description={
+              exam?.description
+                ? exam?.description
+                : `Đề thi thử kì ${exam?.semester} năm học ${exam?.school_year}`
+            }
             prefix="exams"
             id={exam?._id}
             title={exam?.title}
