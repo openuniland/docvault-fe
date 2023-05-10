@@ -16,6 +16,7 @@ import { NotFoundPage } from "app/pages/NotFoundPage";
 import { TestExamPage } from "app/pages/TestExamPage";
 import { PrivacyPage } from "app/pages/PrivacyPage";
 import { TermsOfUsersPage } from "app/pages/TermsOfUserPage";
+import { EditUserPage } from "app/pages/EditUserPage/EditUserPage";
 
 const Pages = {
   Guards: Guards,
@@ -33,6 +34,7 @@ const Pages = {
   TestExamPage: withAppHeader(withSidebar(TestExamPage)),
   PrivacyPage: PrivacyPage,
   TermsOfUsersPage: TermsOfUsersPage,
+  EditUserPage: withAppHeader(EditUserPage),
 };
 
 const Layout = () => {
@@ -62,6 +64,7 @@ const Layout = () => {
       />
       <Route path="/privacy-policy" element={<Pages.PrivacyPage />} />
       <Route path="/terms-of-user" element={<Pages.TermsOfUsersPage />} />
+      <Route path="/user" element={<Pages.EditUserPage />} />
     </Routes>
   );
 };

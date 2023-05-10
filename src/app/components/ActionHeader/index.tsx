@@ -57,6 +57,10 @@ export const ActionHeader = () => {
   const handleNavigateTermsOfUserPage = useCallback(() => {
     navigate(`/terms-of-user`);
   }, [navigate]);
+
+  const handleNavigateEditUserPage = useCallback(() => {
+    navigate(`/user`);
+  }, [navigate]);
   return (
     <div className={cx("container")}>
       <div className={cx("actionIcon")}>
@@ -102,7 +106,10 @@ export const ActionHeader = () => {
                 <div className={cx("email")}>{userInfo?.email}</div>
               </div>
               <div className={cx("setting")}>
-                <div className={cx("frame")}>
+                <div
+                  className={cx("frame")}
+                  onClick={handleNavigateEditUserPage}
+                >
                   <Settings className={cx("icon")} />
                   <p>Cài đặt</p>
                 </div>
