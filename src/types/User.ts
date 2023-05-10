@@ -5,4 +5,10 @@ export interface User {
   nickname: string;
   avatar: string;
   is_show_info: boolean;
+  rank: string;
+  dedication_score: number;
+}
+
+export interface RequestUpdateUser {
+  nickname?: string;
 }
