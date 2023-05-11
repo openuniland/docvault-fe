@@ -9,7 +9,7 @@ import {
   Edit,
 } from "@mui/icons-material";
 import { enqueueSnackbar } from "notistack";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 import styles from "./UserForm.module.scss";
 import userIcon from "assets/images/user.png";
@@ -27,9 +27,13 @@ export const UserForm = (props: Props) => {
   const { userInfo, handelChangeNickname } = props;
   const [openEdit, setOpenEdit] = useState(false);
 
-  const [valueInput, setValueInput] = useState("");
+  const [valueInput, setValueInput] = useState(userInfo?.nickname!);
 
   const { mutateAsync: mutateAsyncUpdateUser } = useUpdateUser();
+
+  useEffect(() => {
+    setValueInput(userInfo?.nickname!);
+  }, [openEdit]);
 
   const handleToggleEdit = useCallback(() => {
     setOpenEdit(!openEdit);
@@ -37,11 +41,17 @@ export const UserForm = (props: Props) => {
 
   const handleUpdateUser = useCallback(async () => {
     try {
-      await mutateAsyncUpdateUser({ nickname: valueInput });
-      enqueueSnackbar("Cập nhật nickname thành công!", {
-        variant: "success",
-      });
-      handelChangeNickname(true);
+      if (valueInput !== userInfo?.nickname!) {
+        await mutateAsyncUpdateUser({ nickname: valueInput });
+        enqueueSnackbar("Cập nhật nickname thành công!", {
+          variant: "success",
+        });
+        handelChangeNickname(true);
+      } else {
+        enqueueSnackbar("Nickname không thay đổi!", {
+          variant: "warning",
+        });
+      }
       setOpenEdit(false);
     } catch (error) {
       console.log(error);
@@ -128,7 +138,7 @@ export const UserForm = (props: Props) => {
                 Hủy
               </button>
               <button
-                disabled={true && valueInput.length < 1}
+                disabled={valueInput === ""}
                 className={cx("okBtn")}
                 onClick={handleUpdateUser}
               >
