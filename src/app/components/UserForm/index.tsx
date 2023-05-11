@@ -20,26 +20,35 @@ const cx = classNames.bind(styles);
 
 interface Props {
   userInfo?: User;
+  handelChangeNickname: (data: boolean) => void;
 }
 
 export const UserForm = (props: Props) => {
-  const { userInfo } = props;
+  const { userInfo, handelChangeNickname } = props;
   const [openEdit, setOpenEdit] = useState(false);
 
   const [valueInput, setValueInput] = useState("");
 
-  const { mutateAsync } = useUpdateUser();
+  const { mutateAsync: mutateAsyncUpdateUser } = useUpdateUser();
 
   const handleToggleEdit = useCallback(() => {
     setOpenEdit(!openEdit);
   }, [openEdit]);
 
-  const handleUpdateUser = useCallback(() => {
-    mutateAsync({ nickname: valueInput });
-    enqueueSnackbar("Cập nhật nickname thành công!", {
-      variant: "success",
-    });
-    setValueInput("");
+  const handleUpdateUser = useCallback(async () => {
+    try {
+      await mutateAsyncUpdateUser({ nickname: valueInput });
+      enqueueSnackbar("Cập nhật nickname thành công!", {
+        variant: "success",
+      });
+      handelChangeNickname(true);
+      setOpenEdit(false);
+    } catch (error) {
+      console.log(error);
+      enqueueSnackbar("Cập nhật nickname không thành công!", {
+        variant: "error",
+      });
+    }
   }, [valueInput]);
   return (
     <div className={cx("container")}>
