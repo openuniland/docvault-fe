@@ -15,23 +15,29 @@
   color: var(--text);
   display: flex;
   align-items: center;
+  justify-content: space-between;
   height: 100%;
   width: 100%;
   padding: 14px;
   text-decoration: none;
 }
 
-.subjectName {
-  font-size: 16px;
-  margin-left: 8px;
-  font-weight: 400;
-  overflow: hidden;
-  display: -webkit-box;
-  text-overflow: ellipsis;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-}
-
 .image {
   width: 32px;
+}
+
+.contentWrapper {
+  display: flex;
+  align-items: center;
+
+  .subjectName {
+    font-size: 16px;
+    margin-left: 8px;
+    font-weight: 400;
+    overflow: hidden;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
 }
