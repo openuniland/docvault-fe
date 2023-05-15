@@ -9,6 +9,7 @@ import { SubjectItem } from "app/components/SubjectItem";
 import { ModalCustomization } from "app/components/ModalCustomization";
 import { useCreateSubject } from "mutations/subject";
 import { ButtonCustomization } from "app/components/ButtonCustomization";
+import { useLocation } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -19,6 +20,7 @@ interface Props {
 
 export const SubjectWrapper = (props: Props) => {
   const { prefix, title } = props;
+  const location = useLocation();
 
   const [openPropup, setOpenPropup] = useState(false);
   const [subjectName, setSubjectName] = useState<string>("");
@@ -29,7 +31,7 @@ export const SubjectWrapper = (props: Props) => {
     refetch,
     isFetching: isLoadingGetAllSubjects,
     isLoading: isLoadingGetSubjects,
-  } = useGetAllSubjects();
+  } = useGetAllSubjects(location.pathname.split("/")[1]);
   const { mutateAsync, isLoading } = useCreateSubject();
 
   const handleClosePropup = useCallback(() => {
@@ -75,7 +77,7 @@ export const SubjectWrapper = (props: Props) => {
 
   return (
     <div className={cx("container")}>
-      {isLoadingGetSubjects && <LinearProgress />}
+      {(isLoadingGetSubjects || isLoadingGetAllSubjects) && <LinearProgress />}
       <div className={cx("header")}>
         <Typography className={cx("title")} variant="h4" component="h4">
           {title}
@@ -101,6 +103,7 @@ export const SubjectWrapper = (props: Props) => {
             key={subject._id}
             subjectName={subject.subject_name}
             isExam={prefix === "exams/subject"}
+            count={subject?.count}
           />
         ))}
       </div>
