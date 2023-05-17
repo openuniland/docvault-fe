@@ -15,7 +15,7 @@ const cx = classNames.bind(styles);
 export const AddTestWrapper = () => {
   const [exam, setExam] = useState<ExamModel>();
 
-  const { data: draftExam, isLoading } = useGetDraftExam();
+  const { data: draftExam, isLoading, refetch } = useGetDraftExam();
   const { mutateAsync } = useCreateTheExam();
   const { mutateAsync: mutateAsyncUpdateExam } = useUpdateExamByAdmin();
 
@@ -94,7 +94,7 @@ export const AddTestWrapper = () => {
           )}
         </Box>
       )}
-      <TestForm exam={exam} onSubmit={handleSubmitExam} />
+      <TestForm exam={exam} onSubmit={handleSubmitExam} onRefetch={refetch} />
     </div>
   );
 };
