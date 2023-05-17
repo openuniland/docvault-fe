@@ -29,8 +29,12 @@ import {
 import { Answer } from "types/Answer";
 import { NewQuestionPayload } from "types/Question";
 import { useGetAllSubjects } from "queries/subject";
-import { useCreateNewQuestion } from "mutations/queston";
+import {
+  useCreateNewQuestion,
+  useDeleteAQuestionById,
+} from "mutations/question";
 import RenderQuestion from "../RenderQuestion";
+import { ModalCustomization } from "../ModalCustomization";
 
 const cx = classNames.bind(styles);
 
@@ -48,14 +52,19 @@ const newQuestionSchema = Yup.object().shape({
 interface Props {
   exam?: ExamModel;
   onSubmit: (data: RequestUpdateExamModelFormPayload) => void;
+  onRefetch?: () => void;
 }
 
 export const TestForm = (props: Props) => {
-  const { exam, onSubmit } = props;
+  const { exam, onSubmit, onRefetch = () => {} } = props;
   const [questions, setQuestions] = useState<NewQuestionPayload[]>([]);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [correctAnswer, setCorrectAnswer] = useState("");
+  const [openPopup, setOpenPopup] = useState(false);
+  const [questionId, setQuestionId] = useState("");
+
   const { mutateAsync } = useCreateNewQuestion();
+  const { mutateAsync: mutateAsyncDeleteQuestion } = useDeleteAQuestionById();
   const { data: subjects = [], isLoading: isLoadingSubject } =
     useGetAllSubjects();
 
@@ -112,8 +121,14 @@ export const TestForm = (props: Props) => {
           });
           return;
         }
-        await mutateAsync({ ...data, exam_id: exam?._id });
-        setQuestions(prev => [...prev, data]);
+        const { _id } = await mutateAsync({ ...data, exam_id: exam?._id });
+        setQuestions(prev => [
+          ...prev,
+          {
+            ...data,
+            _id: _id,
+          },
+        ]);
         resetQuestion();
         setAnswers([]);
         setCorrectAnswer("");
@@ -132,6 +147,12 @@ export const TestForm = (props: Props) => {
   );
 
   const handleAddAnswer = useCallback(() => {
+    if (getValuesQuestion("new_answers") === "") {
+      enqueueSnackbar("Không được để đáp án trống!", {
+        variant: "warning",
+      });
+      return;
+    }
     const a = {
       content: getValuesQuestion("new_answers") as string,
       status: false,
@@ -171,6 +192,33 @@ export const TestForm = (props: Props) => {
       setQuestions(exam.questions);
     }
   }, [exam?.questions?.length]);
+
+  const handleClosePopup = useCallback(() => {
+    setOpenPopup(false);
+  }, [openPopup]);
+
+  const handleOpenPopup = useCallback(
+    (qId: string) => {
+      setQuestionId(qId);
+      setOpenPopup(true);
+    },
+    [openPopup],
+  );
+
+  const handleDeleteQuestion = useCallback(async () => {
+    try {
+      await mutateAsyncDeleteQuestion(questionId);
+      setQuestions(prev => prev.filter(item => item?._id !== questionId));
+      enqueueSnackbar("Xóa câu hỏi thành công!", {
+        variant: "success",
+      });
+      onRefetch();
+      setOpenPopup(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [questionId, openPopup]);
+
   return (
     <div className={cx("container")}>
       <Box className={cx("formWrapper")}>
@@ -437,8 +485,19 @@ export const TestForm = (props: Props) => {
           showDeleteButton
           examView
           isShowCorrectAnswer={true}
+          onDelete={handleOpenPopup}
         />
       </Box>
+
+      <ModalCustomization
+        open={openPopup}
+        handleCancel={handleClosePopup}
+        handleAgree={handleDeleteQuestion}
+        actionDefault
+        title="Bạn có chắc chắn muốn xóa câu hỏi này không?"
+        textAgreeBtn="Delete"
+        colorBtn="success"
+      />
     </div>
   );
 };
