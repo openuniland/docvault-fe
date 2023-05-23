@@ -9,9 +9,8 @@ import {
   Edit,
 } from "@mui/icons-material";
 import { enqueueSnackbar } from "notistack";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 
 import styles from "./UserForm.module.scss";
 import userIcon from "assets/images/user.png";
@@ -24,8 +23,11 @@ export const UserForm = () => {
   const { mutateAsync } = useUpdateUser();
   const { data: userInfo, refetch } = useGetUserInfo();
   const [openEdit, setOpenEdit] = useState(false);
-  const [valueInput, setValueInput] = useState(userInfo?.nickname || "");
-  const navigate = useNavigate();
+  const [valueInput, setValueInput] = useState("");
+
+  useEffect(() => {
+    setValueInput(userInfo?.nickname || "");
+  }, [openEdit]);
 
   const handleToggleEdit = useCallback(() => {
     setOpenEdit(!openEdit);
@@ -34,9 +36,8 @@ export const UserForm = () => {
   const handleUpdateUser = useCallback(async () => {
     try {
       await mutateAsync({ nickname: valueInput });
-      refetch();
-      setValueInput("");
       handleToggleEdit();
+      refetch();
       enqueueSnackbar("Cập nhật nickname thành công!", {
         variant: "success",
       });
@@ -47,9 +48,6 @@ export const UserForm = () => {
     }
   }, [valueInput]);
 
-  const handleNavigateHome = useCallback(() => {
-    navigate(`/`);
-  }, [navigate]);
   return (
     <div className={cx("container")}>
       <Paper elevation={3} className={cx("paper")}>
@@ -154,19 +152,6 @@ export const UserForm = () => {
               </Button>
             </div>
           )}
-          <Button
-            sx={{
-              backgroundColor: "var(--primary)",
-              color: "var(--text)",
-              padding: "12px",
-              position: "absolute",
-              bottom: "18px",
-              right: "66px",
-            }}
-            onClick={handleNavigateHome}
-          >
-            Trang Chủ
-          </Button>
         </Box>
       </Paper>
     </div>
