@@ -10,40 +10,49 @@ import {
 } from "@mui/icons-material";
 import { enqueueSnackbar } from "notistack";
 import { useState, useCallback } from "react";
+import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 import styles from "./UserForm.module.scss";
 import userIcon from "assets/images/user.png";
-import { User } from "types/User";
 import { useUpdateUser } from "mutations/user";
+import { useGetUserInfo } from "queries/user";
 
 const cx = classNames.bind(styles);
 
-interface Props {
-  userInfo?: User;
-}
-
-export const UserForm = (props: Props) => {
-  const { userInfo } = props;
-  const [openEdit, setOpenEdit] = useState(false);
-
-  const [valueInput, setValueInput] = useState("");
-
+export const UserForm = () => {
   const { mutateAsync } = useUpdateUser();
+  const { data: userInfo, refetch } = useGetUserInfo();
+  const [openEdit, setOpenEdit] = useState(false);
+  const [valueInput, setValueInput] = useState(userInfo?.nickname || "");
+  const navigate = useNavigate();
 
   const handleToggleEdit = useCallback(() => {
     setOpenEdit(!openEdit);
   }, [openEdit]);
 
-  const handleUpdateUser = useCallback(() => {
-    mutateAsync({ nickname: valueInput });
-    enqueueSnackbar("Cập nhật nickname thành công!", {
-      variant: "success",
-    });
-    setValueInput("");
+  const handleUpdateUser = useCallback(async () => {
+    try {
+      await mutateAsync({ nickname: valueInput });
+      refetch();
+      setValueInput("");
+      handleToggleEdit();
+      enqueueSnackbar("Cập nhật nickname thành công!", {
+        variant: "success",
+      });
+    } catch (e) {
+      enqueueSnackbar("Cập nhật nickname không thành công!", {
+        variant: "error",
+      });
+    }
   }, [valueInput]);
+
+  const handleNavigateHome = useCallback(() => {
+    navigate(`/`);
+  }, [navigate]);
   return (
     <div className={cx("container")}>
-      <Paper elevation={2} className={cx("paper")}>
+      <Paper elevation={3} className={cx("paper")}>
         <Box className={cx("card")}>
           <div className={cx("imgWrapper")}>
             <img
@@ -114,19 +123,50 @@ export const UserForm = (props: Props) => {
                 className={cx("input")}
                 value={valueInput}
                 onChange={e => setValueInput(e.target.value)}
+                tabIndex={-1}
               />
-              <button className={cx("cancleBtn")} onClick={handleToggleEdit}>
+              <Button
+                size="small"
+                variant="text"
+                sx={{
+                  backgroundColor: "var(--edit-btn-cancel)",
+                  padding: "8px",
+                  margin: "0 7px",
+                  color: "var(--text)",
+                }}
+                onClick={handleToggleEdit}
+              >
                 Hủy
-              </button>
-              <button
+              </Button>
+              <Button
+                size="small"
+                variant="text"
+                sx={{
+                  backgroundColor: "var(--edit-btn-ok)",
+                  padding: "8px",
+                  margin: "0 7px",
+                  color: "var(--text)",
+                }}
                 disabled={true && valueInput.length < 1}
-                className={cx("okBtn")}
                 onClick={handleUpdateUser}
               >
                 Ok
-              </button>
+              </Button>
             </div>
           )}
+          <Button
+            sx={{
+              backgroundColor: "var(--primary)",
+              color: "var(--text)",
+              padding: "12px",
+              position: "absolute",
+              bottom: "18px",
+              right: "66px",
+            }}
+            onClick={handleNavigateHome}
+          >
+            Trang Chủ
+          </Button>
         </Box>
       </Paper>
     </div>
