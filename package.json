@@ -7,8 +7,6 @@
     "npm": "9.x"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.6",
-    "@emotion/styled": "^11.10.6",
     "@fontsource/roboto": "^4.5.8",
     "@hookform/resolvers": "^3.0.0",
     "@mui/icons-material": "^5.11.0",
