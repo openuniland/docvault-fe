@@ -22,15 +22,12 @@
 
 .logoWrapper {
   max-width: 345px;
-
-  &:hover {
-    cursor: pointer;
-  }
 }
 
 .logo {
   height: 60px;
   color: var(--text);
+  cursor: pointer;
 }
 
 .search {

@@ -9,41 +9,55 @@ import {
   Edit,
 } from "@mui/icons-material";
 import { enqueueSnackbar } from "notistack";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 import styles from "./UserForm.module.scss";
 import userIcon from "assets/images/user.png";
-import { User } from "types/User";
 import { useUpdateUser } from "mutations/user";
+import { useGetUserInfo } from "queries/user";
+import { ButtonCustomization } from "../ButtonCustomization";
 
 const cx = classNames.bind(styles);
 
-interface Props {
-  userInfo?: User;
-}
-
-export const UserForm = (props: Props) => {
-  const { userInfo } = props;
+export const UserForm = () => {
+  const { mutateAsync, isLoading } = useUpdateUser();
+  const { data: userInfo, refetch } = useGetUserInfo();
   const [openEdit, setOpenEdit] = useState(false);
-
   const [valueInput, setValueInput] = useState("");
 
-  const { mutateAsync } = useUpdateUser();
+  useEffect(() => {
+    setValueInput(userInfo?.nickname || "");
+  }, [openEdit]);
 
   const handleToggleEdit = useCallback(() => {
     setOpenEdit(!openEdit);
   }, [openEdit]);
 
-  const handleUpdateUser = useCallback(() => {
-    mutateAsync({ nickname: valueInput });
-    enqueueSnackbar("Cập nhật nickname thành công!", {
-      variant: "success",
-    });
-    setValueInput("");
-  }, [valueInput]);
+  const handleUpdateUser = useCallback(async () => {
+    try {
+      await mutateAsync({ nickname: valueInput });
+      handleToggleEdit();
+      refetch();
+      enqueueSnackbar("Cập nhật nickname thành công!", {
+        variant: "success",
+      });
+    } catch (e) {
+      enqueueSnackbar("Cập nhật nickname không thành công!", {
+        variant: "error",
+      });
+    }
+  }, [valueInput, refetch]);
+
+  const handleChangeInput = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setValueInput(e.target.value);
+    },
+    [valueInput],
+  );
+
   return (
     <div className={cx("container")}>
-      <Paper elevation={2} className={cx("paper")}>
+      <Paper elevation={3} className={cx("paper")}>
         <Box className={cx("card")}>
           <div className={cx("imgWrapper")}>
             <img
@@ -113,18 +127,22 @@ export const UserForm = (props: Props) => {
               <input
                 className={cx("input")}
                 value={valueInput}
-                onChange={e => setValueInput(e.target.value)}
+                onChange={handleChangeInput}
+                tabIndex={-1}
               />
-              <button className={cx("cancleBtn")} onClick={handleToggleEdit}>
-                Hủy
-              </button>
-              <button
-                disabled={true && valueInput.length < 1}
-                className={cx("okBtn")}
+              <ButtonCustomization
+                className={cx("btn", "cancel")}
+                onClick={handleToggleEdit}
+              >
+                Cancel
+              </ButtonCustomization>
+              <ButtonCustomization
+                className={cx("btn", "update")}
+                isLoading={isLoading}
                 onClick={handleUpdateUser}
               >
-                Ok
-              </button>
+                Update
+              </ButtonCustomization>
             </div>
           )}
         </Box>
