@@ -10,17 +10,17 @@ import {
 } from "@mui/icons-material";
 import { enqueueSnackbar } from "notistack";
 import { useState, useCallback, useEffect } from "react";
-import { Button } from "@mui/material";
 
 import styles from "./UserForm.module.scss";
 import userIcon from "assets/images/user.png";
 import { useUpdateUser } from "mutations/user";
 import { useGetUserInfo } from "queries/user";
+import { ButtonCustomization } from "../ButtonCustomization";
 
 const cx = classNames.bind(styles);
 
 export const UserForm = () => {
-  const { mutateAsync } = useUpdateUser();
+  const { mutateAsync, isLoading } = useUpdateUser();
   const { data: userInfo, refetch } = useGetUserInfo();
   const [openEdit, setOpenEdit] = useState(false);
   const [valueInput, setValueInput] = useState("");
@@ -46,7 +46,14 @@ export const UserForm = () => {
         variant: "error",
       });
     }
-  }, [valueInput]);
+  }, [valueInput, refetch]);
+
+  const handleChangeInput = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setValueInput(e.target.value);
+    },
+    [valueInput],
+  );
 
   return (
     <div className={cx("container")}>
@@ -120,36 +127,22 @@ export const UserForm = () => {
               <input
                 className={cx("input")}
                 value={valueInput}
-                onChange={e => setValueInput(e.target.value)}
+                onChange={handleChangeInput}
                 tabIndex={-1}
               />
-              <Button
-                size="small"
-                variant="text"
-                sx={{
-                  backgroundColor: "var(--edit-btn-cancel)",
-                  padding: "8px",
-                  margin: "0 7px",
-                  color: "var(--text)",
-                }}
+              <ButtonCustomization
+                className={cx("btn", "cancel")}
                 onClick={handleToggleEdit}
               >
-                Hủy
-              </Button>
-              <Button
-                size="small"
-                variant="text"
-                sx={{
-                  backgroundColor: "var(--edit-btn-ok)",
-                  padding: "8px",
-                  margin: "0 7px",
-                  color: "var(--text)",
-                }}
-                disabled={true && valueInput.length < 1}
+                Cancel
+              </ButtonCustomization>
+              <ButtonCustomization
+                className={cx("btn", "update")}
+                isLoading={isLoading}
                 onClick={handleUpdateUser}
               >
-                Ok
-              </Button>
+                Update
+              </ButtonCustomization>
             </div>
           )}
         </Box>

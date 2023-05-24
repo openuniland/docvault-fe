@@ -83,3 +83,27 @@
   color: var(--text);
   border-radius: 8px;
 }
+
+.btn {
+  width: 80px;
+  margin-left: 10px;
+}
+
+.update {
+  background-color: var(--primary);
+  color: var(--text);
+  &:hover {
+    background-color: var(--primary-darkest);
+    color: var(--text);
+  }
+}
+
+.cancel {
+  background-color: var(--primary-light);
+  border: 1px solid var(--primary);
+  color: var(--text);
+  &:hover {
+    background-color: var(--error-medium);
+    color: var(--text);
+  }
+}
