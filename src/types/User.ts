@@ -11,4 +11,5 @@ export interface User {
 
 export interface RequestUpdateUser {
   nickname?: string;
+  is_show_info?: boolean;
 }
