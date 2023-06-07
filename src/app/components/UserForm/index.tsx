@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Paper, Switch, Typography } from "@mui/material";
 import {
   Person,
   Email,
@@ -24,9 +24,11 @@ export const UserForm = () => {
   const { data: userInfo, refetch } = useGetUserInfo();
   const [openEdit, setOpenEdit] = useState(false);
   const [valueInput, setValueInput] = useState("");
+  const [isShowInfo, setIsShowInfo] = useState(false);
 
   useEffect(() => {
     setValueInput(userInfo?.nickname || "");
+    setIsShowInfo(userInfo?.is_show_info || false);
   }, [openEdit]);
 
   const handleToggleEdit = useCallback(() => {
@@ -37,16 +39,36 @@ export const UserForm = () => {
     try {
       await mutateAsync({ nickname: valueInput });
       handleToggleEdit();
-      refetch();
       enqueueSnackbar("Cập nhật nickname thành công!", {
         variant: "success",
       });
+      await refetch();
     } catch (e) {
       enqueueSnackbar("Cập nhật nickname không thành công!", {
         variant: "error",
       });
     }
   }, [valueInput, refetch]);
+
+  const handleChangeHideUserInfo = useCallback(
+    async (event: React.ChangeEvent<HTMLInputElement>) => {
+      try {
+        const checked = event.target.checked;
+        await mutateAsync({ is_show_info: checked });
+
+        setIsShowInfo(checked);
+        enqueueSnackbar("Cập nhật tài khoản thành công!", {
+          variant: "success",
+        });
+        await refetch();
+      } catch (e) {
+        enqueueSnackbar("Cập nhật tài khoản không thành công!", {
+          variant: "error",
+        });
+      }
+    },
+    [],
+  );
 
   const handleChangeInput = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -145,6 +167,13 @@ export const UserForm = () => {
               </ButtonCustomization>
             </div>
           )}
+          <div className={cx("frameInfo")}>
+            <Score className={cx("icon")} />
+            <Typography component="p" className={cx("lable")}>
+              Hiện thông tin:
+            </Typography>
+            <Switch checked={isShowInfo} onChange={handleChangeHideUserInfo} />
+          </div>
         </Box>
       </Paper>
     </div>
